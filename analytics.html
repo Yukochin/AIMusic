@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Progress Analytics | InspireAI</title>
+<link rel="icon" href="logo.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --primary:#1a5c38;--accent:#1a5c38;--accent2:#e0f2e9;
+  --text:#f0f0f0;--muted:#a8b8a8;--bg:rgba(10,28,18,.72);--surface:rgba(15,40,25,.78);
+  --border:rgba(76,222,138,.15);--green:#2ecc80;--red:#e05555;--amber:#d4a030;--blue:#5b9bd4;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Lato',sans-serif;color:var(--text);line-height:1.7;min-height:100vh;
+  background:url('violin2.jpg') center center / cover no-repeat fixed;
+  position:relative;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:linear-gradient(135deg,rgba(10,35,20,.93) 0%,rgba(16,55,32,.89) 50%,rgba(10,30,18,.91) 100%);
+  z-index:0;pointer-events:none;
+}
+body>*{position:relative;z-index:1;}
+
+/* ── Nav ── */
+nav{
+  position:fixed;top:0;width:100%;height:64px;
+  padding:0 6%;display:flex;justify-content:space-between;align-items:center;
+  background:rgba(26,26,26,.98);backdrop-filter:blur(22px);
+  border-bottom:1px solid rgba(26,92,56,.4);
+  box-shadow:0 4px 24px rgba(0,0,0,.2);z-index:999;
+}
+.logo{font-family:"Cormorant Garamond";font-size:20px;color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px;}
+.logo-icon{width:30px;height:30px;display:flex;align-items:center;justify-content:center;}
+.logo-icon img{width:100%;height:100%;object-fit:contain;}
+.nav-links{display:flex;gap:6px;align-items:center;}
+.nav-link{text-decoration:none;color:rgba(255,255,255,.72);font-size:14px;font-weight:500;padding:7px 14px;border-radius:6px;transition:all .2s;}
+.nav-link:hover{background:rgba(255,255,255,.09);color:#fff;}
+.nav-link.active{background:rgba(76,222,138,.12);color:#4cde8a;border:1px solid rgba(76,222,138,.2);}
+.nav-cta{background:var(--primary)!important;color:#fff!important;font-weight:600!important;}
+.nav-cta:hover{opacity:.9!important;}
+
+/* ── Main layout ── */
+.main{max-width:1100px;margin:0 auto;padding:84px 24px 60px;}
+
+/* ── Page header ── */
+.page-header{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border);}
+.page-header h1{font-family:"Cormorant Garamond",serif;font-size:36px;color:#e8f5e0;font-weight:600;line-height:1.1;margin-bottom:6px;}
+.page-header p{font-size:15px;color:var(--muted);max-width:620px;}
+
+/* ── Summary cards ── */
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+@media(max-width:800px){.summary-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.summary-grid{grid-template-columns:1fr 1fr;}}
+.summary-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:20px 22px;backdrop-filter:blur(14px);position:relative;overflow:hidden;
+  transition:transform .25s,box-shadow .25s;
+}
+.summary-card:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,.3);}
+.summary-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--primary),#4cde8a);
+}
+.summary-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--muted);margin-bottom:8px;}
+.summary-val{font-family:"Cormorant Garamond",serif;font-size:38px;font-weight:700;color:#4cde8a;line-height:1;}
+.summary-sub{font-size:11px;color:var(--muted);margin-top:5px;}
+.summary-trend{font-size:11px;font-weight:700;margin-top:6px;}
+.summary-trend.up{color:var(--green);}
+.summary-trend.down{color:var(--red);}
+.summary-trend.neutral{color:var(--amber);}
+
+/* ── Cards ── */
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:24px 26px;margin-bottom:20px;backdrop-filter:blur(14px);
+  box-shadow:0 4px 24px rgba(0,0,0,.25);
+}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+.card-title{font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:600;color:#e8f5e0;}
+.card-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+
+/* ── Grid layout ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:760px){.two-col{grid-template-columns:1fr;}}
+
+/* ── Chart canvas ── */
+.chart-wrap{position:relative;width:100%;}
+canvas.chart{width:100%!important;border-radius:8px;}
+
+/* ── Score breakdown bars ── */
+.score-breakdown{display:flex;flex-direction:column;gap:12px;}
+.sbar-row{display:flex;align-items:center;gap:12px;}
+.sbar-label{font-size:12px;font-weight:600;color:var(--text);width:90px;flex-shrink:0;text-transform:capitalize;}
+.sbar-track{flex:1;height:8px;background:rgba(255,255,255,.08);border-radius:8px;overflow:hidden;}
+.sbar-fill{height:100%;border-radius:8px;transition:width 1.2s cubic-bezier(.25,.8,.25,1);}
+.sbar-val{font-size:12px;font-weight:700;width:36px;text-align:right;flex-shrink:0;}
+
+/* ── Session table ── */
+.session-table{width:100%;border-collapse:collapse;font-size:13px;}
+.session-table th{text-align:left;padding:8px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);border-bottom:1px solid var(--border);}
+.session-table td{padding:10px 12px;border-bottom:1px solid rgba(76,222,138,.07);vertical-align:middle;}
+.session-table tr:last-child td{border-bottom:none;}
+.session-table tr:hover td{background:rgba(76,222,138,.05);}
+.pill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:700;}
+.pill.excellent{background:rgba(46,204,128,.15);color:var(--green);border:1px solid rgba(46,204,128,.3);}
+.pill.good{background:rgba(91,155,212,.15);color:var(--blue);border:1px solid rgba(91,155,212,.3);}
+.pill.fair{background:rgba(212,160,48,.15);color:var(--amber);border:1px solid rgba(212,160,48,.3);}
+.pill.poor{background:rgba(224,85,85,.15);color:var(--red);border:1px solid rgba(224,85,85,.3);}
+
+/* ── Trend badges ── */
+.trend-grid{display:flex;flex-wrap:wrap;gap:10px;}
+.trend-badge{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;border:1px solid;
+}
+.trend-badge.improving{background:rgba(46,204,128,.12);border-color:rgba(46,204,128,.3);color:var(--green);}
+.trend-badge.struggling{background:rgba(224,85,85,.12);border-color:rgba(224,85,85,.3);color:var(--red);}
+.trend-badge.steady{background:rgba(212,160,48,.12);border-color:rgba(212,160,48,.3);color:var(--amber);}
+.trend-icon{font-size:14px;}
+
+/* ── Empty state ── */
+.empty-dash{
+  text-align:center;padding:48px 20px;
+  font-size:14px;color:var(--muted);line-height:1.8;
+}
+.empty-dash-title{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--muted);margin-bottom:10px;}
+.empty-dash-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:20px;padding:11px 24px;background:var(--primary);color:#fff;
+  border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;
+  transition:all .25s;box-shadow:0 4px 16px rgba(26,92,56,.4);
+}
+.empty-dash-cta:hover{background:#22703f;transform:translateY(-2px);}
+
+/* ── No data overlay ── */
+.no-data{text-align:center;padding:32px 16px;font-size:13px;color:var(--muted);}
+
+/* ── Tab strip for time range ── */
+.tab-strip{display:flex;gap:4px;background:rgba(10,28,18,.55);border:1px solid var(--border);border-radius:8px;padding:3px;}
+.tab-btn{padding:5px 14px;border-radius:6px;font-size:12px;font-weight:600;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;font-family:'Lato',sans-serif;}
+.tab-btn.active{background:var(--primary);color:#fff;}
+
+/* ── Responsive ── */
+@media(max-width:600px){
+  .main{padding:80px 14px 40px;}
+  .card{padding:18px 16px;}
+  .session-table th,.session-table td{padding:8px 8px;font-size:12px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">
+    <div class="logo-icon"><img src="logo.png" alt="InspireAI logo"/></div>
+    InspireAI
+  </a>
+  <div class="nav-links">
+    <a href="index.html#features" class="nav-link">Features</a>
+    <a href="index.html#pricing" class="nav-link">Pricing</a>
+    <a href="analytics.html" class="nav-link active">Analytics</a>
+    <a href="violin-teacher.html" class="nav-link nav-cta">Try AI Teacher</a>
+  </div>
+</nav>
+
+<div class="main">
+
+  <!-- Header -->
+  <div class="page-header">
+    <h1>Progress Analytics Dashboard</h1>
+    <p>A complete view of your practice sessions, scores, trends, and improvement over time — all powered by your AI session data.</p>
+  </div>
+
+  <!-- Summary cards -->
+  <div class="summary-grid" id="summaryGrid">
+    <div class="summary-card">
+      <div class="summary-label">Total Sessions</div>
+      <div class="summary-val" id="statSessions">0</div>
+      <div class="summary-sub">recorded this browser session</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">Avg Overall Score</div>
+      <div class="summary-val" id="statAvgScore">—</div>
+      <div class="summary-sub">out of 10</div>
+      <div class="summary-trend" id="statScoreTrend"></div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">Avg In-Tune %</div>
+      <div class="summary-val" id="statInTune">—</div>
+      <div class="summary-sub">pitch accuracy</div>
+      <div class="summary-trend" id="statInTuneTrend"></div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">Total Practice Time</div>
+      <div class="summary-val" id="statTime">0m</div>
+      <div class="summary-sub">recorded audio</div>
+    </div>
+  </div>
+
+  <!-- No data state -->
+  <div id="noDataState" class="card" style="display:none;">
+    <div class="empty-dash">
+      <div class="empty-dash-title">No session data yet</div>
+      Complete a practice session in the AI Violin Teacher to start seeing your analytics here.<br/>
+      Your data is stored in this browser session and updates live.
+      <br/>
+      <a href="violin-teacher.html" class="empty-dash-cta">🎻 Start a Practice Session</a>
+    </div>
+  </div>
+
+  <!-- Charts row -->
+  <div class="two-col" id="chartsRow">
+    <!-- Score over time -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Score Over Time</div>
+          <div class="card-sub">Overall average score per session</div>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:200px;">
+        <canvas class="chart" id="scoreChart"></canvas>
+        <div class="no-data" id="scoreChartEmpty" style="display:none;">Complete sessions to see score trends</div>
+      </div>
+    </div>
+
+    <!-- In-tune % over time -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Intonation Accuracy</div>
+          <div class="card-sub">% of recording time in tune</div>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:200px;">
+        <canvas class="chart" id="tuneChart"></canvas>
+        <div class="no-data" id="tuneChartEmpty" style="display:none;">Complete sessions to see intonation trends</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Score breakdown + Trends -->
+  <div class="two-col">
+    <!-- Score breakdown by category -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Score Breakdown</div>
+          <div class="card-sub">Average score per focus area</div>
+        </div>
+      </div>
+      <div class="score-breakdown" id="scoreBreakdown">
+        <div class="no-data">No data yet</div>
+      </div>
+    </div>
+
+    <!-- Trend analysis -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Trend Analysis</div>
+          <div class="card-sub">Performance direction per area</div>
+        </div>
+      </div>
+      <div class="trend-grid" id="trendGrid">
+        <div class="no-data">No data yet</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Session history table -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Session History</div>
+        <div class="card-sub">All recorded practice sessions</div>
+      </div>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="session-table" id="sessionTable">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Piece</th>
+            <th>Duration</th>
+            <th>In Tune</th>
+            <th>Avg Score</th>
+            <th>Intonation</th>
+            <th>Rhythm</th>
+            <th>Dynamics</th>
+            <th>Tone</th>
+            <th>Musicality</th>
+          </tr>
+        </thead>
+        <tbody id="sessionTbody">
+          <tr><td colspan="10" class="no-data">No sessions recorded yet</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pieces practiced -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Pieces Practiced</div>
+        <div class="card-sub">Frequency and average score per piece</div>
+      </div>
+    </div>
+    <div class="chart-wrap" style="height:220px;">
+      <canvas class="chart" id="pieceChart"></canvas>
+      <div class="no-data" id="pieceChartEmpty" style="display:none;">No pieces recorded yet</div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ══════════════════════════════════════════════
+//  Helpers
+// ══════════════════════════════════════════════
+function gradePill(score){
+  if(score>=8.5) return 'excellent';
+  if(score>=7)   return 'good';
+  if(score>=5)   return 'fair';
+  return 'poor';
+}
+function gradeLabel(score){
+  if(score>=8.5) return 'Excellent';
+  if(score>=7)   return 'Good';
+  if(score>=5)   return 'Fair';
+  return 'Needs Work';
+}
+function formatDur(s){ const m=Math.floor(s/60); const sec=s%60; return m>0?`${m}m ${sec}s`:`${sec}s`; }
+
+// bar fill colours per area
+const AREA_COLORS = {
+  intonation:'#5b9bd4',rhythm:'#2ecc80',dynamics:'#d4a030',
+  tone:'#b07dd4',musicality:'#e05555'
+};
+const AREA_LABELS = {
+  intonation:'Intonation',rhythm:'Rhythm',dynamics:'Dynamics',
+  tone:'Tone',musicality:'Musicality'
+};
+
+// ══════════════════════════════════════════════
+//  Read session data written by violin-teacher.html
+//  Data is stored in sessionStorage key "vt_sessions"
+// ══════════════════════════════════════════════
+function getSessions(){
+  try { return JSON.parse(sessionStorage.getItem('vt_sessions')||'[]'); }
+  catch(e){ return []; }
+}
+
+// ══════════════════════════════════════════════
+//  Mini chart engine (no external dependencies)
+// ══════════════════════════════════════════════
+function drawLineChart(canvasId, labels, datasets, opts={}){
+  const canvas = document.getElementById(canvasId);
+  if(!canvas) return;
+  const dpr = window.devicePixelRatio||1;
+  const W = canvas.parentElement.offsetWidth;
+  const H = canvas.parentElement.offsetHeight || 200;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width  = W+'px';
+  canvas.style.height = H+'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const PAD = {top:16, right:16, bottom:32, left:36};
+  const cW = W - PAD.left - PAD.right;
+  const cH = H - PAD.top  - PAD.bottom;
+
+  const allVals = datasets.flatMap(d=>d.data);
+  const minV = opts.minY !== undefined ? opts.minY : Math.max(0, Math.min(...allVals) - 1);
+  const maxV = opts.maxY !== undefined ? opts.maxY : Math.min(10, Math.max(...allVals) + 1);
+  const range = maxV - minV || 1;
+
+  // grid lines
+  ctx.strokeStyle = 'rgba(76,222,138,.08)';
+  ctx.lineWidth = 1;
+  for(let i=0;i<=4;i++){
+    const y = PAD.top + (cH / 4) * i;
+    ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(PAD.left+cW, y); ctx.stroke();
+    const val = maxV - (range/4)*i;
+    ctx.fillStyle='rgba(168,184,168,.6)'; ctx.font=`10px Lato,sans-serif`; ctx.textAlign='right';
+    ctx.fillText(val.toFixed(1), PAD.left-4, y+4);
+  }
+
+  // x labels
+  const step = cW / Math.max(labels.length-1, 1);
+  ctx.fillStyle='rgba(168,184,168,.6)'; ctx.font=`10px Lato,sans-serif`; ctx.textAlign='center';
+  labels.forEach((l,i)=>{
+    const x = PAD.left + i * step;
+    ctx.fillText(l, x, H - PAD.bottom + 14);
+  });
+
+  // lines + dots
+  datasets.forEach(ds=>{
+    const pts = ds.data.map((v,i)=>({
+      x: PAD.left + i * step,
+      y: PAD.top + cH * (1 - (v - minV)/range)
+    }));
+
+    // fill area
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, PAD.top+cH);
+    pts.forEach(p=>ctx.lineTo(p.x, p.y));
+    ctx.lineTo(pts[pts.length-1].x, PAD.top+cH);
+    ctx.closePath();
+    const grad = ctx.createLinearGradient(0, PAD.top, 0, PAD.top+cH);
+    grad.addColorStop(0, ds.color.replace(')',',0.25)').replace('rgb','rgba'));
+    grad.addColorStop(1, ds.color.replace(')',',0.02)').replace('rgb','rgba'));
+    ctx.fillStyle = grad; ctx.fill();
+
+    // line
+    ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y);
+    pts.forEach(p=>ctx.lineTo(p.x, p.y));
+    ctx.strokeStyle = ds.color; ctx.lineWidth = 2.5; ctx.lineJoin='round'; ctx.stroke();
+
+    // dots
+    pts.forEach(p=>{
+      ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2);
+      ctx.fillStyle = ds.color; ctx.fill();
+      ctx.beginPath(); ctx.arc(p.x, p.y, 2.5, 0, Math.PI*2);
+      ctx.fillStyle = '#0e2418'; ctx.fill();
+    });
+  });
+}
+
+function drawBarChart(canvasId, labels, data, colors){
+  const canvas = document.getElementById(canvasId);
+  if(!canvas) return;
+  const dpr = window.devicePixelRatio||1;
+  const W = canvas.parentElement.offsetWidth;
+  const H = canvas.parentElement.offsetHeight || 220;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width  = W+'px';
+  canvas.style.height = H+'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const PAD = {top:16, right:16, bottom:48, left:36};
+  const cW = W - PAD.left - PAD.right;
+  const cH = H - PAD.top  - PAD.bottom;
+  const maxV = Math.min(10, Math.max(...data) + 1);
+
+  // grid
+  ctx.strokeStyle='rgba(76,222,138,.08)'; ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const y = PAD.top + (cH/4)*i;
+    ctx.beginPath(); ctx.moveTo(PAD.left,y); ctx.lineTo(PAD.left+cW,y); ctx.stroke();
+    const val = maxV - (maxV/4)*i;
+    ctx.fillStyle='rgba(168,184,168,.6)'; ctx.font='10px Lato,sans-serif'; ctx.textAlign='right';
+    ctx.fillText(val.toFixed(1), PAD.left-4, y+4);
+  }
+
+  const barW = (cW / labels.length) * 0.55;
+  const gap  = cW / labels.length;
+
+  labels.forEach((l,i)=>{
+    const x = PAD.left + i*gap + (gap-barW)/2;
+    const barH = (data[i]/maxV) * cH;
+    const y = PAD.top + cH - barH;
+    const col = colors[i % colors.length];
+    const grad = ctx.createLinearGradient(0,y,0,y+barH);
+    grad.addColorStop(0, col.replace(')',',0.85)').replace('rgba(','rgba('));
+    grad.addColorStop(1, col.replace(')',',0.4)').replace('rgba(','rgba('));
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.roundRect ? ctx.roundRect(x,y,barW,barH,4) : ctx.rect(x,y,barW,barH);
+    ctx.fill();
+    // score label on bar
+    ctx.fillStyle='#e8f5e0'; ctx.font='bold 11px Lato,sans-serif'; ctx.textAlign='center';
+    if(barH>18) ctx.fillText(data[i].toFixed(1), x+barW/2, y+14);
+    // x label
+    const shortL = l.length>12 ? l.slice(0,11)+'…' : l;
+    ctx.fillStyle='rgba(168,184,168,.7)'; ctx.font='10px Lato,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(shortL, x+barW/2, H-PAD.bottom+16);
+  });
+}
+
+// ══════════════════════════════════════════════
+//  Render dashboard
+// ══════════════════════════════════════════════
+function render(){
+  const sessions = getSessions();
+  const hasData = sessions.length > 0;
+
+  document.getElementById('noDataState').style.display = hasData ? 'none' : 'block';
+  document.getElementById('chartsRow').style.display   = hasData ? 'grid' : 'none';
+
+  // ── Summary cards ──
+  document.getElementById('statSessions').textContent = sessions.length;
+
+  if(hasData){
+    const allAvg = sessions.map(s=>{
+      const vals = Object.values(s.scores||{});
+      return vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0;
+    });
+    const overallAvg = allAvg.reduce((a,b)=>a+b,0)/allAvg.length;
+    document.getElementById('statAvgScore').textContent = overallAvg.toFixed(1);
+
+    // score trend (last vs first half)
+    if(sessions.length>=3){
+      const half = Math.floor(sessions.length/2);
+      const recent = allAvg.slice(0,half).reduce((a,b)=>a+b,0)/half;
+      const older  = allAvg.slice(half).reduce((a,b)=>a+b,0)/half;
+      const diff   = recent - older;
+      const trendEl = document.getElementById('statScoreTrend');
+      if(diff>0.3){ trendEl.textContent='↑ Improving'; trendEl.className='summary-trend up'; }
+      else if(diff<-0.3){ trendEl.textContent='↓ Declining'; trendEl.className='summary-trend down'; }
+      else { trendEl.textContent='→ Steady'; trendEl.className='summary-trend neutral'; }
+    }
+
+    const avgTune = sessions.reduce((a,s)=>a+(s.stats?.inTunePct||0),0)/sessions.length;
+    document.getElementById('statInTune').textContent = Math.round(avgTune)+'%';
+
+    const totalSec = sessions.reduce((a,s)=>a+(s.stats?.duration||0),0);
+    const m = Math.floor(totalSec/60);
+    document.getElementById('statTime').textContent = m>0 ? m+'m' : totalSec+'s';
+
+    // ── Score over time chart ──
+    const scoreLabels = sessions.map((_,i)=>'S'+(sessions.length-i)).reverse();
+    const scoreData   = [...sessions].reverse().map(s=>{
+      const vals = Object.values(s.scores||{});
+      return vals.length ? Math.round(vals.reduce((a,b)=>a+b,0)/vals.length*10)/10 : 0;
+    });
+    document.getElementById('scoreChart').style.display='block';
+    document.getElementById('scoreChartEmpty').style.display='none';
+    drawLineChart('scoreChart', scoreLabels, [{data:scoreData,color:'rgb(76,222,138)'}], {minY:0,maxY:10});
+
+    // ── In-tune chart ──
+    const tuneData = [...sessions].reverse().map(s=>s.stats?.inTunePct||0);
+    document.getElementById('tuneChart').style.display='block';
+    document.getElementById('tuneChartEmpty').style.display='none';
+    drawLineChart('tuneChart', scoreLabels, [{data:tuneData,color:'rgb(91,155,212)'}], {minY:0,maxY:100});
+
+    // ── Score breakdown bars ──
+    const areas = ['intonation','rhythm','dynamics','tone','musicality'];
+    const totals={}, counts={};
+    sessions.forEach(s=>{ Object.entries(s.scores||{}).forEach(([k,v])=>{ totals[k]=(totals[k]||0)+v; counts[k]=(counts[k]||0)+1; }); });
+    const breakdownEl = document.getElementById('scoreBreakdown');
+    const rows = areas.filter(a=>counts[a]).map(a=>{
+      const avg = Math.round((totals[a]/counts[a])*10)/10;
+      const pct = (avg/10)*100;
+      const col = AREA_COLORS[a]||'#4cde8a';
+      return `<div class="sbar-row">
+        <div class="sbar-label">${AREA_LABELS[a]}</div>
+        <div class="sbar-track"><div class="sbar-fill" style="width:${pct}%;background:${col};"></div></div>
+        <div class="sbar-val" style="color:${col};">${avg}</div>
+      </div>`;
+    });
+    breakdownEl.innerHTML = rows.length ? rows.join('') : '<div class="no-data">No score data yet</div>';
+
+    // ── Trend analysis ──
+    const trendGrid = document.getElementById('trendGrid');
+    const trendBadges = areas.filter(a=>counts[a]>=2).map(a=>{
+      const vals = sessions.map(s=>s.scores?.[a]).filter(v=>v!==undefined);
+      const recent = vals.slice(0, Math.ceil(vals.length/2));
+      const older  = vals.slice(Math.ceil(vals.length/2));
+      const rAvg = recent.reduce((a,b)=>a+b,0)/recent.length;
+      const oAvg = older.length ? older.reduce((a,b)=>a+b,0)/older.length : rAvg;
+      const diff = rAvg - oAvg;
+      let cls, icon;
+      if(diff>0.4){cls='improving';icon='↑';}
+      else if(diff<-0.4){cls='struggling';icon='↓';}
+      else {cls='steady';icon='→';}
+      return `<div class="trend-badge ${cls}"><span class="trend-icon">${icon}</span>${AREA_LABELS[a]}</div>`;
+    });
+    trendGrid.innerHTML = trendBadges.length ? trendBadges.join('') : '<div class="no-data">Need 2+ sessions for trends</div>';
+
+    // ── Session table ──
+    const tbody = document.getElementById('sessionTbody');
+    tbody.innerHTML = sessions.map(s=>{
+      const vals = Object.values(s.scores||{});
+      const avg = vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) : '—';
+      const cls = vals.length ? gradePill(parseFloat(avg)) : '';
+      const sc = s.scores||{};
+      const cell = (k)=> sc[k]!==undefined ? `<span style="font-weight:700;color:${AREA_COLORS[k]};">${sc[k]}</span>` : '<span style="color:var(--muted);">—</span>';
+      return `<tr>
+        <td style="color:var(--muted);white-space:nowrap;">${s.time||'—'}</td>
+        <td style="font-weight:600;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${s.piece||'General'}</td>
+        <td style="color:var(--muted);">${formatDur(s.stats?.duration||0)}</td>
+        <td style="color:var(--blue);">${s.stats?.inTunePct||0}%</td>
+        <td><span class="pill ${cls}">${avg}/10</span></td>
+        <td>${cell('intonation')}</td>
+        <td>${cell('rhythm')}</td>
+        <td>${cell('dynamics')}</td>
+        <td>${cell('tone')}</td>
+        <td>${cell('musicality')}</td>
+      </tr>`;
+    }).join('');
+
+    // ── Pieces bar chart ──
+    const pieceMap={};
+    sessions.forEach(s=>{
+      const p=s.piece||'General'; const vals=Object.values(s.scores||{});
+      const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;
+      if(!pieceMap[p]) pieceMap[p]={total:0,count:0};
+      pieceMap[p].total+=avg; pieceMap[p].count++;
+    });
+    const pieceEntries=Object.entries(pieceMap).sort((a,b)=>b[1].count-a[1].count).slice(0,8);
+    if(pieceEntries.length){
+      document.getElementById('pieceChart').style.display='block';
+      document.getElementById('pieceChartEmpty').style.display='none';
+      const pLabels=pieceEntries.map(e=>e[0]);
+      const pData=pieceEntries.map(e=>Math.round(e[1].total/e[1].count*10)/10);
+      const pColors=pieceEntries.map((_,i)=>[
+        'rgba(76,222,138',  'rgba(91,155,212',  'rgba(212,160,48',
+        'rgba(176,125,212', 'rgba(46,204,128',  'rgba(224,130,85',
+        'rgba(85,180,224',  'rgba(212,85,120'
+      ][i%8]+')');
+      drawBarChart('pieceChart', pLabels, pData, pColors);
+    } else {
+      document.getElementById('pieceChart').style.display='none';
+      document.getElementById('pieceChartEmpty').style.display='block';
+    }
+
+  } else {
+    // hide charts
+    ['scoreChart','tuneChart','pieceChart'].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.style.display='none';
+    });
+    ['scoreChartEmpty','tuneChartEmpty','pieceChartEmpty'].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.style.display='block';
+    });
+  }
+}
+
+// ══════════════════════════════════════════════
+//  Listen for updates from violin-teacher tab
+// ══════════════════════════════════════════════
+window.addEventListener('storage', e=>{ if(e.key==='vt_sessions') render(); });
+
+// Initial render on load
+document.addEventListener('DOMContentLoaded', render);
+</script>
+
+</body>
+</html>
