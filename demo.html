@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>InspireAI — Get Up & Running Demo</title>
+<link rel="icon" href="logo.png" type="image/png"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --primary:#1a5c38;
+  --accent:#4cde8a;
+  --accent2:#e0f2e9;
+  --text:#1a1a1a;
+  --muted:#5f6368;
+  --bg:#f5f5f5;
+  --surface:#ffffff;
+  --border:#e0e0e0;
+  --radius:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Lato',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;}
+
+/* ── Nav ── */
+nav{
+  position:fixed;top:0;width:100%;height:68px;
+  padding:0 7%;display:flex;justify-content:space-between;align-items:center;
+  background:rgba(26,26,26,.98);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(26,92,56,.4);z-index:999;
+}
+.logo{font-family:"Cormorant Garamond",serif;font-size:24px;letter-spacing:1px;color:#fff;display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:34px;height:34px;display:flex;align-items:center;justify-content:center;}
+.logo-icon img{width:100%;height:100%;object-fit:contain;}
+.nav-links{display:flex;gap:8px;align-items:center;}
+.nav-link{text-decoration:none;color:rgba(255,255,255,.75);font-size:13px;font-weight:500;padding:7px 14px;border-radius:6px;transition:all .2s;}
+.nav-link:hover{background:rgba(255,255,255,.1);color:#fff;}
+.nav-cta{background:var(--primary)!important;color:#fff!important;font-weight:700!important;}
+.nav-cta:hover{opacity:.88!important;}
+
+/* ── Hero ── */
+.demo-hero{
+  padding:120px 7% 72px;
+  background:linear-gradient(140deg,#07200f 0%,#0f3820 50%,#071a0b 100%);
+  text-align:center;position:relative;overflow:hidden;
+}
+.demo-hero::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(76,222,138,.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.demo-hero>*{position:relative;z-index:1;}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(76,222,138,.12);border:1px solid rgba(76,222,138,.35);
+  color:#4cde8a;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
+  padding:6px 16px;border-radius:20px;margin-bottom:22px;
+}
+.demo-hero h1{
+  font-family:"Cormorant Garamond",serif;font-size:58px;font-weight:600;
+  color:#fff;line-height:1.1;margin-bottom:18px;
+  text-shadow:0 2px 20px rgba(0,0,0,.4);
+}
+.demo-hero h1 em{color:#4cde8a;font-style:italic;}
+.demo-hero p{font-size:16px;color:rgba(255,255,255,.72);max-width:560px;margin:0 auto 36px;line-height:1.85;}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 30px;background:var(--primary);color:#fff;
+  font-weight:700;font-size:14px;border-radius:8px;text-decoration:none;
+  transition:all .25s;border:none;cursor:pointer;
+  box-shadow:0 4px 20px rgba(26,92,56,.4);font-family:'Lato',sans-serif;
+}
+.btn-primary:hover{background:#1e6e42;transform:translateY(-2px);box-shadow:0 8px 28px rgba(26,92,56,.5);}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 30px;background:rgba(255,255,255,.08);color:#fff;
+  font-weight:500;font-size:14px;border-radius:8px;text-decoration:none;
+  border:1.5px solid rgba(255,255,255,.32);transition:all .25s;
+  backdrop-filter:blur(8px);font-family:'Lato',sans-serif;
+}
+.btn-outline:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.55);}
+
+/* ── Progress stepper ── */
+.stepper-wrap{
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:0 7%;position:sticky;top:68px;z-index:90;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+}
+.stepper{
+  max-width:900px;margin:0 auto;
+  display:flex;align-items:center;padding:18px 0;gap:0;
+}
+.step-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  cursor:pointer;position:relative;transition:opacity .2s;
+}
+.step-item:not(:last-child)::after{
+  content:'';position:absolute;top:20px;left:calc(50% + 22px);
+  right:calc(-50% + 22px);height:2px;
+  background:var(--border);z-index:0;transition:background .4s;
+}
+.step-item.done:not(:last-child)::after{background:var(--primary);}
+.step-dot{
+  width:40px;height:40px;border-radius:50%;
+  border:2px solid var(--border);background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:600;
+  color:var(--muted);z-index:1;transition:all .3s;position:relative;
+}
+.step-item.active .step-dot{border-color:var(--primary);color:var(--primary);background:var(--accent2);box-shadow:0 0 0 4px rgba(26,92,56,.12);}
+.step-item.done .step-dot{border-color:var(--primary);background:var(--primary);color:#fff;}
+.step-item.done .step-dot::after{content:'✓';font-family:'Lato',sans-serif;font-size:14px;font-weight:700;}
+.step-item.done .step-dot-num{display:none;}
+.step-label{font-size:11px;font-weight:600;color:var(--muted);margin-top:8px;text-align:center;letter-spacing:.3px;white-space:nowrap;}
+.step-item.active .step-label{color:var(--primary);}
+.step-item.done .step-label{color:var(--primary);}
+
+/* ── Panels container ── */
+.panels-wrap{max-width:960px;margin:0 auto;padding:56px 24px 80px;}
+
+/* ── Panel ── */
+.panel{display:none;animation:fadeUp .4s ease both;}
+.panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+.panel-header{margin-bottom:40px;}
+.panel-step-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--accent2);color:var(--primary);
+  font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  padding:5px 14px;border-radius:20px;margin-bottom:14px;
+  border:1px solid rgba(26,92,56,.2);
+}
+.panel h2{font-family:"Cormorant Garamond",serif;font-size:40px;font-weight:600;color:#111;margin-bottom:10px;line-height:1.15;}
+.panel h2 em{color:var(--primary);font-style:italic;}
+.panel-sub{font-size:15px;color:var(--muted);max-width:600px;line-height:1.8;}
+
+/* ── Form card ── */
+.form-card{
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:16px;padding:40px;
+  box-shadow:0 4px 24px rgba(0,0,0,.06);
+  margin-bottom:28px;
+}
+.form-card-title{
+  font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:600;
+  color:#111;margin-bottom:24px;display:flex;align-items:center;gap:10px;
+}
+.form-card-title .badge{
+  display:inline-block;background:var(--primary);color:#fff;
+  font-family:'Lato',sans-serif;font-size:10px;font-weight:700;
+  padding:3px 10px;border-radius:12px;letter-spacing:.5px;
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.form-row.full{grid-template-columns:1fr;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+label{font-size:12px;font-weight:700;color:#444;letter-spacing:.4px;text-transform:uppercase;}
+input[type=text],input[type=email],input[type=number],select,textarea{
+  padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;
+  font-size:14px;font-family:'Lato',sans-serif;color:var(--text);
+  background:#fff;outline:none;transition:border-color .2s;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--primary);}
+textarea{resize:vertical;min-height:80px;}
+.form-hint{font-size:11px;color:var(--muted);margin-top:3px;}
+
+/* Checkbox row */
+.check-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.check-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--primary);cursor:pointer;}
+.check-row label{font-size:13px;color:#333;text-transform:none;letter-spacing:0;font-weight:400;cursor:pointer;}
+
+/* Tag pills */
+.tag-select{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+.tag-pill{
+  padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;
+  border:1.5px solid var(--border);background:#f8f8f8;color:var(--muted);
+  transition:all .2s;user-select:none;
+}
+.tag-pill.selected{background:var(--accent2);border-color:var(--primary);color:var(--primary);}
+
+/* Student table mockup */
+.student-table{width:100%;border-collapse:collapse;font-size:13px;}
+.student-table th{
+  background:var(--accent2);color:var(--primary);font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.6px;padding:10px 14px;text-align:left;
+}
+.student-table th:first-child{border-radius:8px 0 0 8px;}
+.student-table th:last-child{border-radius:0 8px 8px 0;}
+.student-table td{padding:12px 14px;border-bottom:1px solid var(--border);color:#333;}
+.student-table tr:last-child td{border-bottom:none;}
+.student-table tr:hover td{background:#fafafa;}
+.status-pill{
+  display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:700;
+}
+.status-pill.invited{background:#fff8e6;color:#b07d2a;border:1px solid #f0d690;}
+.status-pill.active{background:var(--accent2);color:var(--primary);border:1px solid rgba(26,92,56,.2);}
+.status-pill.pending{background:#f0f0f0;color:#888;border:1px solid #ddd;}
+
+/* Upload area */
+.upload-zone{
+  border:2px dashed var(--border);border-radius:12px;
+  padding:36px 24px;text-align:center;cursor:pointer;
+  transition:all .25s;background:#fafafa;
+}
+.upload-zone:hover{border-color:var(--primary);background:var(--accent2);}
+.upload-zone-icon{font-size:36px;margin-bottom:10px;}
+.upload-zone-title{font-size:14px;font-weight:700;color:#333;margin-bottom:4px;}
+.upload-zone-sub{font-size:12px;color:var(--muted);}
+
+/* Action bar */
+.action-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 0 0;
+  border-top:1px solid var(--border);
+  margin-top:8px;
+}
+.action-bar-left{display:flex;align-items:center;gap:12px;}
+.btn-back{
+  padding:11px 22px;border-radius:8px;font-size:14px;font-weight:600;
+  border:1.5px solid var(--border);background:#fff;color:var(--muted);
+  cursor:pointer;font-family:'Lato',sans-serif;transition:all .2s;
+}
+.btn-back:hover{border-color:var(--primary);color:var(--primary);}
+.btn-next{
+  padding:13px 32px;border-radius:8px;font-size:14px;font-weight:700;
+  background:var(--primary);color:#fff;border:none;cursor:pointer;
+  font-family:'Lato',sans-serif;transition:all .25s;
+  box-shadow:0 4px 16px rgba(26,92,56,.3);
+  display:flex;align-items:center;gap:8px;
+}
+.btn-next:hover{background:#1e6e42;transform:translateY(-1px);box-shadow:0 8px 24px rgba(26,92,56,.4);}
+.btn-next svg{transition:transform .2s;}
+.btn-next:hover svg{transform:translateX(3px);}
+.step-progress-text{font-size:12px;color:var(--muted);}
+
+/* ── Summary / completion card ── */
+.complete-card{
+  background:linear-gradient(140deg,#0d3320,#1a5c38);
+  border-radius:20px;padding:52px 48px;text-align:center;
+  box-shadow:0 24px 72px rgba(26,92,56,.4);
+  position:relative;overflow:hidden;
+}
+.complete-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 30%,rgba(76,222,138,.12) 0%,transparent 70%);
+}
+.complete-card>*{position:relative;z-index:1;}
+.complete-icon{
+  width:80px;height:80px;border-radius:50%;margin:0 auto 24px;
+  background:rgba(76,222,138,.18);border:2px solid rgba(76,222,138,.4);
+  display:flex;align-items:center;justify-content:center;font-size:36px;
+}
+.complete-card h2{
+  font-family:"Cormorant Garamond",serif;font-size:44px;font-weight:600;
+  color:#fff;margin-bottom:14px;
+}
+.complete-card p{font-size:15px;color:rgba(255,255,255,.72);max-width:520px;margin:0 auto 36px;line-height:1.85;}
+.complete-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.complete-actions a,
+.complete-actions button{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 26px;border-radius:8px;font-size:14px;font-weight:700;
+  text-decoration:none;cursor:pointer;font-family:'Lato',sans-serif;
+  transition:all .25s;
+}
+.btn-white{background:#fff;color:var(--primary);border:none;box-shadow:0 4px 16px rgba(0,0,0,.15);}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.3);}
+.btn-ghost:hover{background:rgba(255,255,255,.2);}
+
+/* Summary list */
+.summary-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+  margin-bottom:28px;
+}
+.summary-item{
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:12px;padding:18px 20px;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.summary-item-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:var(--accent2);display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.summary-item-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.summary-item-value{font-size:14px;font-weight:600;color:#111;}
+
+/* ── Responsive ── */
+@media(max-width:640px){
+  .demo-hero h1{font-size:36px;}
+  .form-row{grid-template-columns:1fr;}
+  .summary-grid{grid-template-columns:1fr;}
+  .form-card{padding:24px 20px;}
+  .complete-card{padding:36px 24px;}
+  .stepper{gap:0;overflow-x:auto;}
+  .step-label{display:none;}
+  .panel h2{font-size:30px;}
+  .panels-wrap{padding:36px 16px 60px;}
+  .action-bar{flex-direction:column;gap:12px;align-items:stretch;}
+  .btn-next,.btn-back{width:100%;justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a class="logo" href="index.html">
+    <div class="logo-icon"><img src="logo.png" alt="InspireAI logo"/></div>
+    InspireAI
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="violin-teacher.html">AI Teacher</a>
+    <a class="nav-link" href="analytics.html">Analytics</a>
+    <a class="nav-link nav-cta" href="violin-teacher.html">Try the AI Teacher →</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="demo-hero">
+  <div class="hero-tag">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="#4cde8a"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/></svg>
+    Interactive Setup Demo
+  </div>
+  <h1>Up &amp; Running in <em>4 Steps</em></h1>
+  <p>Walk through each stage of the InspireAI onboarding experience — exactly how your academy will set up and go live.</p>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="goTo(1)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Start Demo
+    </button>
+    <a class="btn-outline" href="index.html">← Back to Homepage</a>
+  </div>
+</div>
+
+<!-- Sticky stepper -->
+<div class="stepper-wrap">
+  <div class="stepper">
+    <div class="step-item" id="si1" onclick="goTo(1)">
+      <div class="step-dot"><span class="step-dot-num">1</span></div>
+      <div class="step-label">Create Academy</div>
+    </div>
+    <div class="step-item" id="si2" onclick="goTo(2)">
+      <div class="step-dot"><span class="step-dot-num">2</span></div>
+      <div class="step-label">Enrol Students</div>
+    </div>
+    <div class="step-item" id="si3" onclick="goTo(3)">
+      <div class="step-dot"><span class="step-dot-num">3</span></div>
+      <div class="step-label">Practice &amp; Record</div>
+    </div>
+    <div class="step-item" id="si4" onclick="goTo(4)">
+      <div class="step-dot"><span class="step-dot-num">4</span></div>
+      <div class="step-label">Track &amp; Report</div>
+    </div>
+    <div class="step-item" id="si5" onclick="goTo(5)">
+      <div class="step-dot"><span class="step-dot-num">✦</span></div>
+      <div class="step-label">All Done!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PANELS ── -->
+<div class="panels-wrap">
+
+  <!-- ══ STEP 1 — Create Academy ══ -->
+  <div class="panel" id="panel1">
+    <div class="panel-header">
+      <div class="panel-step-tag">Step 1 of 4</div>
+      <h2>Create Your <em>Academy</em></h2>
+      <p class="panel-sub">Register your school, invite teachers, and configure your curriculum and grade structure — takes under 5 minutes.</p>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">
+        Academy Details
+        <span class="badge">Required</span>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Academy Name</label>
+          <input type="text" id="f_academy" placeholder="e.g. Harmony Music Academy" value="Harmony Music Academy"/>
+        </div>
+        <div class="form-group">
+          <label>Country / Region</label>
+          <select id="f_country">
+            <option>United Kingdom</option>
+            <option>United States</option>
+            <option>Australia</option>
+            <option>Canada</option>
+            <option>Singapore</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Admin Name</label>
+          <input type="text" id="f_admin" placeholder="Your full name" value="Sarah Mitchell"/>
+        </div>
+        <div class="form-group">
+          <label>Admin Email</label>
+          <input type="email" id="f_email" placeholder="admin@youracademy.com" value="sarah@harmonyacademy.co.uk"/>
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="form-group">
+          <label>Primary Instruments Taught</label>
+          <div class="tag-select" id="instrumentTags">
+            <div class="tag-pill selected" onclick="toggleTag(this)">🎻 Violin</div>
+            <div class="tag-pill" onclick="toggleTag(this)">🎹 Piano</div>
+            <div class="tag-pill" onclick="toggleTag(this)">🎷 Saxophone</div>
+            <div class="tag-pill" onclick="toggleTag(this)">🎺 Trumpet</div>
+            <div class="tag-pill" onclick="toggleTag(this)">🎸 Guitar</div>
+            <div class="tag-pill" onclick="toggleTag(this)">🥁 Drums</div>
+            <div class="tag-pill" onclick="toggleTag(this)">🎵 Singing</div>
+            <div class="tag-pill" onclick="toggleTag(this)">🎻 Cello</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">Curriculum &amp; Grade Structure</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Grading System</label>
+          <select>
+            <option>ABRSM (Grades 1–8)</option>
+            <option>Trinity College London</option>
+            <option>Custom grade levels</option>
+            <option>No grading / free practice</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Active Grades</label>
+          <select>
+            <option>Grades 1–4 (Beginner–Lower Intermediate)</option>
+            <option>Grades 1–8 (All)</option>
+            <option>Grades 5–8 (Advanced)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="form-group">
+          <label>Invite Teachers (email addresses)</label>
+          <textarea placeholder="teacher1@youracademy.com&#10;teacher2@youracademy.com">james.lee@harmonyacademy.co.uk
+priya.sharma@harmonyacademy.co.uk</textarea>
+          <span class="form-hint">One email per line. Each teacher will receive an invite link.</span>
+        </div>
+      </div>
+      <div class="check-row">
+        <input type="checkbox" id="chk1" checked/>
+        <label for="chk1">Enable parent portal — parents can view session reports</label>
+      </div>
+      <div class="check-row">
+        <input type="checkbox" id="chk2" checked/>
+        <label for="chk2">Send automated weekly progress emails to parents</label>
+      </div>
+      <div class="check-row">
+        <input type="checkbox" id="chk3"/>
+        <label for="chk3">Allow students to upload pre-recorded audio files (in addition to live recording)</label>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <span class="step-progress-text">Step 1 of 4 — Academy Setup</span>
+      <button class="btn-next" onclick="goTo(2)">
+        Next: Enrol Students
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ STEP 2 — Enrol Students ══ -->
+  <div class="panel" id="panel2">
+    <div class="panel-header">
+      <div class="panel-step-tag">Step 2 of 4</div>
+      <h2>Enrol Your <em>Students</em></h2>
+      <p class="panel-sub">Add students individually or bulk-import via CSV. Each student receives a secure personal login and their own practice portal.</p>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">
+        Quick Add — Individual Student
+        <span class="badge">Fastest</span>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Student Full Name</label>
+          <input type="text" placeholder="e.g. Emma Thompson" value="Emma Thompson"/>
+        </div>
+        <div class="form-group">
+          <label>Parent / Guardian Email</label>
+          <input type="email" placeholder="parent@example.com" value="anne.thompson@gmail.com"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Instrument</label>
+          <select>
+            <option>🎻 Violin</option>
+            <option>🎹 Piano</option>
+            <option>🎷 Saxophone</option>
+            <option>🎸 Guitar</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Current Grade</label>
+          <select>
+            <option>Beginner (Pre-Grade 1)</option>
+            <option selected>Grade 1</option>
+            <option>Grade 2</option>
+            <option>Grade 3</option>
+            <option>Grade 4</option>
+            <option>Grade 5</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:4px;">
+        <button class="btn-next" style="padding:11px 22px;font-size:13px;" onclick="addDemoStudent()">+ Add Student</button>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">Bulk Import via CSV</div>
+      <div class="upload-zone" onclick="showUploadFeedback()">
+        <div class="upload-zone-icon">📂</div>
+        <div class="upload-zone-title">Drop your CSV file here or click to browse</div>
+        <div class="upload-zone-sub">Columns: Name, Email, Parent Email, Instrument, Grade &nbsp;·&nbsp; Up to 500 students at once</div>
+      </div>
+      <div id="uploadMsg" style="display:none;margin-top:12px;padding:12px 16px;background:var(--accent2);border-radius:8px;font-size:13px;color:var(--primary);font-weight:600;border:1px solid rgba(26,92,56,.2);">
+        ✓ demo_students.csv — 24 students ready to import. <span style="font-weight:400;color:var(--muted);">Click "Next" to confirm and send invite emails.</span>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">Student Roster</div>
+      <table class="student-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Instrument</th>
+            <th>Grade</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="studentTbody">
+          <tr><td>Emma Thompson</td><td>🎻 Violin</td><td>Grade 1</td><td><span class="status-pill active">Active</span></td></tr>
+          <tr><td>Liam Nguyen</td><td>🎻 Violin</td><td>Grade 2</td><td><span class="status-pill active">Active</span></td></tr>
+          <tr><td>Isabelle Chen</td><td>🎹 Piano</td><td>Grade 3</td><td><span class="status-pill invited">Invited</span></td></tr>
+          <tr><td>Oliver Banks</td><td>🎸 Guitar</td><td>Beginner</td><td><span class="status-pill pending">Pending</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="action-bar">
+      <div class="action-bar-left">
+        <button class="btn-back" onclick="goTo(1)">← Back</button>
+        <span class="step-progress-text">Step 2 of 4 — Student Enrolment</span>
+      </div>
+      <button class="btn-next" onclick="goTo(3)">
+        Next: Practice &amp; Record
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ STEP 3 — Practice & Record ══ -->
+  <div class="panel" id="panel3">
+    <div class="panel-header">
+      <div class="panel-step-tag">Step 3 of 4</div>
+      <h2>Students <em>Practice &amp; Record</em></h2>
+      <p class="panel-sub">Students log in from any device, select their piece, and hit record. AI feedback is generated within seconds — no teacher present required.</p>
+    </div>
+
+    <!-- Mini walkthrough cards -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;" id="practiceCards">
+      <div class="form-card" style="margin-bottom:0;border-left:3px solid var(--primary);">
+        <div style="font-size:28px;margin-bottom:12px;">🎙️</div>
+        <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:6px;">Live Recording</div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7;">Student opens the AI Teacher on any browser — phone, tablet, or laptop. They select their piece, press Record, and play for up to 90 seconds. Real-time pitch and volume meters appear as they play.</p>
+      </div>
+      <div class="form-card" style="margin-bottom:0;border-left:3px solid #4cde8a;">
+        <div style="font-size:28px;margin-bottom:12px;">📤</div>
+        <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:6px;">Upload Audio File</div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7;">If a student has a pre-recorded session on their device, they switch to the Upload tab and drop the file. The AI analyses the audio exactly the same way — with full feedback and scoring.</p>
+      </div>
+      <div class="form-card" style="margin-bottom:0;border-left:3px solid #7c5cd8;">
+        <div style="font-size:28px;margin-bottom:12px;">🤖</div>
+        <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:6px;">Instant AI Feedback</div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7;">GPT-4o analyses the transcription, pitch accuracy, rhythm and dynamics and returns a structured report: scores out of 10 for each dimension, specific observations, and 3 actionable next steps.</p>
+      </div>
+      <div class="form-card" style="margin-bottom:0;border-left:3px solid #d4a017;">
+        <div style="font-size:28px;margin-bottom:12px;">🗓️</div>
+        <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:6px;">AI Practice Planner</div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7;">After each session, the agentic planner automatically updates the student's 7-day practice plan based on their latest weak areas, piece history, and stated goal — without any teacher input.</p>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">Session Feedback — Sample Output</div>
+      <!-- Simulated feedback -->
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;" id="scorePills">
+        <div style="background:var(--accent2);border:1px solid rgba(26,92,56,.2);border-radius:10px;padding:10px 18px;text-align:center;min-width:110px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--primary);" id="sc1">7</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;">Intonation</div>
+        </div>
+        <div style="background:#f0eeff;border:1px solid rgba(124,92,216,.2);border-radius:10px;padding:10px 18px;text-align:center;min-width:110px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#7c5cd8;" id="sc2">8</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;">Rhythm</div>
+        </div>
+        <div style="background:#fff9e6;border:1px solid rgba(212,160,23,.2);border-radius:10px;padding:10px 18px;text-align:center;min-width:110px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#b07d2a;" id="sc3">6</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;">Dynamics</div>
+        </div>
+        <div style="background:#fef0f4;border:1px solid rgba(224,85,85,.15);border-radius:10px;padding:10px 18px;text-align:center;min-width:110px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#c0392b;" id="sc4">7</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;">Tone Quality</div>
+        </div>
+        <div style="background:#e8f4ff;border:1px solid rgba(59,130,212,.2);border-radius:10px;padding:10px 18px;text-align:center;min-width:110px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#3b82d4;" id="sc5">8</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;">Musicality</div>
+        </div>
+      </div>
+      <div style="background:#fafafa;border-radius:10px;padding:18px 20px;font-size:13px;color:#333;line-height:1.8;border:1px solid var(--border);">
+        <strong style="color:var(--primary);">AI Teacher says:</strong> "Good overall performance on the D Major scale. Your rhythm was consistent and your musicality showed genuine musical understanding. Focus work needed on bow pressure in the lower half to improve dynamics variation — try a long-bow exercise at the heel. Intonation on the high register (4th position) was slightly sharp — confirm 4th finger placement with a tuner before the next session."
+      </div>
+      <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;">
+        <span style="padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;background:var(--accent2);border:1px solid rgba(26,92,56,.2);color:var(--primary);cursor:pointer;">→ Practise bow pressure exercise</span>
+        <span style="padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;background:var(--accent2);border:1px solid rgba(26,92,56,.2);color:var(--primary);cursor:pointer;">→ Slow tuner run on high register</span>
+        <span style="padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;background:var(--accent2);border:1px solid rgba(26,92,56,.2);color:var(--primary);cursor:pointer;">→ Try the AI Teacher now</span>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <div class="action-bar-left">
+        <button class="btn-back" onclick="goTo(2)">← Back</button>
+        <span class="step-progress-text">Step 3 of 4 — Practice &amp; Record</span>
+      </div>
+      <button class="btn-next" onclick="goTo(4)">
+        Next: Track &amp; Report
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ STEP 4 — Track & Report ══ -->
+  <div class="panel" id="panel4">
+    <div class="panel-header">
+      <div class="panel-step-tag">Step 4 of 4</div>
+      <h2>Track &amp; <em>Report</em></h2>
+      <p class="panel-sub">Administrators and teachers review centralised progress dashboards. Parents receive automated weekly reports. The cycle repeats.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;">
+      <div class="form-card" style="margin-bottom:0;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:6px;">Avg Session Score (This Week)</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:var(--primary);line-height:1;" id="bigScore">7.4</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">across 12 sessions · ↑ 0.6 vs last week</div>
+      </div>
+      <div class="form-card" style="margin-bottom:0;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:6px;">Sessions Recorded</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:#7c5cd8;line-height:1;">12</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">by 4 active students · 3 pending first session</div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">Score Trends — Past 6 Sessions</div>
+      <div style="display:flex;flex-direction:column;gap:12px;" id="trendBars">
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:4px;"><span>Intonation</span><span>7/10 ↑</span></div>
+          <div style="background:var(--border);border-radius:4px;height:8px;overflow:hidden;"><div style="height:100%;background:var(--primary);border-radius:4px;width:0%" class="trend-bar" data-w="70%"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:4px;"><span>Rhythm</span><span>8/10 →</span></div>
+          <div style="background:var(--border);border-radius:4px;height:8px;overflow:hidden;"><div style="height:100%;background:#7c5cd8;border-radius:4px;width:0%" class="trend-bar" data-w="80%"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:4px;"><span>Dynamics</span><span>6/10 ↓</span></div>
+          <div style="background:var(--border);border-radius:4px;height:8px;overflow:hidden;"><div style="height:100%;background:#d4a017;border-radius:4px;width:0%" class="trend-bar" data-w="60%"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:4px;"><span>Tone Quality</span><span>7/10 ↑</span></div>
+          <div style="background:var(--border);border-radius:4px;height:8px;overflow:hidden;"><div style="height:100%;background:#c0392b;border-radius:4px;width:0%" class="trend-bar" data-w="70%"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:4px;"><span>Musicality</span><span>8/10 ↑</span></div>
+          <div style="background:var(--border);border-radius:4px;height:8px;overflow:hidden;"><div style="height:100%;background:#3b82d4;border-radius:4px;width:0%" class="trend-bar" data-w="80%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">Automated Parent Reports</div>
+      <div style="background:#fafafa;border:1px solid var(--border);border-radius:10px;padding:18px 20px;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:10px;">📧 Preview — Weekly Email to Parent</div>
+        <div style="font-size:13px;color:#333;line-height:1.9;">
+          <strong>Subject:</strong> Emma Thompson's Weekly Practice Report — InspireAI<br/>
+          <br/>
+          Hi Anne,<br/><br/>
+          Emma completed <strong>3 practice sessions</strong> this week on D Major scale, A Minor scale, and Vivaldi Concerto in A minor — averaging a score of <strong>7.4/10</strong>.<br/><br/>
+          <strong>Highlights:</strong> Strong rhythmic consistency and excellent musicality. Dynamics and intonation in the upper register are the current focus areas.<br/><br/>
+          Her AI Practice Planner has updated this week's plan to prioritise bow pressure exercises on Monday and slow-tempo Vivaldi runs on Wednesday.<br/><br/>
+          View her full dashboard → <span style="color:var(--primary);font-weight:600;cursor:pointer;">app.inspireai.com/emma</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+        <div style="padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;background:var(--accent2);border:1px solid rgba(26,92,56,.2);color:var(--primary);">✓ Sent every Sunday at 6pm</div>
+        <div style="padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;background:#f0eeff;border:1px solid rgba(124,92,216,.2);color:#7c5cd8;">✓ Personalised per student</div>
+        <div style="padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;background:#fff9e6;border:1px solid rgba(212,160,23,.2);color:#b07d2a;">✓ No teacher effort required</div>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <div class="action-bar-left">
+        <button class="btn-back" onclick="goTo(3)">← Back</button>
+        <span class="step-progress-text">Step 4 of 4 — Track &amp; Report</span>
+      </div>
+      <button class="btn-next" onclick="goTo(5)">
+        See Summary
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ STEP 5 — Complete ══ -->
+  <div class="panel" id="panel5">
+
+    <div class="summary-grid" style="margin-bottom:28px;">
+      <div class="summary-item">
+        <div class="summary-item-icon">🏫</div>
+        <div>
+          <div class="summary-item-label">Academy</div>
+          <div class="summary-item-value" id="sumAcademy">Harmony Music Academy</div>
+        </div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-item-icon">👤</div>
+        <div>
+          <div class="summary-item-label">Admin</div>
+          <div class="summary-item-value" id="sumAdmin">Sarah Mitchell</div>
+        </div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-item-icon">🎓</div>
+        <div>
+          <div class="summary-item-label">Students Enrolled</div>
+          <div class="summary-item-value" id="sumStudents">5 students</div>
+        </div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-item-icon">🎻</div>
+        <div>
+          <div class="summary-item-label">Instruments</div>
+          <div class="summary-item-value" id="sumInstruments">Violin, Piano, Guitar</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="complete-card">
+      <div class="complete-icon">✓</div>
+      <h2>You're All Set!</h2>
+      <p>Your InspireAI academy is configured and your students are enrolled. They can now log in, record their practice sessions, and receive instant AI-powered feedback from any device.</p>
+      <div class="complete-actions">
+        <a class="btn-white" href="violin-teacher.html">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="6"/></svg>
+          Try the AI Teacher
+        </a>
+        <a class="btn-ghost" href="analytics.html">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          View Analytics
+        </a>
+        <a class="btn-ghost" href="index.html">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          Back to Homepage
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</div><!-- /panels-wrap -->
+
+<script>
+let currentStep = 0;
+const totalSteps = 5;
+
+function goTo(step){
+  // Update panels
+  for(let i=1;i<=totalSteps;i++){
+    document.getElementById('panel'+i).classList.toggle('active', i===step);
+  }
+  // Update stepper
+  for(let i=1;i<=totalSteps;i++){
+    const si = document.getElementById('si'+i);
+    si.classList.remove('active','done');
+    if(i < step) si.classList.add('done');
+    else if(i === step) si.classList.add('active');
+  }
+  currentStep = step;
+  // Scroll to top of stepper
+  document.querySelector('.stepper-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+  // Step-specific effects
+  if(step === 4) animateBars();
+  if(step === 5) updateSummary();
+}
+
+function animateBars(){
+  setTimeout(()=>{
+    document.querySelectorAll('.trend-bar').forEach(bar=>{
+      bar.style.transition='width 1s ease';
+      bar.style.width = bar.dataset.w;
+    });
+  }, 300);
+}
+
+function updateSummary(){
+  const academy = document.getElementById('f_academy').value || 'Harmony Music Academy';
+  const admin   = document.getElementById('f_admin').value   || 'Sarah Mitchell';
+  document.getElementById('sumAcademy').textContent = academy;
+  document.getElementById('sumAdmin').textContent   = admin;
+  const rows = document.getElementById('studentTbody').querySelectorAll('tr');
+  document.getElementById('sumStudents').textContent = rows.length + ' students';
+  const tags = [...document.querySelectorAll('#instrumentTags .tag-pill.selected')].map(t=>t.textContent.trim().replace(/^./u,'').trim());
+  document.getElementById('sumInstruments').textContent = tags.join(', ') || 'Violin';
+}
+
+function toggleTag(el){
+  el.classList.toggle('selected');
+}
+
+let demoStudentCount = 5;
+function addDemoStudent(){
+  const names = ['Lucas Wright','Mia Patel','Noah Kim','Sofia Torres','Aiden Scott','Chloe Brown'];
+  const name = names[demoStudentCount % names.length];
+  const row = document.createElement('tr');
+  row.innerHTML = `<td>${name}</td><td>🎻 Violin</td><td>Grade 1</td><td><span class="status-pill invited">Invited</span></td>`;
+  document.getElementById('studentTbody').appendChild(row);
+  document.getElementById('sumStudents').textContent = (demoStudentCount+1) + ' students';
+  demoStudentCount++;
+}
+
+function showUploadFeedback(){
+  document.getElementById('uploadMsg').style.display = 'block';
+}
+
+// Auto-start on step 1
+goTo(1);
+</script>
+</body>
+</html>
