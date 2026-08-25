@@ -1,0 +1,3071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Violin Teacher | Inspire</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
+<style>
+:root{
+  --primary:#1a5c38;--accent:#1a5c38;--accent2:#e0f2e9;
+  --text:#f0f0f0;--muted:#a8b8a8;--bg:rgba(10,28,18,.72);--surface:rgba(15,40,25,.78);
+  --border:rgba(76,222,138,.15);--green:#2ecc80;--red:#e05555;--amber:#d4a030;--blue:#5b9bd4;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Lato',sans-serif;color:var(--text);line-height:1.7;min-height:100vh;
+  background:url('violin2.jpg') center center / cover no-repeat fixed;
+  position:relative;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:linear-gradient(135deg,rgba(10,35,20,.92) 0%,rgba(16,55,32,.88) 50%,rgba(10,30,18,.90) 100%);
+  z-index:0;pointer-events:none;
+}
+body>*{position:relative;z-index:1;}
+
+/* ── Nav ── */
+nav{
+  position:fixed;top:0;width:100%;height:64px;
+  padding:0 6%;display:flex;justify-content:space-between;align-items:center;
+  background:rgba(26,26,26,.98);backdrop-filter:blur(22px);
+  border-bottom:1px solid rgba(26,92,56,.4);
+  box-shadow:0 4px 24px rgba(0,0,0,.2);
+  z-index:999;
+}
+.logo{
+  font-family:"Cormorant Garamond";font-size:20px;color:#fff;
+  text-decoration:none;display:flex;align-items:center;gap:8px;
+}
+.logo-icon{width:30px;height:30px;display:flex;align-items:center;justify-content:center;}
+.logo-icon img{width:100%;height:100%;object-fit:contain;}
+.back-btn{
+  text-decoration:none;color:rgba(255,255,255,.7);
+  font-size:14px;font-weight:500;
+  padding:7px 16px;border-radius:6px;border:1px solid rgba(255,255,255,.2);
+  transition:all .2s;white-space:nowrap;
+}
+.back-btn:hover{background:rgba(255,255,255,.1);color:#fff;}
+
+/* ── Main ── */
+.main{max-width:900px;margin:0 auto;padding:88px 24px 80px;position:relative;z-index:1;}
+
+/* ── Page header ── */
+.page-header{
+  margin-bottom:36px;padding-bottom:28px;text-align:center;
+  border-bottom:1px solid var(--border);position:relative;
+}
+.page-header-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
+  color:#4cde8a;margin-bottom:14px;
+}
+.page-header-eyebrow::before,.page-header-eyebrow::after{
+  content:'';display:block;width:28px;height:1px;background:rgba(76,222,138,.4);
+}
+.page-header h1{
+  font-family:"Cormorant Garamond",serif;font-size:48px;font-weight:600;
+  color:#e8f5e0;line-height:1.05;margin-bottom:14px;
+  text-shadow:0 2px 24px rgba(0,0,0,.4);
+}
+.page-header h1 em{font-style:italic;color:#4cde8a;}
+.page-header p{font-size:15px;color:var(--muted);line-height:1.8;max-width:600px;margin:0 auto 18px;}
+.page-header-badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.header-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:600;color:rgba(255,255,255,.55);
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  padding:4px 11px;border-radius:20px;
+}
+
+/* ── Step flow ── */
+.flow-wrap{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:28px;margin-bottom:20px;
+  backdrop-filter:blur(14px);box-shadow:0 4px 28px rgba(0,0,0,.25);
+}
+.flow-title{
+  font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:600;
+  color:#e8f5e0;margin-bottom:20px;display:flex;align-items:center;gap:10px;
+}
+.flow-title::before{
+  content:'';width:3px;height:18px;border-radius:3px;
+  background:linear-gradient(180deg,#4cde8a,#1a5c38);flex-shrink:0;
+}
+.flow-step{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;}
+.flow-step:last-child{margin-bottom:0;}
+.step-num-badge{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  background:rgba(76,222,138,.15);border:1px solid rgba(76,222,138,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;color:#4cde8a;margin-top:2px;
+}
+.flow-step-body{flex:1;}
+.flow-step-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:6px;}
+
+/* ── Section label ── */
+.section-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.9px;color:var(--muted);margin-bottom:8px;}
+
+/* ── Cards ── */
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:24px 26px;margin-bottom:16px;
+  box-shadow:0 4px 24px rgba(0,0,0,.3);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  overflow:visible;
+}
+.card-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:14px;}
+
+/* ── API key ── */
+.input-row{display:flex;gap:8px;align-items:center;}
+.api-input{
+  flex:1;padding:9px 13px;border-radius:7px;border:1px solid var(--border);
+  font-size:13px;font-family:'Lato',sans-serif;background:rgba(10,28,18,.6);
+  color:var(--text);outline:none;transition:border .2s;
+}
+.api-input:focus{border-color:var(--primary);}
+.save-btn{
+  padding:9px 18px;background:var(--primary);color:#fff;border:none;
+  border-radius:7px;font-size:13px;font-weight:600;
+  cursor:pointer;transition:opacity .2s;white-space:nowrap;
+}
+.save-btn:hover{opacity:.88;}
+.api-status{font-size:12px;margin-top:8px;}
+.api-status.ok{color:var(--green);}
+.api-status.err{color:var(--red);}
+.api-note{font-size:13px;line-height:1.75;color:var(--muted);margin-bottom:14px;}
+
+/* ── Controls grid ── */
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;overflow:visible;position:relative;z-index:10;}
+@media(max-width:600px){.controls{grid-template-columns:1fr;}}
+
+.piece-select{
+  width:100%;padding:10px 13px;border-radius:8px;border:1px solid var(--border);
+  font-size:13px;font-family:'Lato',sans-serif;
+  background:rgba(10,28,18,.6);color:var(--text);outline:none;cursor:pointer;
+  transition:border .2s;
+}
+.piece-select:focus{border-color:rgba(76,222,138,.5);}
+
+/* Focus toggles */
+.toggle-grid{display:flex;flex-wrap:wrap;gap:7px;}
+.toggle{
+  padding:6px 14px;border-radius:20px;border:1px solid var(--border);
+  font-size:12px;font-weight:600;
+  cursor:pointer;background:rgba(15,40,25,.6);color:var(--muted);
+  transition:all .22s;user-select:none;letter-spacing:.3px;
+}
+.toggle:hover{border-color:rgba(76,222,138,.3);color:rgba(76,222,138,.7);}
+.toggle.active{
+  background:rgba(26,92,56,.6);color:#4cde8a;
+  border-color:rgba(76,222,138,.45);
+  box-shadow:0 0 12px rgba(76,222,138,.15);
+}
+
+/* ── Record area ── */
+.record-area{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:36px 28px;margin-bottom:20px;text-align:center;
+  box-shadow:0 8px 40px rgba(0,0,0,.35);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  position:relative;z-index:1;overflow:hidden;
+}
+.record-area::before{
+  content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);
+  width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(76,222,138,.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+/* circular record button */
+.record-btn{
+  width:88px;height:88px;border-radius:50%;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;
+  font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+  transition:all .28s ease;position:relative;margin:0 auto 16px;
+}
+.record-btn.idle{
+  background:linear-gradient(135deg,#1a5c38,#2d9e5f);color:#fff;
+  box-shadow:0 6px 28px rgba(26,92,56,.5);
+}
+.record-btn.idle:hover{
+  transform:scale(1.07);box-shadow:0 10px 36px rgba(26,92,56,.65);
+}
+.record-btn.recording{
+  background:linear-gradient(135deg,#8b1a1a,#c0392b);color:#fff;
+  animation:pulse-btn 1.5s ease-in-out infinite;
+}
+.record-btn.analyzing{
+  background:linear-gradient(135deg,#7a5a10,var(--amber));color:#fff;cursor:default;
+}
+/* outer ring pulse */
+.record-btn.recording::after{
+  content:'';position:absolute;inset:-8px;border-radius:50%;
+  border:2px solid rgba(192,57,43,.5);
+  animation:ring-pulse 1.5s ease-out infinite;
+}
+@keyframes ring-pulse{0%{transform:scale(1);opacity:.8;}100%{transform:scale(1.4);opacity:0;}}
+@keyframes pulse-btn{0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.4);}50%{box-shadow:0 0 0 12px rgba(192,57,43,.0);}}
+.record-btn svg{width:26px;height:26px;fill:currentColor;}
+.record-dot{width:8px;height:8px;border-radius:50%;background:currentColor;}
+.recording .record-dot{animation:blink 1s step-start infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+@keyframes spin-icon{to{transform:rotate(360deg);}}
+.record-hint{font-size:13px;line-height:1.7;color:var(--muted);margin-top:10px;max-width:420px;margin-left:auto;margin-right:auto;}
+.timer{font-family:"Cormorant Garamond",serif;font-size:42px;font-weight:600;color:#4cde8a;margin-top:6px;min-height:52px;text-shadow:0 0 20px rgba(76,222,138,.3);letter-spacing:2px;}
+
+/* ── Live meters ── */
+.meters{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;}
+@media(max-width:500px){.meters{grid-template-columns:1fr 1fr;}}
+.meter{background:rgba(10,28,18,.55);border:1px solid var(--border);border-radius:8px;padding:10px 12px;text-align:center;}
+.meter-label{font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:4px;}
+.meter-value{font-size:17px;font-weight:700;color:var(--primary);}
+.meter-value.green{color:var(--green);}
+.meter-value.amber{color:var(--amber);}
+.meter-value.red{color:var(--red);}
+.meter-sub{font-size:10px;color:#8090aa;margin-top:2px;}
+
+.pitch-bar-wrap{margin-top:12px;}
+.pitch-bar-label{font-size:11px;color:var(--muted);margin-bottom:5px;text-align:left;}
+.pitch-bar-track{height:8px;background:#e2e6f0;border-radius:8px;overflow:hidden;position:relative;}
+.pitch-bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--green),var(--amber),var(--red));transition:width .15s ease;}
+.pitch-center-line{position:absolute;left:50%;top:0;width:2px;height:100%;background:rgba(0,0,0,.18);transform:translateX(-50%);}
+.waveform-wrap{margin-top:12px;}
+canvas#waveform{width:100%;height:52px;border-radius:8px;background:rgba(10,28,18,.5);display:block;}
+
+/* ── Feedback area ── */
+.feedback-area{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:26px 28px;box-shadow:0 4px 24px rgba(0,0,0,.3);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+.feedback-area h2{font-family:"Cormorant Garamond",serif;font-size:22px;color:#4cde8a;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+
+/* ── Email-to-parent button ── */
+.email-parent-bar{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  margin-top:22px;padding-top:18px;border-top:1px solid var(--border);
+}
+.email-parent-bar-label{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.email-parent-bar-label svg{flex-shrink:0;}
+.btn-email-parent{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 20px;background:rgba(76,222,138,.12);
+  border:1.5px solid rgba(76,222,138,.35);border-radius:8px;
+  color:#4cde8a;font-size:13px;font-weight:700;cursor:pointer;
+  font-family:'Lato',sans-serif;transition:all .25s;
+}
+.btn-email-parent:hover{background:rgba(76,222,138,.22);border-color:#4cde8a;transform:translateY(-1px);}
+.btn-email-parent:disabled{opacity:.5;cursor:default;transform:none;}
+
+/* ── Email modal ── */
+.email-modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.65);backdrop-filter:blur(6px);
+  z-index:1100;align-items:center;justify-content:center;
+}
+.email-modal-overlay.open{display:flex;}
+.email-modal{
+  background:rgba(12,35,22,.97);border:1px solid rgba(76,222,138,.25);
+  border-radius:16px;padding:36px 36px 28px;max-width:520px;width:90%;
+  box-shadow:0 24px 72px rgba(0,0,0,.6);position:relative;
+}
+.email-modal h3{
+  font-family:"Cormorant Garamond",serif;font-size:24px;font-weight:600;
+  color:#e8f5e0;margin-bottom:6px;
+}
+.email-modal-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6;}
+.email-modal-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+.email-modal-field label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);}
+.email-modal-field input,
+.email-modal-field textarea{
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(76,222,138,.2);
+  border-radius:8px;padding:10px 14px;color:#e8f5e0;font-family:'Lato',sans-serif;
+  font-size:13px;outline:none;transition:border-color .2s;
+}
+.email-modal-field input:focus,
+.email-modal-field textarea:focus{border-color:rgba(76,222,138,.55);}
+.email-modal-field textarea{resize:vertical;min-height:100px;line-height:1.6;}
+.email-modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:8px;}
+.btn-modal-cancel{
+  padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;
+  background:transparent;border:1.5px solid rgba(255,255,255,.18);
+  color:rgba(255,255,255,.6);cursor:pointer;font-family:'Lato',sans-serif;transition:all .2s;
+}
+.btn-modal-cancel:hover{border-color:rgba(255,255,255,.35);color:#fff;}
+.btn-modal-send{
+  padding:10px 24px;border-radius:8px;font-size:13px;font-weight:700;
+  background:#1a5c38;border:1.5px solid rgba(76,222,138,.35);
+  color:#fff;cursor:pointer;font-family:'Lato',sans-serif;transition:all .25s;
+  display:flex;align-items:center;gap:8px;
+}
+.btn-modal-send:hover{background:#1e6e42;border-color:#4cde8a;}
+.btn-modal-send:disabled{opacity:.5;cursor:default;}
+.email-modal-close{
+  position:absolute;top:14px;right:16px;background:none;border:none;
+  color:var(--muted);font-size:20px;cursor:pointer;line-height:1;
+  transition:color .2s;
+}
+.email-modal-close:hover{color:#fff;}
+
+/* ── Toast notification ── */
+.email-toast{
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:rgba(12,35,22,.97);border:1px solid rgba(76,222,138,.4);
+  border-radius:10px;padding:14px 22px;
+  color:#4cde8a;font-size:13px;font-weight:600;font-family:'Lato',sans-serif;
+  display:flex;align-items:center;gap:10px;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:1200;
+  opacity:0;transition:all .35s ease;pointer-events:none;
+}
+.email-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.email-toast.error{border-color:rgba(224,85,85,.5);color:#e05555;}
+
+/* Score badges */
+.score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:22px;}
+.score-badge{border-radius:8px;padding:14px 10px;text-align:center;border:1px solid var(--border);background:rgba(10,28,18,.55);}
+.score-badge .badge-name{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:8px;}
+.score-badge .badge-score{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:700;line-height:1;}
+.score-badge .badge-grade{font-size:10px;margin-top:5px;color:var(--muted);}
+.score-excellent .badge-score{color:var(--green);}
+.score-good      .badge-score{color:var(--blue);}
+.score-fair      .badge-score{color:var(--amber);}
+.score-poor      .badge-score{color:var(--red);}
+
+/* Teacher message */
+.teacher-msg{
+  background:rgba(26,92,56,.25);border:1px solid var(--border);border-left:3px solid #4cde8a;
+  border-radius:0 8px 8px 0;padding:18px 20px;margin-bottom:20px;
+  font-size:14px;line-height:1.75;color:#e8f5e0;
+}
+
+/* Suggestions */
+.suggestions-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:12px;}
+.suggestion-item{display:flex;gap:0;align-items:flex-start;padding:11px 14px;margin-bottom:6px;border-radius:7px;border-left:3px solid;}
+.suggestion-item.tip   {border-color:var(--blue);background:#eef4ff;}
+.suggestion-item.warn  {border-color:var(--amber);background:#fdf9f0;}
+.suggestion-item.praise{border-color:var(--green);background:#eafaf1;}
+.suggestion-text{font-size:13px;line-height:1.65;color:#0d3320;}
+
+/* Empty state */
+.empty-state{text-align:center;padding:40px 20px;font-size:15px;color:#8090aa;line-height:1.7;}
+.empty-state-title{font-size:18px;font-weight:600;color:var(--muted);margin-bottom:8px;}
+
+/* Thinking */
+.thinking{display:flex;align-items:center;gap:10px;justify-content:center;padding:32px;}
+.thinking span{font-size:14px;color:var(--muted);}
+.dot-wave{display:flex;gap:4px;}
+.dot-wave div{width:6px;height:6px;border-radius:50%;background:var(--primary);animation:wave .9s ease-in-out infinite;}
+.dot-wave div:nth-child(2){animation-delay:.15s;}
+.dot-wave div:nth-child(3){animation-delay:.3s;}
+@keyframes wave{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-7px);}}
+
+/* Session history */
+.history-section{margin-top:16px;}
+.history-section h3{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:10px;}
+.history-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:8px;border:1px solid var(--border);margin-bottom:6px;cursor:pointer;transition:background .15s;background:rgba(15,40,25,.6);}
+.history-item:hover{background:rgba(26,92,56,.4);}
+.history-meta{font-size:11px;color:var(--muted);}
+.history-piece{font-size:13px;font-weight:600;color:var(--text);}
+.history-scores{display:flex;gap:5px;}
+.hscore{font-size:11px;padding:2px 8px;border-radius:4px;background:rgba(10,28,18,.55);border:1px solid var(--border);color:var(--muted);}
+
+/* Protocol warning */
+.protocol-warning{display:none;background:#fdfaf0;border:1px solid #d4b96a;border-radius:8px;padding:16px 20px;margin-bottom:16px;font-size:13px;color:#5a4a1a;line-height:1.7;}
+
+/* ── Playback panel ── */
+.playback-panel{
+  background:rgba(10,28,18,.6);border:1px solid var(--border);
+  border-radius:12px;padding:16px 20px;margin-bottom:20px;
+  backdrop-filter:blur(10px);
+}
+.playback-header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.playback-title{
+  display:flex;align-items:center;gap:7px;
+  font-size:13px;font-weight:700;color:var(--accent);flex:1;
+}
+.playback-meta{font-size:12px;color:var(--muted);}
+.playback-discard{
+  background:none;border:1px solid rgba(224,85,85,.3);color:var(--red);
+  border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;
+  font-family:'Lato',sans-serif;transition:background .15s;
+}
+.playback-discard:hover{background:rgba(224,85,85,.15);}
+audio{border-radius:8px;accent-color:var(--accent);}
+
+/* ── Audio device selector ── */
+.device-select-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;}
+.device-select-label{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap;min-width:100px;}
+.device-select-ctrl{
+  flex:1;min-width:180px;
+  padding:8px 12px;border-radius:8px;
+  border:1px solid var(--border);
+  background:rgba(10,28,18,.55);color:var(--text);
+  font-size:13px;font-family:'Lato',sans-serif;
+  cursor:pointer;outline:none;transition:border .2s;
+}
+.device-select-ctrl:focus{border-color:var(--accent);}
+.device-refresh-btn{
+  padding:8px 14px;background:rgba(76,222,138,.1);color:var(--accent);
+  border:1px solid rgba(76,222,138,.3);border-radius:8px;
+  font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;
+  font-family:'Lato',sans-serif;transition:all .2s;flex-shrink:0;
+}
+.device-refresh-btn:hover{background:rgba(76,222,138,.2);}
+.device-hint{font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.5;}
+.device-hint strong{color:var(--accent);}
+
+/* ── Mode tab switcher ── */
+.mode-tabs{
+  display:flex;background:rgba(10,28,18,.6);border:1px solid var(--border);
+  border-radius:12px;padding:4px;margin-bottom:20px;gap:4px;
+}
+.mode-tab{
+  flex:1;padding:10px 14px;border-radius:9px;border:none;cursor:pointer;
+  font-family:'Lato',sans-serif;font-size:13px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  background:transparent;color:var(--muted);transition:all .25s;
+}
+.mode-tab:hover{color:var(--text);background:rgba(76,222,138,.06);}
+.mode-tab.active{
+  background:var(--primary);color:#fff;
+  box-shadow:0 4px 16px rgba(26,92,56,.4);
+}
+.mode-tab svg{width:15px;height:15px;fill:currentColor;flex-shrink:0;}
+
+/* ── Upload drop zone ── */
+.upload-zone{
+  border:2px dashed rgba(76,222,138,.3);border-radius:14px;
+  padding:44px 28px;text-align:center;cursor:pointer;
+  background:rgba(10,28,18,.4);transition:all .28s;position:relative;
+  backdrop-filter:blur(10px);
+}
+.upload-zone:hover,.upload-zone.dragover{
+  border-color:#4cde8a;background:rgba(26,92,56,.2);
+  box-shadow:0 0 28px rgba(76,222,138,.12);
+}
+.upload-icon{
+  width:56px;height:56px;border-radius:50%;
+  background:rgba(76,222,138,.1);border:1px solid rgba(76,222,138,.25);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;transition:all .25s;
+}
+.upload-zone:hover .upload-icon,.upload-zone.dragover .upload-icon{
+  background:rgba(76,222,138,.2);transform:scale(1.08);
+}
+.upload-icon svg{width:24px;height:24px;fill:#4cde8a;}
+.upload-title{font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:600;color:#e8f5e0;margin-bottom:6px;}
+.upload-sub{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px;}
+.upload-formats{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;}
+.upload-fmt{
+  font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;
+  background:rgba(76,222,138,.08);border:1px solid rgba(76,222,138,.2);color:rgba(76,222,138,.7);
+}
+.upload-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 24px;background:var(--primary);color:#fff;
+  border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;
+  transition:all .25s;box-shadow:0 4px 16px rgba(26,92,56,.35);
+  border:none;margin-top:16px;pointer-events:none;/* click goes to file input */
+}
+/* file selected state */
+.upload-zone.has-file{border-color:#4cde8a;border-style:solid;background:rgba(26,92,56,.18);}
+.upload-file-info{
+  display:none;align-items:center;gap:12px;
+  background:rgba(26,92,56,.25);border:1px solid rgba(76,222,138,.2);
+  border-radius:10px;padding:14px 18px;margin-top:14px;text-align:left;
+}
+.upload-panel-has-file .upload-file-info{display:flex;}
+.upload-zone.has-file .upload-btn{display:none;}
+.upload-file-icon{font-size:24px;flex-shrink:0;}
+.upload-file-name{font-size:14px;font-weight:600;color:#e8f5e0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px;}
+.upload-file-size{font-size:11px;color:var(--muted);margin-top:2px;}
+.upload-file-actions{display:flex;gap:8px;margin-left:auto;flex-shrink:0;}
+.upload-analyse-btn{
+  padding:8px 18px;background:var(--primary);color:#fff;border:none;
+  border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;
+  transition:all .25s;box-shadow:0 3px 12px rgba(26,92,56,.35);
+  font-family:'Lato',sans-serif;white-space:nowrap;
+}
+.upload-analyse-btn:hover{background:#22703f;}
+.upload-analyse-btn:disabled{opacity:.5;cursor:default;}
+.upload-clear-btn{
+  padding:8px 13px;background:rgba(224,85,85,.15);color:var(--red);
+  border:1px solid rgba(224,85,85,.25);border-radius:7px;
+  font-size:13px;font-weight:600;cursor:pointer;
+  transition:all .2s;font-family:'Lato',sans-serif;
+}
+.upload-clear-btn:hover{background:rgba(224,85,85,.25);}
+/* upload progress bar */
+.upload-progress{
+  height:4px;background:rgba(76,222,138,.1);border-radius:4px;
+  margin-top:10px;overflow:hidden;display:none;
+}
+.upload-progress-fill{
+  height:100%;background:linear-gradient(90deg,#1a5c38,#4cde8a);
+  border-radius:4px;transition:width .3s ease;width:0%;
+}
+.upload-status{font-size:12px;color:var(--muted);margin-top:8px;min-height:18px;text-align:center;}
+
+/* Error state */
+.error-item{padding:14px 16px;border-radius:8px;border-left:3px solid var(--red);background:#fdf5f4;margin-bottom:6px;}
+.error-title{font-size:13px;font-weight:600;color:var(--red);margin-bottom:4px;}
+.error-msg{font-size:13px;color:#5a3a3a;}
+.error-help{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6;}
+
+/* ── Autocomplete ── */
+.ac-item{padding:8px 12px;font-size:13px;font-family:'Lato',sans-serif;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .15s;}
+.ac-item:hover,.ac-item.ac-active{background:#f0faf4;}
+.ac-item strong{color:var(--primary);}
+.ac-section{padding:5px 12px 3px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);border-top:1px solid var(--border);margin-top:2px;}
+.ac-section:first-child{border-top:none;margin-top:0;}
+.ac-hist-icon{font-size:11px;color:var(--muted);flex-shrink:0;}
+
+/* ── AI Planner ── */
+.planner-section{margin-top:20px;}
+.planner-section h3{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:700;color:var(--primary);margin-bottom:6px;}
+.planner-section .planner-sub{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.7;}
+.agent-thinking{display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:10px;background:#f0faf4;border:1px solid var(--border);margin-bottom:12px;}
+.agent-thinking-text{font-size:14px;color:var(--muted);}
+.agent-msg{background:#f0faf4;border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:0 10px 10px 0;padding:16px 20px;margin-bottom:14px;font-size:14px;line-height:1.75;color:#0d3320;}
+.agent-msg .agent-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--primary);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.agent-label .agent-dot{width:7px;height:7px;border-radius:50%;background:var(--primary);animation:pulse-dot 2s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
+
+/* Goal card */
+.goal-card{background:rgba(10,28,18,.55);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:14px;}
+.goal-card .goal-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:8px;}
+.goal-card .goal-text{font-size:14px;color:var(--text);line-height:1.6;}
+.goal-input-row{display:flex;gap:8px;margin-top:10px;}
+.goal-input{flex:1;padding:8px 12px;border-radius:7px;border:1px solid var(--border);font-size:13px;background:rgba(10,28,18,.6);color:var(--text);outline:none;}
+.goal-input:focus{border-color:var(--primary);}
+.goal-btn{padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;transition:opacity .2s;white-space:nowrap;}
+.goal-btn:hover{opacity:.88;}
+
+/* Weekly plan grid */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:14px;}
+.plan-day{background:rgba(15,40,25,.65);border:1px solid var(--border);border-radius:10px;padding:13px 15px;transition:box-shadow .2s;}
+.plan-day:hover{box-shadow:0 6px 20px rgba(26,47,94,.1);}
+.plan-day-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:6px;}
+.plan-day-focus{font-size:14px;font-weight:600;color:var(--primary);line-height:1.4;margin-bottom:5px;}
+.plan-day-duration{font-size:11px;color:var(--muted);}
+.plan-day-status{display:flex;gap:5px;margin-top:8px;}
+.status-btn{padding:3px 10px;border-radius:5px;border:1px solid var(--border);font-size:11px;cursor:pointer;background:rgba(10,28,18,.55);color:var(--muted);transition:all .15s;}
+.status-btn.done{background:#eafaf1;border-color:#b7e4c7;color:var(--green);}
+.status-btn.skip{background:#fdf9f0;border-color:#e6d4a0;color:var(--amber);}
+
+/* Trend badges */
+.trend-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.trend-badge{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid;}
+.trend-badge.improving{background:#eafaf1;border-color:#b7e4c7;color:var(--green);}
+.trend-badge.struggling{background:#fdf5f4;border-color:#f0b8b0;color:var(--red);}
+.trend-badge.steady{background:#fdf9f0;border-color:#e6d4a0;color:var(--amber);}
+
+/* Planner empty */
+.planner-empty{text-align:center;padding:28px 20px;font-size:14px;color:#8090aa;line-height:1.7;}
+
+/* Generate Report button */
+.report-gen-btn{
+  font-size:14px;font-weight:600;
+  padding:10px 26px;border-radius:8px;border:1.5px solid var(--primary);
+  background:rgba(10,28,18,.6);color:#4cde8a;border-color:#4cde8a;cursor:pointer;transition:all .2s;
+}
+.report-gen-btn:hover{background:var(--primary);color:#fff;}
+.report-gen-btn:disabled{opacity:.5;cursor:default;}
+
+/* Report modal */
+.report-modal{position:fixed;inset:0;z-index:2000;background:rgba(10,20,40,.5);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:80px 16px 40px;overflow-y:auto;}
+.report-modal-inner{background:#0e2418;border-radius:14px;width:100%;max-width:720px;box-shadow:0 24px 80px rgba(0,0,0,.5);border:1px solid rgba(76,222,138,.2);display:flex;flex-direction:column;}
+.report-modal-header{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;border-bottom:1px solid var(--border);border-radius:14px 14px 0 0;background:linear-gradient(135deg,rgba(26,92,56,.4),rgba(10,40,22,.6));flex-wrap:wrap;gap:10px;}
+.report-modal-title{font-family:"Cormorant Garamond",serif;font-size:22px;color:#4cde8a;}
+.report-action-btn{font-size:13px;font-weight:600;padding:7px 18px;border-radius:7px;background:var(--primary);color:#fff;border:none;cursor:pointer;transition:opacity .2s;}
+.report-action-btn:hover{opacity:.88;}
+.report-close-btn{font-size:13px;padding:7px 14px;border-radius:7px;background:#f4f6fb;color:var(--muted);border:1px solid var(--border);cursor:pointer;transition:background .2s;}
+.report-close-btn:hover{background:#e2e6f0;}
+.report-body{padding:28px 32px;font-size:14px;line-height:1.9;color:var(--text);}
+.report-thinking{display:flex;align-items:center;gap:12px;padding:20px 0;font-size:14px;color:var(--muted);}
+.report-section{margin-bottom:28px;}
+.report-section-title{font-family:"Cormorant Garamond",serif;font-size:14px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--primary);}
+.report-score-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.report-score-pill{padding:5px 14px;border-radius:20px;font-size:13px;font-weight:600;border:1px solid;}
+.report-meta{font-size:13px;color:var(--muted);margin-bottom:18px;}
+
+@media print{
+  body > *:not(#reportModal){display:none !important;}
+  #reportModal{position:static !important;background:none !important;backdrop-filter:none !important;padding:0 !important;display:block !important;}
+  .report-modal-inner{box-shadow:none;border-radius:0;}
+  .report-modal-header{background:none;}
+  .report-action-btn,.report-close-btn{display:none !important;}
+}
+@media(max-width:600px){
+  .page-header h1{font-size:24px;}
+  .feedback-area{padding:18px 16px;}
+  .card{padding:18px;}
+  .input-row{flex-direction:column;}
+}
+
+/* ── Warm-Up Generator ── */
+.warmup-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:14px 20px;margin-bottom:16px;
+  backdrop-filter:blur(14px);flex-wrap:wrap;
+}
+.warmup-bar-label{font-size:13px;color:var(--muted);flex:1;min-width:160px;}
+.warmup-bar-label strong{color:var(--text);display:block;font-size:14px;margin-bottom:2px;}
+.warmup-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 20px;background:var(--primary);color:#fff;
+  border:none;border-radius:8px;font-size:13px;font-weight:600;
+  cursor:pointer;transition:all .25s;white-space:nowrap;flex-shrink:0;
+}
+.warmup-btn:hover{background:#22703f;box-shadow:0 4px 16px rgba(26,92,56,.4);}
+.warmup-btn:disabled{opacity:.5;cursor:default;}
+.warmup-result{
+  background:rgba(26,92,56,.18);border:1px solid rgba(76,222,138,.25);
+  border-left:3px solid #4cde8a;border-radius:0 10px 10px 0;
+  padding:16px 20px;margin-top:12px;font-size:13px;line-height:1.8;
+  color:var(--text);display:none;
+}
+.warmup-result-title{
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;
+  color:#4cde8a;margin-bottom:10px;display:flex;align-items:center;gap:6px;
+}
+.warmup-result-title::before{content:'🎯';}
+
+/* ── Ask the Teacher chat ── */
+#askBtn{
+  position:fixed;bottom:28px;right:28px;
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(10,40,22,.9);border:2px solid #4cde8a;cursor:pointer;
+  box-shadow:0 6px 24px rgba(26,92,56,.5);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;
+  z-index:1100;transition:transform .25s,box-shadow .25s;
+}
+#askBtn:hover{transform:scale(1.08);box-shadow:0 10px 32px rgba(76,222,138,.4);}
+#askBtn svg{width:22px;height:22px;fill:#4cde8a;}
+#askBtnLabel{font-size:7px;font-weight:700;letter-spacing:.5px;color:rgba(76,222,138,.7);text-transform:uppercase;}
+#askPanel{
+  position:fixed;bottom:94px;right:28px;
+  width:360px;max-height:520px;
+  background:rgba(8,28,16,.95);border:1px solid rgba(76,222,138,.25);
+  border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.5);
+  display:flex;flex-direction:column;z-index:1100;
+  transform:translateY(16px) scale(.97);opacity:0;pointer-events:none;
+  transition:transform .28s ease,opacity .28s ease;
+  backdrop-filter:blur(20px);
+}
+#askPanel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
+.ask-header{
+  padding:14px 16px 12px;border-bottom:1px solid rgba(76,222,138,.15);
+  display:flex;align-items:center;gap:10px;border-radius:14px 14px 0 0;
+  background:linear-gradient(135deg,rgba(10,40,22,.9),rgba(26,92,56,.7));
+}
+.ask-header-icon{
+  width:32px;height:32px;border-radius:50%;background:rgba(76,222,138,.15);
+  border:1px solid rgba(76,222,138,.3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;
+}
+.ask-header-name{font-size:13px;color:#e8f5e0;font-weight:700;line-height:1.2;}
+.ask-header-sub{font-size:10px;color:rgba(76,222,138,.6);margin-top:1px;letter-spacing:.3px;}
+.ask-close{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.4);font-size:18px;margin-left:auto;line-height:1;transition:color .2s;}
+.ask-close:hover{color:#fff;}
+.ask-messages{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth;}
+.ask-messages::-webkit-scrollbar{width:3px;}
+.ask-messages::-webkit-scrollbar-thumb{background:rgba(76,222,138,.2);border-radius:3px;}
+.ask-msg{display:flex;gap:7px;align-items:flex-end;max-width:100%;}
+.ask-msg.user{flex-direction:row-reverse;}
+.ask-bubble{
+  padding:9px 12px;border-radius:12px;font-size:12.5px;
+  line-height:1.6;max-width:82%;word-break:break-word;font-family:'Lato',sans-serif;
+}
+.ask-msg.bot .ask-bubble{background:rgba(26,92,56,.35);color:#e0f0e0;border-radius:4px 12px 12px 12px;border:1px solid rgba(76,222,138,.15);}
+.ask-msg.user .ask-bubble{background:var(--primary);color:#fff;border-radius:12px 4px 12px 12px;}
+.ask-icon{width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;background:rgba(76,222,138,.12);border:1px solid rgba(76,222,138,.2);}
+.ask-input-row{
+  padding:10px;border-top:1px solid rgba(76,222,138,.1);
+  display:flex;gap:7px;align-items:flex-end;
+  border-radius:0 0 14px 14px;background:rgba(8,25,14,.8);
+}
+.ask-input{
+  flex:1;padding:8px 11px;border-radius:9px;
+  border:1px solid rgba(76,222,138,.2);font-size:12.5px;
+  font-family:'Lato',sans-serif;outline:none;resize:none;
+  max-height:80px;line-height:1.5;color:#e8f5e0;
+  background:rgba(10,35,20,.6);transition:border .2s;
+}
+.ask-input:focus{border-color:rgba(76,222,138,.5);}
+.ask-send{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--primary);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:opacity .2s;
+}
+.ask-send:hover{opacity:.85;}
+.ask-send svg{width:14px;height:14px;fill:#fff;}
+.ask-send:disabled{opacity:.35;cursor:default;}
+.ask-typing{display:flex;gap:3px;align-items:center;padding:2px 0;}
+.ask-typing span{width:5px;height:5px;background:#4cde8a;border-radius:50%;animation:atdot .9s ease-in-out infinite;}
+.ask-typing span:nth-child(2){animation-delay:.2s;}
+.ask-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes atdot{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+
+/* ── Next-Step suggestion chip ── */
+.next-step-row{margin-top:18px;padding-top:16px;border-top:1px solid var(--border);}
+.next-step-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:10px;}
+.next-step-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.next-chip{
+  padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  border:1px solid;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;gap:6px;
+}
+.next-chip.harder{background:rgba(230,144,30,.12);border-color:rgba(230,144,30,.35);color:#d4a030;}
+.next-chip.harder:hover{background:rgba(230,144,30,.22);}
+.next-chip.easier{background:rgba(91,155,212,.12);border-color:rgba(91,155,212,.35);color:#5b9bd4;}
+.next-chip.easier:hover{background:rgba(91,155,212,.22);}
+.next-chip.related{background:rgba(76,222,138,.1);border-color:rgba(76,222,138,.28);color:#4cde8a;}
+.next-chip.related:hover{background:rgba(76,222,138,.18);}
+
+/* ── Sight-reading panel ── */
+.sr-panel{
+  background:rgba(15,40,25,.75);border:1px solid rgba(76,222,138,.2);
+  border-radius:12px;padding:22px 24px;margin-top:14px;
+  display:none;
+}
+.sr-grade-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+.sr-grade-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);white-space:nowrap;}
+.sr-grade-select{
+  padding:8px 12px;border-radius:7px;border:1px solid var(--border);
+  font-size:13px;font-family:'Lato',sans-serif;
+  background:rgba(10,28,18,.6);color:var(--text);outline:none;cursor:pointer;
+  transition:border .2s;
+}
+.sr-grade-select:focus{border-color:rgba(76,222,138,.5);}
+.sr-gen-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 18px;background:var(--primary);color:#fff;border:none;
+  border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;
+  transition:all .25s;white-space:nowrap;font-family:'Lato',sans-serif;
+}
+.sr-gen-btn:hover{background:#22703f;box-shadow:0 4px 14px rgba(26,92,56,.4);}
+.sr-gen-btn:disabled{opacity:.5;cursor:default;}
+.sr-output{display:none;margin-top:4px;}
+.sr-output-title{
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;
+  color:#4cde8a;margin-bottom:12px;display:flex;align-items:center;gap:6px;
+}
+.sr-output-title::before{content:'🎹';}
+.sr-piece-name{
+  font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:600;
+  color:#e8f5e0;margin-bottom:4px;
+}
+.sr-piece-grade{font-size:11px;color:rgba(76,222,138,.7);font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:14px;}
+.sr-tips{font-size:13px;color:#0d3320;line-height:1.75;background:#f0faf4;border-left:3px solid #4cde8a;border-radius:0 8px 8px 0;padding:12px 16px;}
+.sr-play-note{font-size:12px;color:rgba(76,222,138,.6);margin-top:12px;font-style:italic;}
+
+/* ── Instrument Selector ── */
+.instrument-selector{
+  text-align:center;margin-bottom:28px;
+}
+.instrument-label{
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  color:var(--muted);margin-bottom:12px;
+}
+.instrument-tabs{
+  display:inline-flex;background:rgba(10,28,18,.6);border:1px solid var(--border);
+  border-radius:50px;padding:4px;gap:4px;
+}
+.instrument-tab{
+  padding:10px 28px;border-radius:50px;border:none;cursor:pointer;
+  font-family:'Lato',sans-serif;font-size:14px;font-weight:600;
+  display:flex;align-items:center;gap:8px;
+  background:transparent;color:var(--muted);transition:all .25s;
+}
+.instrument-tab:hover{color:var(--text);}
+.instrument-tab.active{
+  background:var(--primary);color:#fff;
+  box-shadow:0 4px 16px rgba(26,92,56,.4);
+}
+.instrument-tab-name{font-size:14px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">
+    <div class="logo-icon"><img src="logo.png" alt="Inspire logo"/></div>
+    Inspire
+  </a>
+  <div style="display:flex;gap:6px;align-items:center;">
+    <a href="analytics.html" style="text-decoration:none;color:rgba(76,222,138,.85);font-size:13px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid rgba(76,222,138,.25);transition:all .2s;" onmouseover="this.style.background='rgba(76,222,138,.1)';" onmouseout="this.style.background='';">📊 Analytics</a>
+    <a class="back-btn" href="index.html">&#8592; Back</a>
+  </div>
+</nav>
+
+<div class="main">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-header-eyebrow">Inspire · AI Music Companion</div>
+    <h1 id="pageTitle">Your <em id="pageTitleInstrument">AI Violin</em> Teacher</h1>
+    <p id="pageDesc">Record any practice session and receive instant, professional feedback on intonation, rhythm, dynamics, tone quality, and musicality — analysed in seconds.</p>
+    <div class="page-header-badges">
+      <span class="header-badge" id="badgePitch">🎙️ Real-time pitch detection</span>
+      <span class="header-badge">🤖 IBM Bob analysis</span>
+      <span class="header-badge">📊 Session history</span>
+      <span class="header-badge">🗓️ AI practice planner</span>
+    </div>
+  </div>
+
+  <!-- Instrument Selector -->
+  <div class="instrument-selector" id="instrumentSelector">
+    <div class="instrument-label">Choose your instrument</div>
+    <div class="instrument-tabs">
+      <button class="instrument-tab active" id="tabViolin" onclick="switchInstrument('violin')">
+        <span class="instrument-tab-name">Violin</span>
+      </button>
+      <button class="instrument-tab" id="tabGuitar" onclick="switchInstrument('guitar')">
+        <span class="instrument-tab-name">Guitar</span>
+      </button>
+      <button class="instrument-tab" id="tabPiano" onclick="switchInstrument('piano')">
+        <span class="instrument-tab-name">Piano</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 1 & 2: Settings flow -->
+  <div class="flow-wrap">
+    <div class="flow-title">Session Setup</div>
+
+    <div class="flow-step">
+      <div class="step-num-badge">1</div>
+      <div class="flow-step-body">
+        <div class="flow-step-label" id="pieceCategoryLabel">Piece / Category</div>
+        <div style="overflow:visible;position:relative;z-index:10;">
+          <select class="piece-select" id="pieceSelect">
+            <option value="">— Select category —</option>
+            <option value="Scales" class="opt-violin">Scales</option>
+            <option value="Repertoire" class="opt-violin">Repertoire</option>
+            <option value="Improvisation" class="opt-violin">Improvisation</option>
+            <option value="Sight-reading" class="opt-violin">Sight-reading</option>
+            <option value="Other pieces" class="opt-violin">Other pieces</option>
+            <option value="Scales" class="opt-guitar" style="display:none;">Scales / Exercises</option>
+            <option value="Chords" class="opt-guitar" style="display:none;">Chords &amp; Strumming</option>
+            <option value="Repertoire" class="opt-guitar" style="display:none;">Songs / Repertoire</option>
+            <option value="Fingerpicking" class="opt-guitar" style="display:none;">Fingerpicking</option>
+            <option value="Improvisation" class="opt-guitar" style="display:none;">Improvisation / Soloing</option>
+            <option value="Sight-reading" class="opt-guitar" style="display:none;">Sight-reading</option>
+            <option value="Other pieces" class="opt-guitar" style="display:none;">Other</option>
+            <option value="Scales" class="opt-piano" style="display:none;">Scales &amp; Arpeggios</option>
+            <option value="Repertoire" class="opt-piano" style="display:none;">Repertoire</option>
+            <option value="Hanon" class="opt-piano" style="display:none;">Hanon / Technical Exercises</option>
+            <option value="Sight-reading" class="opt-piano" style="display:none;">Sight-reading</option>
+            <option value="Theory" class="opt-piano" style="display:none;">Theory &amp; Ear Training</option>
+            <option value="Other pieces" class="opt-piano" style="display:none;">Other</option>
+          </select>
+          <div id="customPieceWrap" style="display:none;margin-top:10px;position:relative;z-index:1001;">
+            <input class="api-input" id="customPiece" type="text" placeholder="Enter piece name…" autocomplete="off" style="width:100%;"/>
+            <div id="acDropdown" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:rgba(8,28,16,.98);border:1px solid var(--border);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:1000;max-height:200px;overflow-y:auto;"></div>
+          </div>
+          <!-- Sight-reading panel (piano only) -->
+          <div class="sr-panel" id="srPanel">
+            <div class="sr-grade-row">
+              <span class="sr-grade-label">Grade</span>
+              <select class="sr-grade-select" id="srGrade">
+                <option value="1">Grade 1</option>
+                <option value="2">Grade 2</option>
+                <option value="3">Grade 3</option>
+                <option value="4">Grade 4</option>
+                <option value="5">Grade 5</option>
+                <option value="6">Grade 6</option>
+                <option value="7">Grade 7</option>
+                <option value="8">Grade 8</option>
+              </select>
+              <button class="sr-gen-btn" id="srGenBtn" onclick="generateSightReadingPiece()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.93V17a1 1 0 0 1-2 0v-.07A8 8 0 0 1 4.07 11H5a1 1 0 0 1 0 2h-.93A8 8 0 0 1 11 4.07V5a1 1 0 0 1 2 0v-.93A8 8 0 0 1 19.93 11H19a1 1 0 0 1 0 2h.93A8 8 0 0 1 13 16.93z"/></svg>
+                Generate Piece
+              </button>
+            </div>
+            <div class="sr-output" id="srOutput">
+              <div class="sr-output-title">Your Sight-Reading Piece</div>
+              <div class="sr-piece-name" id="srPieceName"></div>
+              <div class="sr-piece-grade" id="srPieceGrade"></div>
+              <div id="srScore" style="background:#fff;border-radius:8px;padding:12px 6px;overflow-x:auto;margin-bottom:14px;"></div>
+              <div class="sr-tips" id="srTips"></div>
+              <div class="sr-play-note">▶ Now record yourself playing this piece for AI feedback</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num-badge">2</div>
+      <div class="flow-step-body">
+        <div class="flow-step-label">Focus Areas <span style="font-weight:400;letter-spacing:0;text-transform:none;font-size:11px;color:var(--muted);">— tap to toggle</span></div>
+        <div class="toggle-grid" id="focusToggles">
+          <div class="toggle active" data-val="intonation" data-instruments="violin guitar">🎵 Intonation</div>
+          <div class="toggle active" data-val="rhythm" data-instruments="violin guitar piano">🥁 Rhythm</div>
+          <div class="toggle active" data-val="dynamics" data-instruments="violin guitar piano">🔊 Dynamics</div>
+          <div class="toggle active" data-val="tone" data-instruments="violin">🎻 Tone Quality</div>
+          <div class="toggle active" data-val="musicality" data-instruments="violin guitar piano">✨ Musicality</div>
+          <div class="toggle active" data-val="chord accuracy" data-instruments="guitar" style="display:none;">🎸 Chord Accuracy</div>
+          <div class="toggle active" data-val="technique" data-instruments="guitar" style="display:none;">🤘 Technique</div>
+          <div class="toggle active" data-val="touch & tone" data-instruments="piano" style="display:none;">🎹 Touch &amp; Tone</div>
+          <div class="toggle active" data-val="hand independence" data-instruments="piano" style="display:none;">🤲 Hand Independence</div>
+          <div class="toggle active" data-val="pedalling" data-instruments="piano" style="display:none;">🦶 Pedalling</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Warm-Up Generator -->
+  <div class="warmup-bar" id="warmupBar">
+    <div class="warmup-bar-label">
+      <strong id="warmupBarTitle">🎼 AI Warm-Up Routine</strong>
+      <span id="warmupBarSub">Get a personalised 5-minute warm-up before you record</span>
+    </div>
+    <button class="warmup-btn" id="warmupBtn" onclick="generateWarmup()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.93V17a1 1 0 0 1-2 0v-.07A8 8 0 0 1 4.07 11H5a1 1 0 0 1 0 2h-.93A8 8 0 0 1 11 4.07V5a1 1 0 0 1 2 0v-.93A8 8 0 0 1 19.93 11H19a1 1 0 0 1 0 2h.93A8 8 0 0 1 13 16.93z"/></svg>
+      Generate Warm-Up
+    </button>
+    <div class="warmup-result" id="warmupResult">
+      <div class="warmup-result-title">Your Personalised Warm-Up</div>
+      <div id="warmupText"></div>
+    </div>
+  </div>
+
+  <!-- Mode tabs: Record / Upload -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" id="tabRecord" onclick="switchMode('record')">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg>
+      Live Recording
+    </button>
+    <button class="mode-tab" id="tabUpload" onclick="switchMode('upload')">
+      <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+      Upload Audio File
+    </button>
+  </div>
+
+  <!-- Upload panel -->
+  <!-- Hidden file input lives OUTSIDE the zone so it never intercepts button clicks -->
+  <input type="file" id="uploadInput" accept="audio/*,video/mp4,video/webm"
+         style="display:none;" onchange="uploadFileSelected(this.files[0])"/>
+
+  <div id="uploadPanel" style="display:none;margin-bottom:20px;">
+    <!-- Drop zone — hidden once a file is selected; buttons are in the sibling file-info row -->
+    <div class="upload-zone" id="uploadZone"
+         onclick="document.getElementById('uploadInput').click()"
+         ondragover="uploadDragOver(event)" ondragleave="uploadDragLeave(event)" ondrop="uploadDrop(event)"
+         style="display:block;">
+      <div class="upload-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+      </div>
+      <div class="upload-title">Drop your recording here</div>
+      <div class="upload-sub" id="uploadSubText">
+        Drag &amp; drop an audio or video file of your playing,<br/>
+        or click to browse your device.
+      </div>
+      <div class="upload-formats">
+        <span class="upload-fmt">MP3</span>
+        <span class="upload-fmt">WAV</span>
+        <span class="upload-fmt">M4A</span>
+        <span class="upload-fmt">OGG</span>
+        <span class="upload-fmt">WEBM</span>
+        <span class="upload-fmt">MP4</span>
+        <span class="upload-fmt">FLAC</span>
+      </div>
+    </div>
+    <!-- File info row — lives OUTSIDE the zone so buttons are never inside a clickable zone -->
+    <div class="upload-file-info" id="uploadFileInfo">
+      <div class="upload-file-icon">🎵</div>
+      <div style="flex:1;overflow:hidden;">
+        <div class="upload-file-name" id="uploadFileName">—</div>
+        <div class="upload-file-size" id="uploadFileSize">—</div>
+      </div>
+      <div class="upload-file-actions">
+        <button class="upload-analyse-btn" id="uploadAnalyseBtn" onclick="analyseUploadedFile(event)">
+          Analyse with AI
+        </button>
+        <button class="upload-clear-btn" onclick="clearUpload(event)">✕</button>
+      </div>
+    </div>
+    <div class="upload-progress" id="uploadProgress">
+      <div class="upload-progress-fill" id="uploadProgressFill"></div>
+    </div>
+    <div class="upload-status" id="uploadStatus"></div>
+  </div>
+
+  <!-- Record area -->
+  <div class="record-area" id="recordArea">
+
+    <!-- Audio device selector -->
+    <div class="device-select-row" id="deviceSelectRow">
+      <label class="device-select-label" for="audioDeviceSelect">🎙️ Input Device</label>
+      <select id="audioDeviceSelect" class="device-select-ctrl" onchange="selectedDeviceId=this.value">
+        <option value="">Default microphone</option>
+      </select>
+      <button class="device-refresh-btn" onclick="populateAudioDevices()" title="Refresh device list">↻ Refresh</button>
+    </div>
+    <div class="device-hint" id="deviceHint">Click <strong>↻ Refresh</strong> after granting microphone permission to see all connected devices.</div>
+
+    <button class="record-btn idle" id="recordBtn" onclick="toggleRecording()">
+      <!-- idle icon -->
+      <svg id="recIconIdle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg>
+      <!-- recording icon (square stop) -->
+      <svg id="recIconStop" viewBox="0 0 24 24" style="display:none"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+      <!-- analysing icon (spinner) -->
+      <svg id="recIconSpin" viewBox="0 0 24 24" style="display:none;animation:spin-icon 1s linear infinite"><path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+    </button>
+    <div style="font-size:15px;font-weight:600;color:var(--text);min-height:24px;" id="recordLabel">Start Recording</div>
+    <div class="timer" id="timer"></div>
+    <div class="record-hint" id="recordHint">Press the button, then play your piece. Recording stops automatically after 90 seconds, or press again to stop early and receive feedback.</div>
+    <div class="meters" id="liveMeters" style="display:none;">
+      <div class="meter">
+        <div class="meter-label" id="mNoteLabel">Note Detected</div>
+        <div class="meter-value" id="mNote">—</div>
+        <div class="meter-sub" id="mFreq">— Hz</div>
+      </div>
+      <div class="meter">
+        <div class="meter-label" id="mTuneLabel">Tuning</div>
+        <div class="meter-value" id="mTune">—</div>
+        <div class="meter-sub" id="mCents">— cents</div>
+      </div>
+      <div class="meter">
+        <div class="meter-label">Volume</div>
+        <div class="meter-value" id="mVol">—</div>
+        <div class="meter-sub">dB</div>
+      </div>
+    </div>
+    <div class="pitch-bar-wrap" id="pitchBarWrap" style="display:none;">
+      <div class="pitch-bar-label" id="pitchBarLabel">Pitch accuracy — centre line = in tune</div>
+      <div class="pitch-bar-track">
+        <div class="pitch-center-line"></div>
+        <div class="pitch-bar-fill" id="pitchBarFill" style="width:50%;"></div>
+      </div>
+    </div>
+    <div class="waveform-wrap" id="waveformWrap" style="display:none;">
+      <canvas id="waveform"></canvas>
+    </div>
+  </div>
+
+  <!-- Playback panel — shown after each live recording -->
+  <div class="playback-panel" id="playbackPanel" style="display:none;">
+    <div class="playback-header">
+      <div class="playback-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Your Recording
+      </div>
+      <div class="playback-meta" id="playbackMeta">—</div>
+      <button class="playback-discard" onclick="discardPlayback()" title="Discard recording">✕</button>
+    </div>
+    <audio id="playbackAudio" controls style="width:100%;margin-top:10px;"></audio>
+  </div>
+
+  <!-- Protocol warning -->
+  <div class="protocol-warning" id="protocolWarning">
+    <strong>Microphone and API access are blocked.</strong><br/>
+    This page is being opened as a local file (<code>file://</code>). Browsers block microphone and network access from local files.<br/><br/>
+    <strong>To resolve this, serve the page over HTTP:</strong><br/>
+    1. In VS Code, install <a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer" target="_blank" style="color:var(--primary);">Live Server</a> and click Go Live, or<br/>
+    2. Run <code>npx serve .</code> in a terminal and open <code>http://localhost:3000/violin-teacher.html</code>, or<br/>
+    3. Deploy to GitHub Pages.
+  </div>
+
+  <!-- Feedback area -->
+  <div class="feedback-area" id="feedbackArea">
+    <h2 id="feedbackHeading">🎻 AI Feedback</h2>
+    <div id="feedbackContent">
+      <div class="empty-state">
+        <div class="empty-state-title">Ready to analyse</div>
+        Complete a recording above — your personalised AI feedback will appear here within seconds.
+      </div>
+    </div>
+  </div>
+
+  <!-- Session history -->
+  <div class="history-section" id="historySection" style="display:none;">
+    <h3>📋 Session History</h3>
+    <div id="historyList"></div>
+  </div>
+
+  <!-- AI Practice Planner -->
+  <div class="card planner-section" id="plannerSection">
+    <h3 id="plannerTitle">🗓️ AI Practice Planner</h3>
+    <p class="planner-sub" id="plannerSub">Set a practice goal, then complete a session — the AI agent will analyse your playing and build a personalised weekly plan automatically.</p>
+    <div class="goal-card" id="goalCard">
+      <div class="goal-label">Current Goal</div>
+      <div class="goal-text" id="goalText">No goal set yet — enter a goal below to get started.</div>
+      <div class="goal-input-row">
+        <input class="goal-input" id="goalInput" type="text" placeholder="e.g. Prepare D Major scale for Grade 1 exam in 4 weeks…" autocomplete="off"/>
+        <button class="goal-btn" onclick="setGoal()">Set Goal</button>
+      </div>
+    </div>
+    <div class="trend-row" id="trendRow"></div>
+    <div id="agentMsgArea"></div>
+    <div id="weeklyPlanArea"></div>
+    <div id="reportBtnRow" style="display:none;margin-top:4px;">
+      <button class="report-gen-btn" id="reportGenBtn" onclick="generateReport()">Generate Progress Report</button>
+    </div>
+    <div class="planner-empty" id="plannerEmpty">Set your goal above, then complete a practice session — your personalised weekly plan will appear here automatically.</div>
+  </div>
+
+  <!-- Report modal -->
+  <div id="reportModal" class="report-modal" style="display:none;">
+    <div class="report-modal-inner">
+      <div class="report-modal-header">
+        <div class="report-modal-title">Weekly Progress Report</div>
+        <div style="display:flex;gap:8px;">
+          <button class="report-action-btn" onclick="window.print()">Print / Save PDF</button>
+          <button class="report-close-btn" onclick="closeReport()">✕ Close</button>
+        </div>
+      </div>
+      <div class="report-body" id="reportBody">
+        <div class="report-thinking" id="reportThinking">
+          <div class="dot-wave"><div></div><div></div><div></div></div>
+          <span>Generating your report…</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- API Key Setup -->
+  <div class="card" id="setupCard" style="margin-top:16px;">
+    <div class="card-title">Connect AI Engine</div>
+    <p class="api-note">This tool uses the OpenAI API to analyse recordings and generate feedback. Your API key is stored only in this browser session and sent directly to OpenAI — never to any third-party server.</p>
+    <div class="input-row">
+      <input class="api-input" id="apiKeyInput" type="password" placeholder="sk-…  paste your OpenAI API key here"/>
+      <button class="save-btn" onclick="saveApiKey()">Connect</button>
+    </div>
+    <div class="api-status" id="apiStatus"></div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- ── Ask the Teacher floating button & panel ── -->
+<button id="askBtn" onclick="toggleAsk()" aria-label="Ask AI Teacher" id="askBtnEl">
+  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l5.12-1.34A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm1 14H7v-2h6v2zm2-4H7V10h8v2zm0-4H7V6h8v2z"/></svg>
+  <span id="askBtnLabel">Ask</span>
+</button>
+
+<div id="askPanel">
+  <div class="ask-header">
+    <div class="ask-header-icon" id="askHeaderIcon">🎻</div>
+    <div>
+      <div class="ask-header-name" id="askHeaderName">AI Violin Teacher</div>
+      <div class="ask-header-sub" id="askHeaderSub">Ask anything about your playing</div>
+    </div>
+    <button class="ask-close" onclick="toggleAsk()">✕</button>
+  </div>
+  <div class="ask-messages" id="askMessages">
+    <div class="ask-msg bot">
+      <div class="ask-icon" id="askGreetIcon">🎻</div>
+      <div class="ask-bubble" id="askGreetBubble">Hi! I'm your AI Violin Teacher. Ask me anything — technique, posture, practice tips, theory, or questions about your last session.</div>
+    </div>
+  </div>
+  <div class="ask-input-row">
+    <textarea class="ask-input" id="askInput" rows="1" placeholder="Ask a question…"
+      onkeydown="handleAskKey(event)" oninput="autoResizeAsk(this)"></textarea>
+    <button class="ask-send" id="askSendBtn" onclick="sendAsk()" aria-label="Send">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  Protocol check
+// ══════════════════════════════════════════════
+(function(){
+  if(location.protocol === 'file:'){
+    document.getElementById('protocolWarning').style.display = 'block';
+  }
+})();
+
+// ══════════════════════════════════════════════
+//  Instrument state
+// ══════════════════════════════════════════════
+let currentInstrument = 'violin'; // 'violin' | 'guitar'
+
+const INSTRUMENT_CONFIG = {
+  violin: {
+    name: 'Violin',
+    emoji: '🎻',
+    titleEm: 'AI Violin',
+    desc: 'Record any practice session and receive instant, professional feedback on intonation, rhythm, dynamics, tone quality, and musicality — analysed in seconds.',
+    badge: '🎙️ Real-time pitch detection',
+    hint: 'Press the button, then play your piece. Recording stops automatically after 90 seconds, or press again to stop early and receive feedback.',
+    pieceLabel: 'Piece / Category',
+    warmupTitle: '🎼 AI Warm-Up Routine',
+    warmupSub: 'Get a personalised 5-minute warm-up before you record',
+    mNoteLabel: 'Note Detected',
+    mTuneLabel: 'Tuning',
+    pitchBarLabel: 'Pitch accuracy — centre line = in tune',
+    plannerTitle: '🗓️ AI Practice Planner',
+    plannerSub: 'Set a practice goal, then complete a session — the AI agent will analyse your playing and build a personalised weekly plan automatically.',
+    goalPlaceholder: 'e.g. Prepare D Major scale for Grade 1 exam in 4 weeks…',
+    askName: 'AI Violin Teacher',
+    askSub: 'Ask anything about your playing',
+    askGreet: 'Hi! I\'m your AI Violin Teacher. Ask me anything — technique, posture, practice tips, theory, or questions about your last session.',
+  },
+  guitar: {
+    name: 'Guitar',
+    emoji: '🎸',
+    titleEm: 'AI Guitar',
+    desc: 'Record any practice session and receive instant, professional feedback on chord accuracy, rhythm, dynamics, technique, and musicality — analysed in seconds.',
+    badge: '🎙️ Real-time audio analysis',
+    hint: 'Press the button, then play your song or chords. Recording stops automatically after 90 seconds, or press again to stop early and receive feedback.',
+    pieceLabel: 'Song / Category',
+    warmupTitle: '🎸 AI Warm-Up Routine',
+    warmupSub: 'Get a personalised 5-minute guitar warm-up before you record',
+    mNoteLabel: 'Note / Chord',
+    mTuneLabel: 'Tuning',
+    pitchBarLabel: 'Pitch accuracy — centre line = in tune',
+    plannerTitle: '🗓️ AI Guitar Practice Planner',
+    plannerSub: 'Set a practice goal, then complete a session — the AI agent will analyse your playing and build a personalised weekly guitar practice plan.',
+    goalPlaceholder: 'e.g. Learn open chords and play Wonderwall cleanly in 3 weeks…',
+    askName: 'AI Guitar Teacher',
+    askSub: 'Ask anything about your guitar playing',
+    askGreet: 'Hi! I\'m your AI Guitar Teacher. Ask me anything — chord shapes, strumming, fingerpicking, music theory, or questions about your last session.',
+  },
+  piano: {
+    name: 'Piano',
+    emoji: '🎹',
+    titleEm: 'AI Piano',
+    desc: 'Record any practice session and receive instant, professional feedback on touch & tone, hand independence, dynamics, pedalling, and musicality — analysed in seconds.',
+    badge: '🎙️ Real-time audio analysis',
+    hint: 'Press the button, then play your piece. Recording stops automatically after 90 seconds, or press again to stop early and receive feedback.',
+    pieceLabel: 'Piece / Category',
+    warmupTitle: '🎹 AI Warm-Up Routine',
+    warmupSub: 'Get a personalised 5-minute piano warm-up before you record',
+    mNoteLabel: 'Note Detected',
+    mTuneLabel: 'Pitch',
+    pitchBarLabel: 'Pitch accuracy — centre line = in tune',
+    plannerTitle: '🗓️ AI Piano Practice Planner',
+    plannerSub: 'Set a practice goal, then complete a session — the AI agent will analyse your playing and build a personalised weekly piano practice plan.',
+    goalPlaceholder: 'e.g. Learn Für Elise hands together by end of month…',
+    askName: 'AI Piano Teacher',
+    askSub: 'Ask anything about your piano playing',
+    askGreet: 'Hi! I\'m your AI Piano Teacher. Ask me anything — technique, fingering, hand independence, pedalling, music theory, or questions about your last session.',
+  }
+};
+
+const AC_DATA_PIANO = {
+  Scales: [
+    'C Major (hands together)','G Major (hands together)','D Major (hands together)',
+    'A Major (hands together)','E Major (hands together)','F Major (hands together)',
+    'C Minor (natural)','G Minor (natural)','D Minor (natural)',
+    'C Harmonic Minor','G Harmonic Minor','A Harmonic Minor',
+    'C Major (hands separate)','Chromatic Scale','Whole Tone Scale',
+    'C Major Arpeggio','G Major Arpeggio','D Minor Arpeggio',
+    'Contrary Motion C Major','Parallel Motion C Major'
+  ],
+  Hanon: [
+    'Hanon No.1 – Finger Independence','Hanon No.2','Hanon No.3',
+    'Hanon No.4','Hanon No.5','Hanon No.6',
+    'Czerny Op.599 No.1','Czerny Op.599 No.2','Czerny Op.599 No.3',
+    'Czerny Op.849 No.1','Czerny Op.849 No.5',
+    'Broken Chord Exercise in C','Chord Voicing Exercise',
+    'Thumb Crossing Exercise','Wrist Rotation Exercise','Trill Exercise'
+  ],
+  Repertoire: [
+    'Für Elise – Beethoven','Moonlight Sonata (1st mvt) – Beethoven',
+    'Ode to Joy – Beethoven','Turkish March – Mozart',
+    'Minuet in G – Bach','Prelude in C – Bach (WTC)',
+    'Gymnopédie No.1 – Satie','Clair de Lune – Debussy',
+    'Maple Leaf Rag – Joplin','The Entertainer – Joplin',
+    'River Flows in You – Yiruma','Kiss the Rain – Yiruma',
+    'Comptine d\'un autre été – Yann Tiersen',
+    'Canon in D – Pachelbel','La Campanella – Liszt',
+    'Nocturne Op.9 No.2 – Chopin','Waltz in A Minor – Chopin',
+    'Sonata K.545 (1st mvt) – Mozart','Sonatina in G – Beethoven',
+    'My Heart Will Go On – Horner (piano arrangement)'
+  ],
+  'Sight-reading': [
+    'Grade 1 Sight-reading Piece','Grade 2 Sight-reading Piece',
+    'Grade 3 Sight-reading Piece','Grade 4 Sight-reading Piece',
+    'Treble Clef Reading Exercise','Bass Clef Reading Exercise',
+    'Both Clefs Together','Rhythmic Reading Exercise'
+  ],
+  Theory: [
+    'Interval Recognition','Chord Recognition (triads)',
+    'Chord Recognition (7ths)','Key Signature Drill',
+    'Ear Training – Melodic Dictation','Ear Training – Harmonic Dictation',
+    'Cadence Recognition','Scale Degree Singing'
+  ],
+  'Other pieces': []
+};
+
+const AC_DATA_GUITAR = {
+  Scales: [
+    'E Major Scale','E Minor Scale','E Pentatonic Minor','E Pentatonic Major',
+    'A Major Scale','A Minor Scale','A Pentatonic Minor','A Pentatonic Major',
+    'G Major Scale','G Minor Scale','D Major Scale','D Minor Scale',
+    'C Major Scale','B Minor Scale','F Major Scale',
+    'Blues Scale in E','Blues Scale in A','Blues Scale in G',
+    'Chromatic Scale','Natural Minor Scale','Dorian Mode','Mixolydian Mode',
+    'Two-Octave C Major','Two-Octave G Major',
+    'Spider Exercise','Hammer-on / Pull-off Exercise','String Skipping Exercise'
+  ],
+  Chords: [
+    'C Major','G Major','D Major','A Major','E Major','F Major',
+    'A Minor','E Minor','D Minor','B Minor',
+    'G7','C7','D7','A7','E7',
+    'Cadd9','Dsus2','Dsus4','Asus2','Asus4',
+    'Bm (barre)','F Major (barre)','B Major (barre)',
+    'Em – Am – D – G Progression','I – IV – V Chord Progression',
+    'I – V – vi – IV Pop Progression','12-Bar Blues in E','12-Bar Blues in A'
+  ],
+  Repertoire: [
+    'Smoke on the Water – Deep Purple','Wonderwall – Oasis',
+    'Hotel California – Eagles','Stairway to Heaven – Led Zeppelin',
+    'Nothing Else Matters – Metallica','Blackbird – Beatles',
+    'House of the Rising Sun – Animals','Sweet Home Chicago',
+    'Wish You Were Here – Pink Floyd','More Than Words – Extreme',
+    'Classical Gas – Mason Williams','Malaguena',
+    'Dust in the Wind – Kansas','The Scientist – Coldplay',
+    'Jolene – Dolly Parton','Hallelujah – Leonard Cohen',
+    'La Grange – ZZ Top','Sultans of Swing – Dire Straits',
+    'Tears in Heaven – Eric Clapton','Behind Blue Eyes – The Who'
+  ],
+  Fingerpicking: [
+    'Spanish Romance','Canon in D – Pachelbel',
+    'Ode to Joy – Beethoven','Greensleeves',
+    'Blackbird – Beatles','Dust in the Wind – Kansas',
+    'Tears in Heaven – Eric Clapton','More Than Words – Extreme',
+    'Classical Gas – Mason Williams','Malaguena',
+    'Travis Picking Pattern in G','Alternating Bass Pattern',
+    'Fingerpicking Etude in C','Arpeggio Pattern in Am'
+  ],
+  Improvisation: [
+    'Blues in E (Pentatonic)','Blues in A (Pentatonic)',
+    'Blues in G (Pentatonic)','Rock Solo in A Minor',
+    'Country Licks in G','Jazz Improvisation in Dm',
+    'Dorian Improvisation in A','Mixolydian Jam in G',
+    'Call & Response Blues Licks','String Bending Exercise'
+  ],
+  'Other pieces': []
+};
+
+function switchInstrument(inst){
+  if(currentInstrument === inst) return;
+  // Save state of the tab we're leaving
+  saveInstState(currentInstrument);
+  // Stop any active recording before switching
+  if(isRecording) stopRecording();
+  currentInstrument = inst;
+  const cfg = INSTRUMENT_CONFIG[inst];
+
+  // Tab active state
+  document.getElementById('tabViolin').classList.toggle('active', inst === 'violin');
+  document.getElementById('tabGuitar').classList.toggle('active', inst === 'guitar');
+  document.getElementById('tabPiano').classList.toggle('active',  inst === 'piano');
+
+  // Header
+  document.getElementById('pageTitleInstrument').textContent = cfg.titleEm;
+  document.getElementById('pageDesc').textContent = cfg.desc;
+  document.getElementById('badgePitch').textContent = cfg.badge;
+  document.getElementById('recordHint').textContent = cfg.hint;
+
+  // Session setup labels
+  document.getElementById('pieceCategoryLabel').textContent = cfg.pieceLabel;
+
+  // Upload zone sub-text
+  document.getElementById('uploadSubText').innerHTML =
+    `Drag &amp; drop an audio or video file of your ${cfg.name.toLowerCase()} playing,<br/>or click to browse your device.`;
+
+  // Feedback heading
+  document.getElementById('feedbackHeading').textContent = cfg.emoji + ' AI Feedback';
+
+  // Clear any uploaded file when switching instruments
+  clearUpload();
+
+  // Warmup bar
+  document.getElementById('warmupBarTitle').textContent = cfg.warmupTitle;
+  document.getElementById('warmupBarSub').textContent   = cfg.warmupSub;
+
+  // Live meter labels
+  document.getElementById('mNoteLabel').textContent    = cfg.mNoteLabel;
+  document.getElementById('mTuneLabel').textContent    = cfg.mTuneLabel;
+  document.getElementById('pitchBarLabel').textContent = cfg.pitchBarLabel;
+
+  // Planner section — update text but preserve hidden state if goal already set
+  document.getElementById('plannerTitle').textContent = cfg.plannerTitle;
+  const plannerSubEl = document.getElementById('plannerSub');
+  plannerSubEl.textContent = cfg.plannerSub;
+  if(loadPlanner().goal) plannerSubEl.style.display = 'none';
+  document.getElementById('goalInput').placeholder = cfg.goalPlaceholder;
+
+  // Ask panel
+  document.getElementById('askHeaderIcon').textContent  = cfg.emoji;
+  document.getElementById('askHeaderName').textContent  = cfg.askName;
+  document.getElementById('askHeaderSub').textContent   = cfg.askSub;
+  document.getElementById('askGreetIcon').textContent   = cfg.emoji;
+  document.getElementById('askGreetBubble').textContent = cfg.askGreet;
+  askHistory = [];
+
+  // Focus toggles — show/hide based on instrument
+  document.querySelectorAll('#focusToggles .toggle').forEach(t => {
+    const instruments = (t.dataset.instruments || 'violin').split(' ');
+    t.style.display = instruments.includes(inst) ? '' : 'none';
+  });
+
+  // Dropdown options — show/hide by instrument class
+  document.querySelectorAll('#pieceSelect option').forEach(o => {
+    if(o.classList.contains('opt-violin')) o.style.display = inst === 'violin' ? '' : 'none';
+    if(o.classList.contains('opt-guitar')) o.style.display = inst === 'guitar' ? '' : 'none';
+    if(o.classList.contains('opt-piano'))  o.style.display = inst === 'piano'  ? '' : 'none';
+  });
+
+  // Piece selector + sight-reading panel — reset
+  document.getElementById('pieceSelect').value = '';
+  document.getElementById('customPieceWrap').style.display = 'none';
+  document.getElementById('customPiece').value = '';
+  document.getElementById('srPanel').style.display = 'none';
+  document.getElementById('srOutput').style.display = 'none';
+  currentSrPieceTitle = '';
+  currentCategory = '';
+
+  // Restore feedback, playback and session history for this instrument
+  restoreInstState(inst);
+}
+
+function getAcData(){
+  if(currentInstrument === 'guitar') return AC_DATA_GUITAR;
+  if(currentInstrument === 'piano')  return AC_DATA_PIANO;
+  return AC_DATA;
+}
+
+// ══════════════════════════════════════════════
+//  State
+// ══════════════════════════════════════════════
+let apiKey = sessionStorage.getItem('oai_key') || '';
+let mediaRecorder = null;
+let audioChunks = [];
+let isRecording = false;
+let timerInterval = null;
+let elapsedSec = 0;
+let audioCtx = null;
+let analyser = null;
+let animFrame = null;
+let micStream = null;
+let sessionHistory = [];
+let liveStats = { pitchSamples:[], volSamples:[], noteNames:[], silenceCount:0, totalFrames:0 };
+let _lastRecordingUrl = null;
+
+// ── Per-instrument state store ──
+// Each instrument keeps its own playback URL, meta text, feedback HTML, and session history
+const instState = {
+  violin: { playbackUrl: null, playbackMeta: '', feedbackHtml: '', history: [] },
+  guitar: { playbackUrl: null, playbackMeta: '', feedbackHtml: '', history: [] },
+  piano:  { playbackUrl: null, playbackMeta: '', feedbackHtml: '', history: [] }
+};
+
+function saveInstState(inst){
+  const s = instState[inst];
+  s.feedbackHtml = document.getElementById('feedbackContent').innerHTML;
+  s.history = [...sessionHistory];
+  // Playback panel
+  const audio = document.getElementById('playbackAudio');
+  s.playbackUrl  = _lastRecordingUrl;
+  s.playbackMeta = document.getElementById('playbackMeta').textContent;
+  s.playbackVisible = document.getElementById('playbackPanel').style.display !== 'none';
+}
+
+function restoreInstState(inst){
+  const s = instState[inst];
+  // Feedback
+  document.getElementById('feedbackContent').innerHTML = s.feedbackHtml ||
+    `<div class="empty-state"><div class="empty-state-title">Ready to analyse</div>Complete a recording above — your personalised AI feedback will appear here within seconds.</div>`;
+  sessionHistory = [...s.history];
+  renderHistory();
+  // Playback panel
+  _lastRecordingUrl = s.playbackUrl;
+  const audio = document.getElementById('playbackAudio');
+  audio.src = s.playbackUrl || '';
+  document.getElementById('playbackMeta').textContent = s.playbackMeta || '';
+  document.getElementById('playbackPanel').style.display = s.playbackVisible ? 'block' : 'none';
+}
+
+// ══════════════════════════════════════════════
+//  API Key
+// ══════════════════════════════════════════════
+function saveApiKey(){
+  const val = document.getElementById('apiKeyInput').value.trim();
+  if(!val.startsWith('sk-')){ setApiStatus('Please enter a valid OpenAI API key (starts with sk-…)', 'err'); return; }
+  apiKey = val;
+  sessionStorage.setItem('oai_key', val);
+  setApiStatus('✓ Connected — AI engine is ready!', 'ok');
+  document.getElementById('apiKeyInput').value = '●●●●●●●●●●●●●●●●';
+  testApiKey(val);
+}
+async function testApiKey(key){
+  try {
+    const r = await fetch('https://api.openai.com/v1/models', { headers:{ 'Authorization':'Bearer '+key } });
+    if(r.status === 401){ setApiStatus('❌ Invalid API key — please check and re-enter it.','err'); apiKey=''; sessionStorage.removeItem('oai_key'); return; }
+    if(r.status === 429){ setApiStatus('⚠️ API key valid but rate-limited or has no credits. Add credits at platform.openai.com/billing','err'); return; }
+    if(!r.ok){ setApiStatus('⚠️ API key accepted but server returned: '+r.status,'err'); return; }
+    setApiStatus('✓ API key verified — AI Teacher is ready!','ok');
+  } catch(e){ setApiStatus('⚠️ Could not reach OpenAI. Check your internet connection.','err'); }
+}
+function setApiStatus(msg, cls){ const el = document.getElementById('apiStatus'); el.textContent = msg; el.className = 'api-status ' + cls; }
+if(apiKey){ setApiStatus('✓ API key loaded from this session.', 'ok'); }
+
+// ══════════════════════════════════════════════
+//  Autocomplete data
+// ══════════════════════════════════════════════
+const AC_DATA = {
+  Scales: [
+    'A Major','A Minor','A Harmonic Minor','A Melodic Minor',
+    'B Major','B Minor','B Harmonic Minor',
+    'C Major','C Minor','C Harmonic Minor',
+    'D Major','D Minor','D Harmonic Minor','D Melodic Minor',
+    'E Major','E Minor','E Harmonic Minor',
+    'F Major','F Minor','F Harmonic Minor',
+    'G Major','G Minor','G Harmonic Minor',
+    'A Major 2 octaves','D Major 2 octaves','G Major 2 octaves',
+    'Chromatic Scale','Pentatonic Scale','Whole Tone Scale',
+    'Open String Exercise','Arpeggios in D Major','Arpeggios in A Major'
+  ],
+  Repertoire: [
+    'Twinkle Twinkle Little Star','Lightly Row','Song of the Wind',
+    'Go Tell Aunt Rhody','O Come Little Children','May Song','Long Long Ago',
+    'Mary Had a Little Lamb','Perpetual Motion','Allegretto','Andantino',
+    'Minuet No.1 – Bach','Minuet No.2 – Bach','Minuet No.3 – Bach',
+    'Gavotte – Gossec','Humoresque – Dvořák','Bourree – Handel',
+    'Chorus from Judas Maccabaeus','Hunter\'s Chorus',
+    'Witches\' Dance','Concerto in A Minor – Vivaldi','Concerto in G Minor – Vivaldi'
+  ],
+  'Other pieces': []
+};
+
+function loadHistory(category){ try { return JSON.parse(localStorage.getItem('vc_history_'+category)||'[]'); } catch(e){ return []; } }
+function saveHistory(category, value){
+  if(!value.trim()) return;
+  const key = 'vc_history_'+category;
+  let hist = loadHistory(category);
+  hist = [value, ...hist.filter(h=>h.toLowerCase()!==value.toLowerCase())].slice(0,10);
+  localStorage.setItem(key, JSON.stringify(hist));
+}
+
+// ══════════════════════════════════════════════
+//  Piece selector
+// ══════════════════════════════════════════════
+const NEEDS_NAME = ['Scales','Repertoire','Other pieces','Chords','Fingerpicking','Improvisation','Hanon','Sight-reading','Theory'];
+const PLACEHOLDERS = {
+  Scales:'e.g. D Major, A Minor…',
+  Repertoire:'e.g. Twinkle Twinkle… / Für Elise…',
+  'Other pieces':'Enter piece or exercise name…',
+  Chords:'e.g. G Major, Bm, Cadd9…',
+  Fingerpicking:'e.g. Canon in D, Spanish Romance…',
+  Improvisation:'e.g. Blues in E, Pentatonic jam…',
+  Hanon:'e.g. Hanon No.1, Czerny Op.599…',
+  'Sight-reading':'e.g. Grade 2 sight-reading piece…',
+  Theory:'e.g. Interval recognition, Chord drill…',
+};
+let currentCategory = '';
+
+document.getElementById('pieceSelect').addEventListener('change', function(){
+  const wrap  = document.getElementById('customPieceWrap');
+  const input = document.getElementById('customPiece');
+  const srPanel = document.getElementById('srPanel');
+  currentCategory = this.value;
+
+  // Sight-reading — show grade selector for all instruments
+  const isSightReading = (this.value === 'Sight-reading');
+  srPanel.style.display = isSightReading ? 'block' : 'none';
+  // Reset SR output when switching away
+  if(!isSightReading){
+    document.getElementById('srOutput').style.display = 'none';
+    document.getElementById('customPiece').value = '';
+  }
+
+  if(isSightReading){
+    wrap.style.display = 'none'; // hide text input — grade selector replaces it
+    hideDropdown();
+  } else if(NEEDS_NAME.includes(this.value)){
+    input.placeholder = PLACEHOLDERS[this.value] || 'Enter name…';
+    input.value = ''; wrap.style.display = 'block'; input.focus(); showDropdown('');
+  } else {
+    wrap.style.display = 'none'; input.value = ''; hideDropdown();
+  }
+});
+
+const acInput = document.getElementById('customPiece');
+const acDrop  = document.getElementById('acDropdown');
+acInput.addEventListener('input', function(){ showDropdown(this.value); });
+acInput.addEventListener('focus', function(){ showDropdown(this.value); });
+acInput.addEventListener('keydown', function(e){
+  const items = acDrop.querySelectorAll('.ac-item');
+  const active = acDrop.querySelector('.ac-item.ac-active');
+  if(e.key==='ArrowDown'){ e.preventDefault(); const next=active?active.nextElementSibling:items[0]; if(next){active&&active.classList.remove('ac-active');next.classList.add('ac-active');next.scrollIntoView({block:'nearest'});}}
+  else if(e.key==='ArrowUp'){ e.preventDefault(); const prev=active?active.previousElementSibling:items[items.length-1]; if(prev){active&&active.classList.remove('ac-active');prev.classList.add('ac-active');prev.scrollIntoView({block:'nearest'});}}
+  else if(e.key==='Enter'){ e.preventDefault(); if(active){ selectItem(active.dataset.val); } }
+  else if(e.key==='Escape'){ hideDropdown(); }
+});
+document.addEventListener('click', function(e){ if(!document.getElementById('customPieceWrap').contains(e.target)) hideDropdown(); });
+
+function showDropdown(query){
+  if(!currentCategory || !NEEDS_NAME.includes(currentCategory)){ hideDropdown(); return; }
+  const q = query.trim().toLowerCase();
+  const library = getAcData()[currentCategory] || [];
+  const history = loadHistory(currentCategory);
+  const libMatches = q ? library.filter(s=>s.toLowerCase().includes(q)) : library.slice(0,8);
+  const histMatches = history.filter(h=>h.toLowerCase().includes(q) && !libMatches.some(l=>l.toLowerCase()===h.toLowerCase()));
+  if(!libMatches.length && !histMatches.length){ hideDropdown(); return; }
+  let html = '';
+  if(histMatches.length){ html += `<div class="ac-section">Recent</div>`; histMatches.forEach(h=>{ html += `<div class="ac-item" data-val="${escAc(h)}"><span class="ac-hist-icon">↩</span>${escAc(h)}</div>`; }); }
+  if(libMatches.length){ if(histMatches.length) html += `<div class="ac-section">Suggestions</div>`; libMatches.forEach(s=>{ html += `<div class="ac-item" data-val="${escAc(s)}">${highlightMatch(s,q)}</div>`; }); }
+  acDrop.innerHTML = html;
+  acDrop.querySelectorAll('.ac-item').forEach(el=>{ el.addEventListener('mousedown', e=>{ e.preventDefault(); selectItem(el.dataset.val); }); });
+  acDrop.style.display = 'block';
+}
+function selectItem(val){ acInput.value = val; hideDropdown(); acInput.focus(); }
+function hideDropdown(){ acDrop.style.display = 'none'; }
+function escAc(s){ return s.replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function highlightMatch(text, q){ if(!q) return text; const idx=text.toLowerCase().indexOf(q); if(idx<0) return text; return text.slice(0,idx)+'<strong>'+text.slice(idx,idx+q.length)+'</strong>'+text.slice(idx+q.length); }
+
+// ══════════════════════════════════════════════
+//  Focus toggles
+// ══════════════════════════════════════════════
+document.querySelectorAll('.toggle').forEach(t=>{ t.addEventListener('click', ()=> t.classList.toggle('active')); });
+function getActiveFocus(){ return [...document.querySelectorAll('.toggle.active')].map(t=>t.dataset.val); }
+
+// ══════════════════════════════════════════════
+//  Timer
+// ══════════════════════════════════════════════
+function startTimer(){
+  elapsedSec = 0; document.getElementById('timer').textContent = '0:00';
+  timerInterval = setInterval(()=>{
+    elapsedSec++;
+    const m=Math.floor(elapsedSec/60), s=String(elapsedSec%60).padStart(2,'0');
+    document.getElementById('timer').textContent = m+':'+s;
+    if(elapsedSec >= 90) stopRecording();
+  }, 1000);
+}
+function stopTimer(){ clearInterval(timerInterval); }
+
+// ══════════════════════════════════════════════
+//  Pitch detection (autocorrelation)
+// ══════════════════════════════════════════════
+const NOTE_STRINGS = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+function freqToNote(freq){
+  if(freq <= 0) return {note:'—', cents:0, octave:0};
+  const semitones = 12 * Math.log2(freq / 440);
+  const rounded = Math.round(semitones);
+  const noteIdx = ((rounded % 12) + 12) % 12;
+  const octave = Math.floor((rounded + 69) / 12) - 1;
+  const idealFreq = 440 * Math.pow(2, rounded/12);
+  const cents = Math.round(1200 * Math.log2(freq / idealFreq));
+  return { note: NOTE_STRINGS[noteIdx], cents, octave };
+}
+function autoCorrelate(buf, sampleRate){
+  const SIZE = buf.length; let rms = 0;
+  for(let i=0;i<SIZE;i++) rms += buf[i]*buf[i];
+  rms = Math.sqrt(rms/SIZE); if(rms < 0.01) return -1;
+  let r1=0, r2=SIZE-1, thres=0.2;
+  for(let i=0;i<SIZE/2;i++) if(Math.abs(buf[i])<thres){ r1=i; break; }
+  for(let i=1;i<SIZE/2;i++) if(Math.abs(buf[SIZE-i])<thres){ r2=SIZE-i; break; }
+  const buf2=buf.slice(r1,r2), len=buf2.length;
+  const c=new Float32Array(len);
+  for(let i=0;i<len;i++) for(let j=0;j<len-i;j++) c[i]+=buf2[j]*buf2[j+i];
+  let d=0; while(d<len && c[d]>c[d+1]) d++;
+  let maxVal=-1, maxPos=-1;
+  for(let i=d;i<len;i++) if(c[i]>maxVal){ maxVal=c[i]; maxPos=i; }
+  let T0=maxPos; const x1=c[T0-1],x2=c[T0],x3=c[T0+1];
+  const a=(x1+x3-2*x2)/2, b=(x3-x1)/2; if(a) T0=T0-b/(2*a);
+  return sampleRate/T0;
+}
+
+// ══════════════════════════════════════════════
+//  Live visualisation
+// ══════════════════════════════════════════════
+function startVisualization(stream){
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const source = audioCtx.createMediaStreamSource(stream);
+  analyser = audioCtx.createAnalyser(); analyser.fftSize = 2048;
+  source.connect(analyser);
+  const bufLen = analyser.frequencyBinCount;
+  const timeDomainData = new Float32Array(analyser.fftSize);
+  const freqData = new Uint8Array(bufLen);
+  const canvas = document.getElementById('waveform');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+  canvas.height = 56 * window.devicePixelRatio;
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  const W = canvas.offsetWidth, H = 56;
+  liveStats = { pitchSamples:[], volSamples:[], noteNames:[], silenceCount:0, totalFrames:0 };
+  function draw(){
+    animFrame = requestAnimationFrame(draw);
+    analyser.getFloatTimeDomainData(timeDomainData);
+    analyser.getByteFrequencyData(freqData);
+    liveStats.totalFrames++;
+    let rms=0; for(let i=0;i<timeDomainData.length;i++) rms+=timeDomainData[i]*timeDomainData[i];
+    rms=Math.sqrt(rms/timeDomainData.length);
+    const db=rms>0.0001?Math.round(20*Math.log10(rms)):-80;
+    liveStats.volSamples.push(db);
+    const freq=autoCorrelate(timeDomainData,audioCtx.sampleRate);
+    const noteInfo=freq>0?freqToNote(freq):null;
+    if(noteInfo && freq>180 && freq<2100){
+      liveStats.pitchSamples.push(noteInfo.cents);
+      liveStats.noteNames.push(noteInfo.note+noteInfo.octave);
+      document.getElementById('mNote').textContent=noteInfo.note+noteInfo.octave;
+      document.getElementById('mFreq').textContent=Math.round(freq)+' Hz';
+      const absCents=Math.abs(noteInfo.cents);
+      let tuneLabel, tuneClass;
+      if(absCents<=10){tuneLabel='In tune ✓';tuneClass='green';}
+      else if(absCents<=25){tuneLabel=noteInfo.cents>0?'Slightly sharp':'Slightly flat';tuneClass='amber';}
+      else{tuneLabel=noteInfo.cents>0?'Sharp':'Flat';tuneClass='red';}
+      document.getElementById('mTune').textContent=tuneLabel;
+      document.getElementById('mTune').className='meter-value '+tuneClass;
+      document.getElementById('mCents').textContent=(noteInfo.cents>0?'+':'')+noteInfo.cents+' cents';
+      const pct=Math.max(5,Math.min(95,50+noteInfo.cents));
+      document.getElementById('pitchBarFill').style.width=pct+'%';
+    } else { liveStats.silenceCount++; }
+    const volEl=document.getElementById('mVol');
+    if(db>-10){volEl.textContent='Loud';volEl.className='meter-value green';}
+    else if(db>-30){volEl.textContent='Medium';volEl.className='meter-value amber';}
+    else if(db>-55){volEl.textContent='Soft';volEl.className='meter-value';}
+    else{volEl.textContent='Silent';volEl.className='meter-value';}
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='rgba(8,24,14,.0)'; ctx.fillRect(0,0,W,H);
+    // gradient fill under waveform
+    const wGrad=ctx.createLinearGradient(0,0,0,H);
+    wGrad.addColorStop(0,'rgba(76,222,138,.35)');
+    wGrad.addColorStop(1,'rgba(76,222,138,.02)');
+    ctx.lineWidth=1.8; ctx.strokeStyle='#4cde8a'; ctx.beginPath();
+    const sliceW=W/bufLen; let x=0;
+    for(let i=0;i<bufLen;i++){ const v=freqData[i]/255.0; const y=H-v*H; i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); x+=sliceW; }
+    ctx.stroke();
+  }
+  draw();
+}
+function stopVisualization(){ if(animFrame) cancelAnimationFrame(animFrame); if(audioCtx){ audioCtx.close(); audioCtx=null; } }
+
+// ══════════════════════════════════════════════
+//  Recording
+// ══════════════════════════════════════════════
+/* ── Audio device selector ── */
+let selectedDeviceId = '';
+
+async function populateAudioDevices(){
+  try {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const inputs  = devices.filter(d => d.kind === 'audioinput');
+    // If all labels are blank, permission hasn't been granted yet — don't overwrite the list
+    const hasLabels = inputs.some(d => d.label);
+    if(!hasLabels) return;
+    const sel = document.getElementById('audioDeviceSelect');
+    sel.innerHTML = '<option value="">Default microphone</option>';
+    inputs.forEach(d => {
+      const opt = document.createElement('option');
+      opt.value = d.deviceId;
+      opt.textContent = d.label;
+      sel.appendChild(opt);
+    });
+    if(selectedDeviceId) sel.value = selectedDeviceId;
+    // Hide the hint once we have real labels
+    document.getElementById('deviceHint').style.display = 'none';
+  } catch(e) {
+    console.warn('Could not enumerate audio devices:', e);
+  }
+}
+
+// Re-populate whenever a device is plugged/unplugged
+navigator.mediaDevices.addEventListener('devicechange', populateAudioDevices);
+
+async function toggleRecording(){ if(isRecording){ stopRecording(); return; }
+  if(!apiKey){ alert('Please enter your OpenAI API key first to enable AI feedback.'); document.getElementById('apiKeyInput').focus(); return; }
+  const audioConstraint = selectedDeviceId
+    ? { deviceId: { exact: selectedDeviceId } }
+    : true;
+  try { micStream = await navigator.mediaDevices.getUserMedia({ audio: audioConstraint, video: false }); }
+  catch(e){ alert('Microphone access is required. Please allow microphone permissions and try again.'); return; }
+  // Dismiss any previous playback when starting a new recording
+  discardPlayback();
+  // Permission just granted — refresh device list so labels are now visible
+  populateAudioDevices();
+  audioChunks=[];
+  mediaRecorder=new MediaRecorder(micStream,{mimeType:getSupportedMimeType()});
+  mediaRecorder.ondataavailable=e=>{ if(e.data.size>0) audioChunks.push(e.data); };
+  mediaRecorder.onstop=handleRecordingStop;
+  mediaRecorder.start(250);
+  isRecording=true; startTimer(); startVisualization(micStream);
+  document.getElementById('liveMeters').style.display='grid';
+  document.getElementById('pitchBarWrap').style.display='block';
+  document.getElementById('waveformWrap').style.display='block';
+  setRecordBtn('recording','■  Stop & Get Feedback');
+  document.getElementById('recordHint').textContent='Listening… play your piece now. Press stop when done.';
+}
+function discardPlayback(){
+  const audio = document.getElementById('playbackAudio');
+  audio.pause();
+  audio.src = '';
+  if(_lastRecordingUrl){ URL.revokeObjectURL(_lastRecordingUrl); _lastRecordingUrl = null; }
+  document.getElementById('playbackPanel').style.display = 'none';
+}
+
+function stopRecording(){
+  if(!isRecording) return; isRecording=false; stopTimer();
+  if(mediaRecorder && mediaRecorder.state!=='inactive') mediaRecorder.stop();
+  micStream.getTracks().forEach(t=>t.stop()); stopVisualization();
+  setRecordBtn('analyzing','Analysing recording…');
+  document.getElementById('recordHint').textContent='The AI is processing your recording…';
+}
+function getSupportedMimeType(){ const types=['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/mp4']; for(const t of types) if(MediaRecorder.isTypeSupported(t)) return t; return ''; }
+function setRecordBtn(state,label){
+  const btn=document.getElementById('recordBtn');
+  btn.className='record-btn '+state;
+  document.getElementById('recordLabel').textContent=label;
+  document.getElementById('recIconIdle').style.display  = state==='idle'      ? '' : 'none';
+  document.getElementById('recIconStop').style.display  = state==='recording' ? '' : 'none';
+  document.getElementById('recIconSpin').style.display  = state==='analyzing' ? '' : 'none';
+}
+
+// ══════════════════════════════════════════════
+//  Mode switcher (Record / Upload)
+// ══════════════════════════════════════════════
+function switchMode(mode){
+  const isRecord = mode === 'record';
+  document.getElementById('tabRecord').classList.toggle('active', isRecord);
+  document.getElementById('tabUpload').classList.toggle('active', !isRecord);
+  // Toggle live-recording-only elements (recordArea only)
+  const recordEls = ['recordArea'];
+  recordEls.forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.style.display = isRecord ? '' : 'none';
+  });
+  // historySection: always driven by whether there is history
+  if(isRecord){
+    const hs = document.getElementById('historySection');
+    if(hs) hs.style.display = (typeof sessionHistory !== 'undefined' && sessionHistory.length) ? '' : 'none';
+  }
+  document.getElementById('uploadPanel').style.display = isRecord ? 'none' : '';
+  if(isRecord) clearUpload();
+}
+
+// ══════════════════════════════════════════════
+//  Upload — drag & drop handlers
+// ══════════════════════════════════════════════
+let _uploadFile = null;
+
+// Zone click — only open file picker when no file is loaded yet
+function uploadZoneClick(e){
+  if(_uploadFile) return; // file already selected; let button clicks handle it
+  document.getElementById('uploadInput').click();
+}
+
+function uploadDragOver(e){
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.add('dragover');
+}
+function uploadDragLeave(e){
+  document.getElementById('uploadZone').classList.remove('dragover');
+}
+function uploadDrop(e){
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if(file) uploadFileSelected(file);
+}
+
+// ══════════════════════════════════════════════
+//  Upload — file selection
+// ══════════════════════════════════════════════
+function uploadFileSelected(file){
+  if(!file) return;
+  _uploadFile = file;
+  const mb = (file.size / 1048576).toFixed(2);
+  document.getElementById('uploadFileName').textContent = file.name;
+  document.getElementById('uploadFileSize').textContent = mb + ' MB';
+  // Hide the drop zone, show the file-info row
+  document.getElementById('uploadZone').style.display = 'none';
+  document.getElementById('uploadFileInfo').style.display = 'flex';
+  document.getElementById('uploadStatus').textContent = '';
+  document.getElementById('uploadProgress').style.display = 'none';
+  document.getElementById('uploadProgressFill').style.width = '0%';
+}
+
+function clearUpload(e){
+  if(e) e.stopPropagation();
+  _uploadFile = null;
+  document.getElementById('uploadFileName').textContent = '—';
+  document.getElementById('uploadFileSize').textContent = '—';
+  // Show the drop zone, hide the file-info row
+  document.getElementById('uploadZone').style.display = 'block';
+  document.getElementById('uploadFileInfo').style.display = 'none';
+  document.getElementById('uploadStatus').textContent = '';
+  document.getElementById('uploadProgress').style.display = 'none';
+  document.getElementById('uploadProgressFill').style.width = '0%';
+  const inp = document.getElementById('uploadInput');
+  if(inp) inp.value = '';
+}
+
+// ══════════════════════════════════════════════
+//  Upload — analyse
+// ══════════════════════════════════════════════
+async function analyseUploadedFile(e){
+  if(e) e.stopPropagation();
+  if(!_uploadFile){ alert('Please select an audio file first.'); return; }
+  if(location.protocol === 'file:'){
+    alert('This page is opened as a local file (file://).\n\nBrowsers block network access from file:// pages, so the AI cannot be reached.\n\nFix: open the page through a local server instead:\n• VS Code → install Live Server → click Go Live\n• Or run: npx serve . in a terminal');
+    return;
+  }
+  if(!apiKey){ alert('Please connect your OpenAI API key first.'); return; }
+
+  const btn = document.getElementById('uploadAnalyseBtn');
+  const progressBar = document.getElementById('uploadProgress');
+  const progressFill = document.getElementById('uploadProgressFill');
+  const statusEl = document.getElementById('uploadStatus');
+
+  btn.disabled = true;
+  progressBar.style.display = 'block';
+  progressFill.style.width = '0%';
+
+  // Animate progress in stages while we wait for the API
+  let pct = 0;
+  function advanceTo(target, ms){
+    return new Promise(res => {
+      const steps = 20, interval = ms / steps;
+      const inc = (target - pct) / steps;
+      const t = setInterval(() => {
+        pct = Math.min(pct + inc, target);
+        progressFill.style.width = pct.toFixed(1) + '%';
+        if(pct >= target){ clearInterval(t); res(); }
+      }, interval);
+    });
+  }
+
+  try {
+    // Show loading state in feedback area
+    document.getElementById('feedbackArea').style.display = '';
+    document.getElementById('feedbackContent').innerHTML =
+      `<div class="thinking"><div class="dot-wave"><div></div><div></div><div></div></div><span>Transcribing your recording…</span></div>`;
+
+    statusEl.textContent = 'Preparing analysis…';
+    await advanceTo(20, 600);
+
+    // Build stats for the uploaded file — no live acoustic data available
+    const piece = (() => {
+      let p = document.getElementById('pieceSelect').value;
+      const detail = document.getElementById('customPiece').value.trim();
+      if(p && detail) p = p + ' – ' + detail;
+      return p || 'Uploaded recording';
+    })();
+    const fileSizeMB = (_uploadFile.size / 1048576).toFixed(2);
+    const stubStats = {
+      avgCents: null, inTunePct: null, sharpCount: null, flatCount: null,
+      stdDev: null, dynRange: null, maxVol: null, minVol: null,
+      silencePct: null, topNotes: '', duration: 0,
+      piece, focus: getActiveFocus(),
+      uploadedFile: true, fileName: _uploadFile.name, fileSizeMB
+    };
+
+    await advanceTo(40, 400);
+    statusEl.textContent = 'Analysing with AI Teacher…';
+    document.getElementById('feedbackContent').innerHTML =
+      `<div class="thinking"><div class="dot-wave"><div></div><div></div><div></div></div><span>AI Teacher is analysing your recording…</span></div>`;
+
+    await advanceTo(70, 500);
+
+    let attempts = 0;
+    while(attempts < 2){
+      try {
+        const feedback = await getAIFeedback(stubStats, '', 0);
+        await advanceTo(100, 300);
+        statusEl.textContent = 'Done!';
+        renderFeedback(feedback, stubStats);
+        addToHistory(feedback, stubStats);
+        runPlannerAgent('Session completed (uploaded file): ' + (piece || 'general practice'));
+        break;
+      } catch(err){
+        attempts++;
+        if(attempts >= 2){
+          renderError(err);
+          statusEl.textContent = 'Analysis failed.';
+        } else {
+          await new Promise(r => setTimeout(r, 1000));
+        }
+      }
+    }
+
+  } catch(err){
+    statusEl.textContent = 'Something went wrong: ' + err.message;
+    document.getElementById('feedbackContent').innerHTML =
+      `<div style="color:var(--red);font-size:14px;padding:16px;">Could not analyse file: ${err.message}</div>`;
+  } finally {
+    btn.disabled = false;
+    // Scroll to feedback
+    window.scrollTo({ top: document.querySelector('.feedback-area').offsetTop - 80, behavior: 'smooth' });
+  }
+}
+
+// ══════════════════════════════════════════════
+//  After recording stops
+// ══════════════════════════════════════════════
+async function handleRecordingStop(){
+  const mimeType=getSupportedMimeType()||'audio/webm';
+  const blob=new Blob(audioChunks,{type:mimeType});
+  const duration=elapsedSec;
+  document.getElementById('feedbackContent').innerHTML=`<div class="thinking"><div class="dot-wave"><div></div><div></div><div></div></div><span>AI Teacher is analysing your session…</span></div>`;
+  setRecordBtn('idle','Start Recording');
+  document.getElementById('recordHint').textContent='Press the button, then play your piece. Recording stops automatically after 90 seconds, or press again to stop early.';
+  document.getElementById('timer').textContent='';
+  document.getElementById('liveMeters').style.display='none';
+  document.getElementById('pitchBarWrap').style.display='none';
+  document.getElementById('waveformWrap').style.display='none';
+
+  // ── Show playback panel ──
+  if(_lastRecordingUrl) URL.revokeObjectURL(_lastRecordingUrl);
+  _lastRecordingUrl = URL.createObjectURL(blob);
+  const audio = document.getElementById('playbackAudio');
+  audio.src = _lastRecordingUrl;
+  const mins = Math.floor(duration / 60);
+  const secs = duration % 60;
+  const durStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+  document.getElementById('playbackMeta').textContent = `${durStr} · ${(blob.size/1048576).toFixed(2)} MB`;
+  document.getElementById('playbackPanel').style.display = 'block';
+  const cat=document.getElementById('pieceSelect').value;
+  const detail=document.getElementById('customPiece').value.trim();
+  if(detail && ['Scales','Repertoire','Other pieces'].includes(cat)) saveHistory(cat,detail);
+  const analysisSummary=buildAnalysisSummary(duration);
+  let transcription='';
+  try { const controller=new AbortController(); const tid=setTimeout(()=>controller.abort(),20000); transcription=await transcribeAudio(blob,mimeType,controller.signal); clearTimeout(tid); }
+  catch(e){ transcription='[Audio transcription unavailable]'; }
+  let attempts=0;
+  while(attempts<2){
+    try {
+      const feedback=await getAIFeedback(analysisSummary,transcription,duration);
+      renderFeedback(feedback,analysisSummary); addToHistory(feedback,analysisSummary);
+      runPlannerAgent('Session completed: '+(analysisSummary.piece||'general practice'));
+      return;
+    } catch(e){
+      attempts++;
+      if(attempts>=2){ renderError(e); return; }
+      await new Promise(r=>setTimeout(r,1000));
+    }
+  }
+}
+
+// ══════════════════════════════════════════════
+//  Build analysis summary
+// ══════════════════════════════════════════════
+function buildAnalysisSummary(duration){
+  const ps=liveStats.pitchSamples, vs=liveStats.volSamples;
+  const avgCents=ps.length?ps.reduce((a,b)=>a+b,0)/ps.length:0;
+  const inTuneCount=ps.filter(c=>Math.abs(c)<=15).length;
+  const inTunePct=ps.length?Math.round(100*inTuneCount/ps.length):0;
+  const sharpCount=ps.filter(c=>c>15).length, flatCount=ps.filter(c=>c<-15).length;
+  let stdDev=0;
+  if(ps.length>1){ const mean=ps.reduce((a,b)=>a+b,0)/ps.length; stdDev=Math.sqrt(ps.reduce((a,b)=>a+(b-mean)**2,0)/ps.length); }
+  const filtVol=vs.filter(v=>v>-60);
+  const maxVol=filtVol.length?Math.max(...filtVol):-60, minVol=filtVol.length?Math.min(...filtVol):-60;
+  const dynRange=maxVol-minVol;
+  const silencePct=liveStats.totalFrames?Math.round(100*liveStats.silenceCount/liveStats.totalFrames):0;
+  const noteFreq={}; liveStats.noteNames.forEach(n=>{ noteFreq[n]=(noteFreq[n]||0)+1; });
+  const topNotes=Object.entries(noteFreq).sort((a,b)=>b[1]-a[1]).slice(0,6).map(e=>e[0]).join(', ');
+  let piece=document.getElementById('pieceSelect').value;
+  const detail=document.getElementById('customPiece').value.trim();
+  if(piece && detail) piece = piece + ' – ' + detail;
+  const focus=getActiveFocus();
+  return{avgCents,inTunePct,sharpCount,flatCount,stdDev,dynRange,maxVol,minVol,silencePct,topNotes,duration,piece,focus};
+}
+
+// ══════════════════════════════════════════════
+//  Whisper transcription
+// ══════════════════════════════════════════════
+async function transcribeAudio(blob,mimeType,signal){
+  const extMap={'audio/mpeg':'mp3','audio/mp3':'mp3','audio/wav':'wav','audio/wave':'wav','audio/x-wav':'wav','audio/m4a':'m4a','audio/x-m4a':'m4a','audio/mp4':'mp4','video/mp4':'mp4','audio/flac':'flac','audio/x-flac':'flac','audio/ogg':'ogg','video/ogg':'ogg','audio/webm':'webm','video/webm':'webm'};
+  const ext=extMap[mimeType]||(mimeType.includes('mp3')||mimeType.includes('mpeg')?'mp3':mimeType.includes('wav')?'wav':mimeType.includes('m4a')?'m4a':mimeType.includes('mp4')?'mp4':mimeType.includes('flac')?'flac':mimeType.includes('ogg')?'ogg':'webm');
+  const formData=new FormData();
+  formData.append('file',blob,'recording.'+ext);
+  formData.append('model','whisper-1');
+  formData.append('response_format','text');
+  formData.append('language','en');
+  const res=await fetch('https://api.openai.com/v1/audio/transcriptions',{method:'POST',headers:{'Authorization':'Bearer '+apiKey},body:formData,signal});
+  if(!res.ok) return '[Transcription unavailable]';
+  return (await res.text()).trim();
+}
+
+// ══════════════════════════════════════════════
+//  GPT-4o feedback
+// ══════════════════════════════════════════════
+async function getAIFeedback(stats,transcription,duration){
+  const inst = currentInstrument;
+  const instName = INSTRUMENT_CONFIG[inst].name;
+  const pieceStr=stats.piece||`general ${instName.toLowerCase()} practice`;
+  const focusStr=stats.focus.join(', ')||'intonation, rhythm, dynamics, tone, musicality';
+  const systemPrompt=`You are an expert AI ${instName} teacher on the Inspire platform. You provide professional, detailed, and constructive feedback to ${instName.toLowerCase()} students of all levels. Your style is encouraging and specific — always highlight strengths before areas for improvement.
+
+Your feedback must be a valid JSON object with this exact structure:
+{
+  "overall_message": "A professional 2-3 sentence feedback message. Start with a genuine positive observation.",
+  "scores": {
+    "intonation": <number 1-10>,
+    "rhythm": <number 1-10>,
+    "dynamics": <number 1-10>,
+    "tone": <number 1-10>,
+    "musicality": <number 1-10>
+  },
+  "suggestions": [
+    { "type": "praise|tip|warn", "icon": "emoji", "text": "specific, actionable feedback" },
+    ... (4-6 items total, always start with at least 1 praise)
+  ],
+  "practice_tip": "One specific, actionable practice exercise to address the primary area for improvement."
+}
+Only return the JSON object. No markdown fences.`;
+  const userPrompt = stats.uploadedFile
+    ? `Student uploaded a ${instName.toLowerCase()} recording for feedback.
+File: "${stats.fileName || stats.piece}"
+Piece / category: "${pieceStr}"
+Focus areas requested: ${focusStr}
+
+No live acoustic measurements are available for this uploaded file.
+Please provide encouraging, constructive feedback appropriate for a ${instName.toLowerCase()} student practising "${pieceStr}".
+Base your scores and suggestions on typical challenges for this piece/category and the requested focus areas.
+
+Score only the selected focus areas. Give a neutral 7 for unselected areas.`
+    : `Student just finished playing: "${pieceStr}"
+Duration: ${duration} seconds
+Focus areas requested: ${focusStr}
+
+Live acoustic measurements:
+- Pitch accuracy: ${stats.inTunePct}% of notes were in tune (within ±15 cents)
+- Pitch tendency: ${stats.sharpCount} sharp moments, ${stats.flatCount} flat moments
+- Average pitch deviation: ${Math.round(stats.avgCents)} cents (positive=sharp, negative=flat)
+- Pitch consistency (std dev): ${Math.round(stats.stdDev)} cents
+- Dynamic range: ${Math.round(stats.dynRange)} dB (min: ${Math.round(stats.minVol)} dB, max: ${Math.round(stats.maxVol)} dB)
+- Silence ratio: ${stats.silencePct}% (high = hesitations or pauses)
+- Notes detected: ${stats.topNotes||'not detected clearly'}
+- Audio transcription (context only): "${transcription}"
+
+Score only the selected focus areas. Give a neutral 7 for others.`;
+  const res=await fetch('https://api.openai.com/v1/chat/completions',{
+    method:'POST',headers:{'Authorization':'Bearer '+apiKey,'Content-Type':'application/json'},
+    body:JSON.stringify({model:'gpt-4o',messages:[{role:'system',content:systemPrompt},{role:'user',content:userPrompt}],temperature:0.7,max_tokens:900})
+  });
+  if(!res.ok){
+    let errMsg='OpenAI API error '+res.status;
+    try{ const err=await res.json(); errMsg=err.error?.message||errMsg; if(res.status===401) errMsg='Invalid API key. Please re-enter your OpenAI key.'; if(res.status===429) errMsg='Rate limit or no credits. Please add credits at platform.openai.com/billing'; if(res.status===500) errMsg='OpenAI server error. Please try again in a moment.'; }catch(_){}
+    throw new Error(errMsg);
+  }
+  const data=await res.json();
+  const raw=data.choices[0].message.content.trim();
+  const clean=raw.replace(/^```json\s*/i,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
+  let parsed;
+  try{ parsed=JSON.parse(clean); }
+  catch(parseErr){ const match=clean.match(/\{[\s\S]*\}/); if(match){ try{parsed=JSON.parse(match[0]);}catch(_){throw new Error('AI returned unexpected format. Retrying…');} } else { throw new Error('AI returned unexpected format. Retrying…'); } }
+  return parsed;
+}
+
+// ══════════════════════════════════════════════
+//  Render feedback
+// ══════════════════════════════════════════════
+function scoreClass(s){ if(s>=8) return 'score-excellent'; if(s>=6) return 'score-good'; if(s>=4) return 'score-fair'; return 'score-poor'; }
+function gradeLabel(s){ if(s>=9) return 'Excellent'; if(s>=7) return 'Good'; if(s>=5) return 'Developing'; return 'Needs work'; }
+function scoreName(name){ const m={intonation:'Intonation',rhythm:'Rhythm',dynamics:'Dynamics',tone:'Tone Quality',musicality:'Musicality'}; return m[name]||name.charAt(0).toUpperCase()+name.slice(1); }
+
+function renderFeedback(fb,stats){
+  const scores=fb.scores||{}, suggestions=fb.suggestions||[];
+  let scoresHtml='';
+  for(const[name,val] of Object.entries(scores)){
+    scoresHtml+=`<div class="score-badge ${scoreClass(val)}"><div class="badge-name">${scoreName(name)}</div><div class="badge-score">${val}<small style="font-size:13px;font-weight:400;opacity:.6;">/10</small></div><div class="badge-grade">${gradeLabel(val)}</div></div>`;
+  }
+  let sugHtml='';
+  for(const s of suggestions){ sugHtml+=`<div class="suggestion-item ${s.type}"><div class="suggestion-text">${s.text}</div></div>`; }
+  let practiceHtml='';
+  if(fb.practice_tip){ practiceHtml=`<div class="suggestion-item tip" style="margin-top:14px;border-color:var(--accent);background:#fdf9ee;"><div class="suggestion-text"><strong>Practice exercise:</strong> ${fb.practice_tip}</div></div>`; }
+  const inTuneStr = stats.inTunePct != null ? ` &nbsp;·&nbsp; ${stats.inTunePct}% in tune` : '';
+  const statsLine=`<div style="font-size:11px;color:var(--muted);margin-bottom:18px;">${stats.piece||'General practice'} &nbsp;·&nbsp; ${stats.duration}s recorded${inTuneStr}</div>`;
+  const nextStepHtml=`<div class="next-step-row" id="nextStepRow" style="display:none;"><div class="next-step-title">🎯 What to try next</div><div class="next-step-chips" id="nextStepChips"><div style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--muted);animation:atdot .9s ease-in-out infinite;display:inline-block;"></span>AI is thinking…</div></div></div>`;
+  // capture fb/stats for email closure
+  const _fb = fb, _stats = stats;
+  const emailBarHtml = `<div class="email-parent-bar">
+    <span class="email-parent-bar-label">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Send this feedback to a parent or guardian
+    </span>
+    <button class="btn-email-parent" id="emailParentBtn" onclick="openEmailModal(window._lastFb, window._lastStats)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Email to Parent
+    </button>
+  </div>`;
+  document.getElementById('feedbackContent').innerHTML=`${statsLine}<div class="score-grid">${scoresHtml}</div><div class="teacher-msg">${fb.overall_message||''}</div><div class="suggestions"><div class="suggestions-title">Feedback &amp; Suggestions</div>${sugHtml}${practiceHtml}</div>${nextStepHtml}${emailBarHtml}`;
+  // store latest for email modal (accessible from inline onclick)
+  window._lastFb = _fb; window._lastStats = _stats;
+  // trigger next-step chips asynchronously
+  document.getElementById('nextStepRow').style.display = 'block';
+  generateNextSteps(stats.piece, fb.scores);
+}
+
+function renderError(e){
+  const msg=(e&&e.message)?e.message:String(e);
+  let help='';
+  if(msg.includes('Invalid API key')||msg.includes('401')){ help='Check that you pasted the full key starting with <code>sk-</code> and that it has not been revoked.'; }
+  else if(msg.includes('credits')||msg.includes('429')||msg.includes('quota')){ help='Add credits at <a href="https://platform.openai.com/settings/organization/billing" target="_blank" style="color:var(--primary);">platform.openai.com/billing</a>.'; }
+  else if(msg.includes('fetch')||msg.includes('network')||msg.includes('Failed to fetch')){ help='Check your internet connection. If opening this as a <code>file://</code> page, serve it over HTTP (see the warning above).'; }
+  else if(msg.includes('format')||msg.includes('JSON')){ help='The AI returned an unexpected response format. A retry was attempted. Try recording a slightly longer session.'; }
+  document.getElementById('feedbackContent').innerHTML=`<div class="error-item"><div class="error-title">Feedback unavailable</div><div class="error-msg">${msg}</div>${help?`<div class="error-help">${help}</div>`:''}<div class="error-help">Open DevTools (F12) and check the Console for full error details.</div></div>`;
+}
+
+// ══════════════════════════════════════════════
+//  Session history
+// ══════════════════════════════════════════════
+function addToHistory(fb,stats){
+  const entry={time:new Date().toLocaleTimeString(),piece:stats.piece||'General practice',scores:fb.scores,fb,stats};
+  sessionHistory.unshift(entry); renderHistory();
+  // persist to sessionStorage for analytics.html
+  try {
+    const storable = sessionHistory.map(s=>({
+      time:s.time, piece:s.piece, scores:s.scores,
+      stats:{ duration:s.stats?.duration, inTunePct:s.stats?.inTunePct }
+    }));
+    sessionStorage.setItem('vt_sessions', JSON.stringify(storable));
+  } catch(e){}
+}
+function renderHistory(){
+  if(!sessionHistory.length) return;
+  document.getElementById('historySection').style.display='block';
+  const list=document.getElementById('historyList');
+  list.innerHTML=sessionHistory.map((e,i)=>{
+    const scores=Object.values(e.scores||{});
+    const avg=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):'?';
+    const pills=Object.entries(e.scores||{}).slice(0,3).map(([k,v])=>`<span class="hscore">${scoreName(k)} ${v}</span>`).join('');
+    return `<div class="history-item" onclick="showHistoryEntry(${i})"><div><div class="history-piece">${e.piece}</div><div class="history-meta">${e.time} &nbsp;·&nbsp; ${e.stats.duration}s &nbsp;·&nbsp; Avg ${avg}/10</div></div><div class="history-scores">${pills}</div></div>`;
+  }).join('');
+}
+function showHistoryEntry(i){ const e=sessionHistory[i]; renderFeedback(e.fb,e.stats); window.scrollTo({top:document.querySelector('.feedback-area').offsetTop-80,behavior:'smooth'}); }
+
+// ══════════════════════════════════════════════
+//  AI Practice Planner (agentic loop)
+// ══════════════════════════════════════════════
+const PLANNER_KEY = 'prodigyai_planner_v1';
+function loadPlanner(){ try { return JSON.parse(localStorage.getItem(PLANNER_KEY))||{}; } catch(e){ return {}; } }
+function savePlanner(data){ localStorage.setItem(PLANNER_KEY, JSON.stringify(data)); }
+
+function setGoal(){
+  const val=document.getElementById('goalInput').value.trim(); if(!val) return;
+  const p=loadPlanner(); p.goal=val; p.goalSetAt=new Date().toISOString(); savePlanner(p);
+  document.getElementById('goalText').textContent=val;
+  document.getElementById('goalInput').value='';
+  document.getElementById('plannerSub').style.display='none';
+  document.getElementById('plannerEmpty').textContent='Goal set! Complete a practice session and the agent will build your personalised weekly plan.';
+  document.getElementById('plannerEmpty').style.display='block';
+  if(sessionHistory.length) runPlannerAgent('Goal just set: '+val);
+}
+(function(){
+  const p = loadPlanner();
+
+  // Restore saved goal into the display text
+  if(p.goal){
+    document.getElementById('goalText').textContent = p.goal;
+    document.getElementById('plannerSub').style.display = 'none';
+  }
+
+  // Restore plan, trends, agent message
+  if(p.trends)       renderTrends(p.trends);
+  if(p.agentMessage) renderAgentMessage(p.agentMessage);
+  if(p.weeklyPlan)   renderWeeklyPlan(p.weeklyPlan);
+
+  document.getElementById('plannerEmpty').style.display =
+    (!p.goal || !p.weeklyPlan) ? 'block' : 'none';
+
+  // Chrome ignores autocomplete="off" and injects autofill after load.
+  // Clear repeatedly over 1s to catch all autofill timing variants.
+  const inp = document.getElementById('goalInput');
+  if(inp){
+    inp.value = '';
+    inp.placeholder = p.goal ? 'Update your goal…' : inp.placeholder;
+    [50, 200, 500, 1000].forEach(ms => setTimeout(() => { inp.value = ''; }, ms));
+  }
+})();
+
+// Tool definitions
+const PLANNER_TOOLS = [
+  { type:'function', function:{ name:'get_session_history', description:'Returns all practice sessions this week including piece name, duration, and dimension scores.', parameters:{type:'object',properties:{},required:[]} } },
+  { type:'function', function:{ name:'get_weak_areas', description:'Analyses session history and returns the 1-3 dimensions where the student scores lowest on average.', parameters:{type:'object',properties:{},required:[]} } },
+  { type:'function', function:{ name:'get_current_goal', description:"Returns the student's current practice goal.", parameters:{type:'object',properties:{},required:[]} } },
+  { type:'function', function:{ name:'build_weekly_plan', description:'Stores a new 7-day practice plan after analysing weak areas and the goal.', parameters:{ type:'object', properties:{ days:{ type:'array', description:'Array of 7 day objects.', items:{ type:'object', properties:{ day:{type:'string'}, focus:{type:'string'}, pieces:{type:'string'}, duration:{type:'number'}, tip:{type:'string'} }, required:['day','focus','pieces','duration','tip'] } }, summary:{type:'string',description:'1-2 sentence summary of plan rationale.'} }, required:['days','summary'] } } },
+  { type:'function', function:{ name:'set_trends', description:'Records which areas are improving, struggling, or steady.', parameters:{ type:'object', properties:{ trends:{ type:'array', items:{ type:'object', properties:{ area:{type:'string'}, status:{type:'string',enum:['improving','struggling','steady']} }, required:['area','status'] } } }, required:['trends'] } } }
+];
+
+function executeTool(name,args){
+  const p=loadPlanner();
+  if(name==='get_session_history'){ const hist=sessionHistory.map(e=>({time:e.time,piece:e.piece,duration:e.stats.duration,scores:e.scores,inTunePct:e.stats.inTunePct})); const stored=p.historySummary||[]; return JSON.stringify({sessions:hist.length?hist:stored,count:hist.length}); }
+  if(name==='get_weak_areas'){ const all=sessionHistory.map(e=>e.scores).filter(Boolean); if(!all.length) return JSON.stringify({weakAreas:[],note:'No sessions yet'}); const totals={},counts={}; all.forEach(s=>{ Object.entries(s).forEach(([k,v])=>{ totals[k]=(totals[k]||0)+v; counts[k]=(counts[k]||0)+1; }); }); const avgs=Object.entries(totals).map(([k,v])=>({area:k,avg:Math.round((v/counts[k])*10)/10})); avgs.sort((a,b)=>a.avg-b.avg); return JSON.stringify({weakAreas:avgs.slice(0,3),allAverages:avgs}); }
+  if(name==='get_current_goal'){ return JSON.stringify({goal:p.goal||'No goal set yet',setAt:p.goalSetAt||null}); }
+  if(name==='build_weekly_plan'){ p.weeklyPlan=args; p.historySummary=sessionHistory.slice(0,10).map(e=>({piece:e.piece,scores:e.scores,inTunePct:e.stats?.inTunePct})); p.planBuiltAt=new Date().toISOString(); savePlanner(p); renderWeeklyPlan(args); return JSON.stringify({success:true,daysPlanned:args.days?.length}); }
+  if(name==='set_trends'){ p.trends=args.trends; savePlanner(p); renderTrends(args.trends); return JSON.stringify({success:true}); }
+  return JSON.stringify({error:'Unknown tool: '+name});
+}
+
+async function runPlannerAgent(triggerReason){
+  if(!apiKey) return;
+  const pCheck=loadPlanner(); if(!pCheck.goal) return;
+  showAgentThinking(true);
+  const p=loadPlanner();
+  const systemPrompt=`You are the AI Practice Planner on the Inspire platform. Your job is to autonomously analyse a student's practice history, identify patterns and weak areas, then build or update a personalised 7-day weekly practice plan.
+
+You work in an agentic loop — ALWAYS call tools to gather information before deciding anything. Never guess.
+Approach:
+1. Call get_session_history and get_weak_areas first.
+2. Call get_current_goal.
+3. Call set_trends to record improving/struggling/steady areas.
+4. Call build_weekly_plan only after gathering all information.
+5. After build_weekly_plan, write a professional 2-3 sentence message explaining what you found and why this plan was chosen.
+
+Plan guidelines:
+- Vary session length (10-25 minutes) based on difficulty.
+- Always include at least one creative or repertoire day.
+- Weight difficult sessions toward identified weak areas.
+- Sunday = optional rest or light listening.
+- Mention specific pieces or exercises by name when known.`;
+  const messages=[
+    {role:'system',content:systemPrompt},
+    {role:'user',content:`Trigger: ${triggerReason}\nCurrent time: ${new Date().toLocaleString()}\nSessions recorded: ${sessionHistory.length}`}
+  ];
+  let iterations=0, finalMessage='';
+  try {
+    while(iterations<8){
+      iterations++;
+      const res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+apiKey,'Content-Type':'application/json'},body:JSON.stringify({model:'gpt-4o',messages,tools:PLANNER_TOOLS,tool_choice:'auto',temperature:0.6,max_tokens:1200})});
+      if(!res.ok) break;
+      const data=await res.json(); const choice=data.choices[0]; const msg=choice.message;
+      messages.push(msg);
+      if(!msg.tool_calls||msg.tool_calls.length===0){ finalMessage=msg.content||''; break; }
+      for(const tc of msg.tool_calls){
+        const toolName=tc.function.name; let toolArgs={};
+        try{toolArgs=JSON.parse(tc.function.arguments||'{}');}catch(_){}
+        const toolResult=executeTool(toolName,toolArgs);
+        messages.push({role:'tool',tool_call_id:tc.id,content:toolResult});
+      }
+    }
+  } catch(e){}
+  showAgentThinking(false);
+  if(finalMessage){ const p2=loadPlanner(); p2.agentMessage=finalMessage; savePlanner(p2); renderAgentMessage(finalMessage); }
+  document.getElementById('plannerEmpty').style.display='none';
+}
+
+function showAgentThinking(on){
+  let el=document.getElementById('agentThinkingBanner');
+  if(on){
+    if(!el){ el=document.createElement('div'); el.id='agentThinkingBanner'; el.className='agent-thinking'; el.innerHTML=`<div class="dot-wave"><div></div><div></div><div></div></div><div class="agent-thinking-text">AI Practice Planner is analysing your sessions and building your plan…</div>`; document.getElementById('agentMsgArea').before(el); }
+    el.style.display='flex';
+  } else { if(el) el.style.display='none'; }
+}
+function renderAgentMessage(text){
+  document.getElementById('agentMsgArea').innerHTML=`<div class="agent-msg"><div class="agent-label"><div class="agent-dot"></div> AI Practice Planner</div>${text.replace(/\n/g,'<br/>')}</div>`;
+}
+function renderTrends(trends){
+  if(!trends||!trends.length) return;
+  const labels={intonation:'Intonation',rhythm:'Rhythm',dynamics:'Dynamics',tone:'Tone Quality',musicality:'Musicality'};
+  const icons={improving:'↑',struggling:'↓',steady:'→'};
+  document.getElementById('trendRow').innerHTML=trends.map(t=>`<span class="trend-badge ${t.status}">${icons[t.status]||''} ${labels[t.area]||t.area}: ${t.status}</span>`).join('');
+}
+function renderWeeklyPlan(plan){
+  if(!plan||!plan.days) return;
+  const today=new Date().toLocaleDateString('en-GB',{weekday:'long'});
+  const p=loadPlanner(); const statuses=p.dayStatuses||{};
+  const daysHtml=plan.days.map((d,i)=>{
+    const isToday=d.day===today; const st=statuses[d.day]||'';
+    return `<div class="plan-day" style="${isToday?'border-color:var(--primary);box-shadow:0 0 0 2px rgba(26,47,94,.12);':''}">
+      <div class="plan-day-name">${d.day}${isToday?' — Today':''}</div>
+      <div class="plan-day-focus">${d.focus}</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:4px;">${d.pieces}</div>
+      <div class="plan-day-duration">⏱ ${d.duration} min &nbsp;·&nbsp; 💡 ${d.tip}</div>
+      <div class="plan-day-status">
+        <button class="status-btn ${st==='done'?'done':''}" onclick="markDay('${d.day}','done',this)">✓ Done</button>
+        <button class="status-btn ${st==='skip'?'skip':''}" onclick="markDay('${d.day}','skip',this)">Skip</button>
+      </div></div>`;
+  }).join('');
+  document.getElementById('weeklyPlanArea').innerHTML=`<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:10px;">This Week's Plan</div>${plan.summary?`<div class="agent-msg" style="font-size:13px;margin-bottom:12px;"><div class="agent-label"><div class="agent-dot"></div> Plan Rationale</div>${plan.summary}</div>`:''}<div class="plan-grid">${daysHtml}</div>`;
+  document.getElementById('reportBtnRow').style.display='block';
+}
+function markDay(day,status,btn){
+  const p=loadPlanner(); if(!p.dayStatuses) p.dayStatuses={};
+  if(p.dayStatuses[day]===status){ p.dayStatuses[day]=''; } else { p.dayStatuses[day]=status; }
+  savePlanner(p); if(p.weeklyPlan) renderWeeklyPlan(p.weeklyPlan);
+}
+
+// ══════════════════════════════════════════════
+//  Report generator
+// ══════════════════════════════════════════════
+function closeReport(){ document.getElementById('reportModal').style.display='none'; }
+async function generateReport(){
+  if(!apiKey){ alert('Please connect your OpenAI API key first.'); return; }
+  const p=loadPlanner();
+  if(!p.weeklyPlan){ alert('No weekly plan found. Complete a practice session first.'); return; }
+  const modal=document.getElementById('reportModal'), body=document.getElementById('reportBody');
+  modal.style.display='flex';
+  body.innerHTML=`<div class="report-thinking"><div class="dot-wave"><div></div><div></div><div></div></div><span>Generating your progress report…</span></div>`;
+  const btn=document.getElementById('reportGenBtn'); btn.disabled=true;
+  const plan=p.weeklyPlan, statuses=p.dayStatuses||{}, goal=p.goal||'Not specified';
+  const trends=(p.trends||[]).map(t=>`${t.area}: ${t.status}`).join(', ')||'Not assessed yet';
+  const sessions=sessionHistory.map(s=>`• ${s.piece} (${s.stats?.duration}s, ${s.stats?.inTunePct}% in tune) — Avg score: ${Object.values(s.scores||{}).length?Math.round(Object.values(s.scores).reduce((a,b)=>a+b,0)/Object.values(s.scores).length*10)/10:'N/A'}`).join('\n')||'No sessions recorded this visit.';
+  const planSummary=plan.days.map(d=>`${d.day}: ${d.focus} — ${d.pieces} (${d.duration} min) [${statuses[d.day]||'pending'}]`).join('\n');
+  const sectionTitles=['Overview','Strengths','Areas for Improvement','Weekly Plan Review','Recommendations for Next Week','Message to Student'];
+  const prompt=`You are an AI music teacher writing a professional weekly progress report for a violin student on the Inspire platform.
+
+Context:
+- Goal this week: ${goal}
+- Trend assessment: ${trends}
+- Practice sessions:
+${sessions}
+- Weekly plan:
+${planSummary}
+- Plan rationale: ${plan.summary||'N/A'}
+
+Write a structured report with these exact section titles:
+1. Overview — A professional 2-3 sentence summary of the week overall.
+2. Strengths — Highlight genuine strengths based on scores and trends.
+3. Areas for Improvement — Constructive, specific notes on weak areas with actionable advice.
+4. Weekly Plan Review — Comment on the plan suitability and what worked.
+5. Recommendations for Next Week — 2-3 specific, actionable focus areas.
+6. Message to Student — A short, encouraging note directly to the student.
+
+Tone: professional, encouraging, teacher-like. Third person for sections 1-5, direct address for section 6.
+Return plain text only — no markdown symbols.`;
+  try {
+    const res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+apiKey,'Content-Type':'application/json'},body:JSON.stringify({model:'gpt-4o',messages:[{role:'system',content:'You are a professional music education AI writing a student progress report.'},{role:'user',content:prompt}],temperature:0.7,max_tokens:1200})});
+    if(!res.ok) throw new Error('API error '+res.status);
+    const data=await res.json(); const text=data.choices[0].message.content.trim();
+    let html=`<div class="report-meta">Generated ${new Date().toLocaleString()} &nbsp;·&nbsp; Goal: ${goal}</div>`;
+    // Weekly Schedule
+    const dayColors=['#f4f6fb','#eef4ff','#eafaf1','#fdf9f0','#fff0f4','#f5f0ff','#f8f9fc'];
+    const dayBorders=['#c8d4ee','#c3d8f7','#b7e4c7','#e6d4a0','#f7cad9','#d4c5f7','#e2e6f0'];
+    const scheduleRows=plan.days.map((d,i)=>{
+      const st=statuses[d.day]||'';
+      const badge=st==='done'?`<span style="font-size:11px;padding:2px 8px;border-radius:10px;background:#eafaf1;border:1px solid #b7e4c7;color:#1d7a4f;">✓ Done</span>`:st==='skip'?`<span style="font-size:11px;padding:2px 8px;border-radius:10px;background:#fdf9f0;border:1px solid #e6d4a0;color:#b07d2a;">Skipped</span>`:'';
+      return `<div style="display:flex;align-items:stretch;margin-bottom:7px;border-radius:9px;overflow:hidden;border:1px solid ${dayBorders[i%dayBorders.length]};"><div style="background:${dayColors[i%dayColors.length]};min-width:90px;padding:10px 12px;display:flex;flex-direction:column;justify-content:center;"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--primary);">${d.day}</div><div style="font-size:11px;color:var(--muted);margin-top:2px;">⏱ ${d.duration} min</div></div><div style="flex:1;padding:10px 14px;background:#fff;"><div style="font-size:14px;font-weight:600;color:var(--primary);">${d.focus}</div><div style="font-size:13px;color:var(--muted);margin:2px 0 4px;">${d.pieces}</div><div style="font-size:12px;color:var(--muted);">💡 ${d.tip}</div></div><div style="display:flex;align-items:center;padding:0 12px;">${badge}</div></div>`;
+    }).join('');
+    html+=`<div class="report-section"><div class="report-section-title">Weekly Schedule</div>${scheduleRows}</div>`;
+    if(sessionHistory.length){
+      const totals={},counts={};
+      sessionHistory.forEach(s=>{ Object.entries(s.scores||{}).forEach(([k,v])=>{ totals[k]=(totals[k]||0)+v; counts[k]=(counts[k]||0)+1; }); });
+      const pillColors={intonation:'#eef4ff;color:#3b82d4',rhythm:'#eafaf1;color:#1d7a4f',dynamics:'#fdf9f0;color:#b07d2a',tone:'#f5f0ff;color:#7c5cd8',musicality:'#fff0f4;color:#c0392b'};
+      const pills=Object.entries(totals).map(([k,v])=>{ const avg=Math.round((v/counts[k])*10)/10; const col=pillColors[k]||'#f8f9fc;color:#5a6480'; const bg=col.split(';')[0]; const c=col.split('color:')[1]; const label={intonation:'Intonation',rhythm:'Rhythm',dynamics:'Dynamics',tone:'Tone',musicality:'Musicality'}[k]||k; return `<span class="report-score-pill" style="background:${bg};border-color:#e2e6f0;color:${c}">${label} ${avg}/10</span>`; }).join('');
+      html+=`<div class="report-section"><div class="report-section-title">Session Scores</div><div class="report-score-row">${pills}</div></div>`;
+    }
+    if(p.trends&&p.trends.length){ const icons={improving:'↑',struggling:'↓',steady:'→'}; const labels={intonation:'Intonation',rhythm:'Rhythm',dynamics:'Dynamics',tone:'Tone Quality',musicality:'Musicality'}; const tbadges=p.trends.map(t=>`<span class="trend-badge ${t.status}">${icons[t.status]||''} ${labels[t.area]||t.area}</span>`).join(''); html+=`<div class="report-section"><div class="report-section-title">Trends</div><div class="trend-row" style="margin-bottom:0;">${tbadges}</div></div>`; }
+    let remaining=text;
+    sectionTitles.forEach((title,i)=>{
+      const nextTitle=sectionTitles[i+1]; let sectionText='';
+      const startIdx=remaining.indexOf(title); if(startIdx===-1) return;
+      const afterTitle=remaining.slice(startIdx+title.length).replace(/^[\s:]+/,'');
+      if(nextTitle){ const endIdx=afterTitle.indexOf(nextTitle); sectionText=endIdx>-1?afterTitle.slice(0,endIdx).trim():afterTitle.trim(); }
+      else { sectionText=afterTitle.trim(); }
+      html+=`<div class="report-section"><div class="report-section-title">${title}</div><div>${sectionText.replace(/\n\n/g,'</div><div style="margin-top:10px;">').replace(/\n/g,'<br/>')}</div></div>`;
+    });
+    body.innerHTML=html;
+  } catch(e){ body.innerHTML=`<div style="color:var(--red);font-size:14px;">Could not generate report: ${e.message}</div>`; }
+  btn.disabled=false;
+}
+
+// ══════════════════════════════════════════════
+//  FEATURE 1 — AI Warm-Up Routine Generator
+// ══════════════════════════════════════════════
+async function generateWarmup(){
+  if(!apiKey){ alert('Please connect your OpenAI API key first.'); return; }
+  const btn = document.getElementById('warmupBtn');
+  const resultBox = document.getElementById('warmupResult');
+  const textEl = document.getElementById('warmupText');
+  btn.disabled = true;
+  btn.innerHTML = '<span style="display:flex;gap:4px;align-items:center"><span style="width:5px;height:5px;border-radius:50%;background:#fff;animation:atdot .9s ease-in-out infinite;"></span><span style="width:5px;height:5px;border-radius:50%;background:#fff;animation:atdot .9s .2s ease-in-out infinite;"></span><span style="width:5px;height:5px;border-radius:50%;background:#fff;animation:atdot .9s .4s ease-in-out infinite;"></span></span> Generating…';
+  resultBox.style.display = 'none';
+
+  const piece = (() => {
+    let p = document.getElementById('pieceSelect').value;
+    const detail = document.getElementById('customPiece').value.trim();
+    if(NEEDS_NAME.includes(p) && detail) p = p + ' – ' + detail;
+    return p || `general ${INSTRUMENT_CONFIG[currentInstrument].name.toLowerCase()} practice`;
+  })();
+  const focus = getActiveFocus().join(', ') || 'rhythm, dynamics, musicality';
+  const instName = INSTRUMENT_CONFIG[currentInstrument].name;
+  const warmupHints = currentInstrument === 'guitar'
+    ? 'Include open chord transitions, chromatic finger exercises, or scale runs as relevant.'
+    : currentInstrument === 'piano'
+    ? 'Include Hanon-style finger exercises, scale runs hands separately then together, and wrist loosening exercises as relevant.'
+    : 'Include open strings, bow exercises, or scales as relevant.';
+
+  const prompt = `You are a professional ${instName} teacher. A student is about to practice: "${piece}".
+Their focus areas today: ${focus}.
+Write a concise, practical 5-minute warm-up routine specifically tailored to prepare them for this piece and these focus areas.
+Format as a numbered list of 4-5 short exercises (1-2 sentences each). ${warmupHints} Be specific and actionable. Plain text only, no markdown.`;
+
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method:'POST',
+      headers:{ 'Authorization':'Bearer '+apiKey, 'Content-Type':'application/json' },
+      body: JSON.stringify({ model:'gpt-4o', messages:[{role:'user', content:prompt}], temperature:0.7, max_tokens:400 })
+    });
+    if(!res.ok) throw new Error('API error '+res.status);
+    const data = await res.json();
+    const text = data.choices[0].message.content.trim();
+    textEl.innerHTML = text.replace(/\n/g,'<br/>');
+    resultBox.style.display = 'block';
+  } catch(e) {
+    textEl.innerHTML = `<span style="color:var(--red)">Could not generate warm-up: ${e.message}</span>`;
+    resultBox.style.display = 'block';
+  }
+  btn.disabled = false;
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.93V17a1 1 0 0 1-2 0v-.07A8 8 0 0 1 4.07 11H5a1 1 0 0 1 0 2h-.93A8 8 0 0 1 11 4.07V5a1 1 0 0 1 2 0v-.93A8 8 0 0 1 19.93 11H19a1 1 0 0 1 0 2h.93A8 8 0 0 1 13 16.93z"/></svg> Generate Warm-Up';
+}
+
+// ══════════════════════════════════════════════
+
+// ══════════════════════════════════════════════
+//  SIGHT-READING Piece Generator (Piano) — VexFlow notation
+// ══════════════════════════════════════════════
+let currentSrPieceTitle = '';
+
+// Map key names from GPT to VexFlow key signatures
+const VF_KEY_MAP = {
+  'C Major':'C','G Major':'G','D Major':'D','A Major':'A','E Major':'E','B Major':'B',
+  'F Major':'F','Bb Major':'Bb','Eb Major':'Eb','Ab Major':'Ab',
+  'A Minor':'Am','E Minor':'Em','D Minor':'Dm','G Minor':'Gm','B Minor':'Bm',
+  'C Minor':'Cm','F Minor':'Fm','C# Minor':'C#m','F# Minor':'F#m',
+};
+
+async function generateSightReadingPiece(){
+  if(!apiKey){ alert('Please connect your OpenAI API key first.'); return; }
+  const grade = document.getElementById('srGrade').value;
+  const btn   = document.getElementById('srGenBtn');
+  const out   = document.getElementById('srOutput');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span style="display:flex;gap:4px;align-items:center"><span style="width:5px;height:5px;border-radius:50%;background:#fff;animation:atdot .9s ease-in-out infinite;"></span><span style="width:5px;height:5px;border-radius:50%;background:#fff;animation:atdot .9s .2s ease-in-out infinite;"></span><span style="width:5px;height:5px;border-radius:50%;background:#fff;animation:atdot .9s .4s ease-in-out infinite;"></span></span> Generating…';
+  out.style.display = 'none';
+
+  const inst = currentInstrument;
+  const instName = INSTRUMENT_CONFIG[inst].name;
+
+  // Grade descriptors — shared across instruments, instrument-specific range guidance added in prompt
+  const gradeDesc = {
+    '1': 'very simple, 4/4 time, quarter and half notes only, no accidentals, exactly 8 bars',
+    '2': 'simple, 4/4 or 3/4, quarter/half/whole notes, minimal accidentals, exactly 8 bars',
+    '3': 'moderate, 4/4 or 3/4, includes eighth notes, exactly 8 bars',
+    '4': 'intermediate, 4/4, dotted quarter notes allowed, dynamic markings, exactly 8 bars',
+    '5': 'upper intermediate, 4/4, varied rhythms, position shifts, exactly 8 bars',
+    '6': 'advanced intermediate, 4/4 or 3/4, syncopation possible, expressive markings, exactly 8 bars',
+    '7': 'advanced, 4/4, complex rhythms, wide range, exactly 8 bars',
+    '8': 'concert level, any key, advanced rhythms, full expressive range, exactly 8 bars'
+  };
+
+  // Instrument-specific range / context for the prompt
+  const instContext = {
+    violin: `This is for VIOLIN (treble clef only). Use pitches in the violin range: G3 to E6. Single melodic line, no chords. Output only "notes" (single treble stave), NOT "bars" with rh/lh. Key suggestions: G Major, D Major, A Major, E Minor, D Minor.`,
+    guitar: `This is for GUITAR (treble clef, sounds an octave lower). Use pitches comfortable on guitar: E3 to B5. Single melodic line, no chords unless Grade 5+. Output only "notes" (single treble stave), NOT "bars" with rh/lh. Key suggestions: G Major, D Major, A Major, E Minor, A Minor.`,
+    piano:  `This is for PIANO (grand staff: treble + bass). Output "bars" with "rh" (treble) and "lh" (bass). Key suggestions: C Major, G Major, D Major, A Minor, D Minor.`
+  };
+
+  // Build the prompt — single-stave for violin/guitar, grand-staff for piano
+  const isSingleStave = (inst !== 'piano');
+  const prompt = isSingleStave
+  ? `You are an expert ${instName} teacher. Generate a Grade ${grade} ABRSM ${instName} sight-reading piece.
+Complexity: ${gradeDesc[grade]}.
+${instContext[inst]}
+
+Return ONLY a JSON object — no markdown, no extra text:
+{
+  "title": "short evocative title",
+  "key": "e.g. G Major, D Major, A Minor",
+  "time_signature": "4/4" or "3/4",
+  "tempo": "e.g. Andante ♩= 72",
+  "notes": [
+    { "bar": 1, "notes": [ {"keys":["g/4"],"duration":"q"}, ... ] },
+    ...
+  ],
+  "tips": "2-3 short sight-reading tips tailored to ${instName}."
+}
+CRITICAL rules:
+- Each bar must have EXACTLY the right total beats for the time signature (4 for 4/4, 3 for 3/4).
+- Duration codes: "w"=4 beats, "h"=2 beats, "q"=1 beat, "8"=0.5 beats, "hd"=3 beats, "qd"=1.5 beats.
+- Note key format: "g/4", "a/4", "b/4", "c/5", "d/5", "e/5". Sharps: "f#/4". Flats: "bb/4".
+- Rests: keys=["b/4"] duration="qr","hr","wr".
+- Provide exactly 8 bars.`
+  : `You are an expert piano teacher. Generate a Grade ${grade} ABRSM piano sight-reading piece.
+Complexity: ${gradeDesc[grade]}.
+${instContext.piano}
+
+Return ONLY a JSON object — no markdown, no extra text:
+{
+  "title": "short evocative title",
+  "key": "one of: C Major, G Major, D Major, A Major, E Major, F Major, Bb Major, A Minor, E Minor, D Minor, G Minor, B Minor",
+  "time_signature": "4/4" or "3/4",
+  "tempo": "tempo marking e.g. Andante ♩= 72",
+  "bars": [
+    {
+      "rh": [ {"keys":["c/4"],"duration":"q"}, ... ],
+      "lh": [ {"keys":["c/3"],"duration":"h"}, ... ]
+    },
+    ...
+  ],
+  "tips": "2-3 short sight-reading tips for this piece."
+}
+CRITICAL rules for the bars array:
+- Each bar must have EXACTLY the right total duration for the time signature (4 beats for 4/4, 3 for 3/4).
+- Duration codes: "w"=4 beats, "h"=2 beats, "q"=1 beat, "8"=0.5 beats, "hd"=3 beats, "qd"=1.5 beats.
+- Note keys format: "c/4","d/4","e/4","f/4","g/4","a/4","b/4","c/5". Sharps: "f#/4". Flats: "bb/3".
+- For chords: keys array has multiple entries e.g. ["c/3","e/3","g/3"].
+- For rests: keys=["b/4"] duration="qr","hr","wr".
+- Provide exactly 8 bars.`;
+
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method:'POST',
+      headers:{ 'Authorization':'Bearer '+apiKey, 'Content-Type':'application/json' },
+      body: JSON.stringify({ model:'gpt-4o', messages:[{role:'user',content:prompt}], temperature:0.7, max_tokens:2000 })
+    });
+    if(!res.ok) throw new Error('API error '+res.status);
+    const data = await res.json();
+    const raw  = data.choices[0].message.content.trim();
+    const clean = raw.replace(/^```json\s*/i,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
+    const match = clean.match(/\{[\s\S]*\}/);
+    if(!match) throw new Error('Unexpected response format');
+    const piece = JSON.parse(match[0]);
+
+    // Store for session context
+    currentSrPieceTitle = `Sight-reading Grade ${grade} – ${piece.title}`;
+    document.getElementById('customPiece').value = currentSrPieceTitle;
+
+    // Header info
+    document.getElementById('srPieceName').textContent = piece.title;
+    const barCount = piece.bars ? piece.bars.length : (piece.notes ? piece.notes.length : 8);
+    document.getElementById('srPieceGrade').textContent =
+      `Grade ${grade}  ·  ${piece.key}  ·  ${piece.time_signature}  ·  ${piece.tempo}  ·  ${barCount} bars`;
+    document.getElementById('srTips').innerHTML =
+      '<strong>💡 Tips for this piece:</strong><br/>' + piece.tips.replace(/\n/g,'<br/>');
+
+    // Render notation — single stave for violin/guitar, grand staff for piano
+    renderVexFlow(piece, inst !== 'piano');
+
+    out.style.display = 'block';
+    out.scrollIntoView({ behavior:'smooth', block:'nearest' });
+
+  } catch(e) {
+    document.getElementById('srPieceName').textContent = 'Could not generate piece';
+    document.getElementById('srPieceGrade').textContent = '';
+    document.getElementById('srScore').innerHTML =
+      `<div style="color:#c0392b;font-size:13px;padding:12px;">${e.message}</div>`;
+    document.getElementById('srTips').textContent = '';
+    out.style.display = 'block';
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.93V17a1 1 0 0 1-2 0v-.07A8 8 0 0 1 4.07 11H5a1 1 0 0 1 0 2h-.93A8 8 0 0 1 11 4.07V5a1 1 0 0 1 2 0v-.93A8 8 0 0 1 19.93 11H19a1 1 0 0 1 0 2h.93A8 8 0 0 1 13 16.93z"/></svg> Generate Piece';
+}
+
+function renderVexFlow(piece, singleStave){
+  const container = document.getElementById('srScore');
+  container.innerHTML = '';
+
+  const { Renderer, Stave, StaveNote, Voice, Formatter, Accidental, StaveConnector } = Vex.Flow;
+
+  const timeSig = piece.time_signature || '4/4';
+  const [beats, beatVal] = timeSig.split('/').map(Number);
+  const vfKey   = VF_KEY_MAP[piece.key] || 'C';
+
+  const BARS_PER_ROW = 4;
+  const BAR_W        = 160;
+  const CLEF_W       = 44;
+  const STAVE_H      = 90;
+
+  // Normalise data: single-stave uses piece.notes[i].notes, grand-staff uses piece.bars[i].rh/lh
+  const bars = singleStave
+    ? (piece.notes || []).map(b => ({ melody: b.notes || b }))
+    : (piece.bars  || []);
+  const totalBars = bars.length;
+
+  // Helper to build StaveNote objects
+  function makeNotes(noteArr, clef){
+    return (noteArr || []).map(n => {
+      const dur    = n.duration || 'q';
+      const isRest = dur.endsWith('r');
+      const sn     = new StaveNote({ clef: isRest ? 'treble' : clef, keys: n.keys, duration: dur });
+      if(!isRest){
+        n.keys.forEach((k, idx) => {
+          if(k.includes('#'))                       sn.addModifier(new Accidental('#'), idx);
+          else if(k.includes('b') && k.length > 3) sn.addModifier(new Accidental('b'), idx);
+        });
+      }
+      return sn;
+    });
+  }
+
+  const ROW_H = singleStave ? STAVE_H + 20 : STAVE_H * 2 + 24;
+  const rows  = Math.ceil(totalBars / BARS_PER_ROW);
+
+  for(let row = 0; row < rows; row++){
+    const rowBars    = bars.slice(row * BARS_PER_ROW, (row+1) * BARS_PER_ROW);
+    const rowW       = CLEF_W + BAR_W * rowBars.length + 20;
+    const isFirstRow = row === 0;
+
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'overflow-x:auto;margin-bottom:8px;';
+    container.appendChild(wrapper);
+
+    const renderer = new Renderer(wrapper, Renderer.Backends.SVG);
+    renderer.resize(rowW, ROW_H);
+    const ctx = renderer.getContext();
+    ctx.setFont('Arial', 10);
+
+    rowBars.forEach((bar, bi) => {
+      const globalIdx = row * BARS_PER_ROW + bi;
+      const isFirst   = bi === 0;
+      const x         = isFirst ? 0 : CLEF_W + BAR_W * bi;
+      const barW      = isFirst ? CLEF_W + BAR_W : BAR_W;
+      const isLast    = globalIdx === totalBars - 1;
+
+      // ── Single stave (violin / guitar) ──
+      if(singleStave){
+        const stave = new Stave(x, 10, barW);
+        if(isFirst){
+          stave.addClef('treble');
+          if(isFirstRow) stave.addKeySignature(vfKey).addTimeSignature(timeSig);
+          else           stave.addKeySignature(vfKey);
+        }
+        if(isLast) stave.setEndBarType(Vex.Flow.Barline.type.END);
+        stave.setContext(ctx).draw();
+        try {
+          const voice = new Voice({ num_beats:beats, beat_value:beatVal }).setStrict(false);
+          voice.addTickables(makeNotes(bar.melody, 'treble'));
+          new Formatter().joinVoices([voice]).format([voice], barW - (isFirst ? CLEF_W + 16 : 16));
+          voice.draw(ctx, stave);
+        } catch(_){}
+
+      // ── Grand staff (piano) ──
+      } else {
+        const treble = new Stave(x, 10, barW);
+        const bass   = new Stave(x, 10 + STAVE_H, barW);
+        if(isFirst){
+          treble.addClef('treble');
+          bass.addClef('bass');
+          if(isFirstRow){
+            treble.addKeySignature(vfKey).addTimeSignature(timeSig);
+            bass.addKeySignature(vfKey).addTimeSignature(timeSig);
+          } else {
+            treble.addKeySignature(vfKey);
+            bass.addKeySignature(vfKey);
+          }
+          const brace = new StaveConnector(treble, bass);
+          brace.setType(StaveConnector.type.BRACE).setContext(ctx).draw();
+          const line  = new StaveConnector(treble, bass);
+          line.setType(StaveConnector.type.SINGLE_LEFT).setContext(ctx).draw();
+        }
+        if(isLast){
+          treble.setEndBarType(Vex.Flow.Barline.type.END);
+          bass.setEndBarType(Vex.Flow.Barline.type.END);
+        }
+        treble.setContext(ctx).draw();
+        bass.setContext(ctx).draw();
+        try {
+          const rhVoice = new Voice({ num_beats:beats, beat_value:beatVal }).setStrict(false);
+          rhVoice.addTickables(makeNotes(bar.rh, 'treble'));
+          new Formatter().joinVoices([rhVoice]).format([rhVoice], barW - (isFirst ? CLEF_W + 16 : 16));
+          rhVoice.draw(ctx, treble);
+        } catch(_){}
+        try {
+          const lhVoice = new Voice({ num_beats:beats, beat_value:beatVal }).setStrict(false);
+          lhVoice.addTickables(makeNotes(bar.lh, 'bass'));
+          new Formatter().joinVoices([lhVoice]).format([lhVoice], barW - (isFirst ? CLEF_W + 16 : 16));
+          lhVoice.draw(ctx, bass);
+        } catch(_){}
+      }
+    });
+  }
+}
+
+
+//  FEATURE 2 — Ask the Teacher chat
+// ══════════════════════════════════════════════
+let askOpen = false;
+let askHistory = [];
+
+function toggleAsk(){
+  askOpen = !askOpen;
+  document.getElementById('askPanel').classList.toggle('open', askOpen);
+}
+
+function autoResizeAsk(el){
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+}
+
+function handleAskKey(e){
+  if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendAsk(); }
+}
+
+function appendAskMsg(role, text){
+  const box = document.getElementById('askMessages');
+  const div = document.createElement('div');
+  div.className = 'ask-msg ' + role;
+  div.innerHTML = role === 'bot'
+    ? `<div class="ask-icon">${INSTRUMENT_CONFIG[currentInstrument].emoji}</div><div class="ask-bubble">${text.replace(/\n/g,'<br/>')}</div>`
+    : `<div class="ask-bubble">${text.replace(/</g,'&lt;')}</div><div class="ask-icon" style="background:rgba(26,92,56,.2);">🎵</div>`;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function showAskTyping(){
+  const box = document.getElementById('askMessages');
+  const div = document.createElement('div');
+  div.className = 'ask-msg bot'; div.id = 'askTyping';
+  div.innerHTML = `<div class="ask-icon">${INSTRUMENT_CONFIG[currentInstrument].emoji}</div><div class="ask-bubble"><div class="ask-typing"><span></span><span></span><span></span></div></div>`;
+  box.appendChild(div); box.scrollTop = box.scrollHeight;
+}
+
+function hideAskTyping(){ const el = document.getElementById('askTyping'); if(el) el.remove(); }
+
+async function sendAsk(){
+  if(!apiKey){ appendAskMsg('bot','Please connect your OpenAI API key first using the "Connect AI Engine" card below.'); return; }
+  const input = document.getElementById('askInput');
+  const text = input.value.trim();
+  if(!text) return;
+  input.value = ''; input.style.height = 'auto';
+  document.getElementById('askSendBtn').disabled = true;
+  appendAskMsg('user', text);
+  askHistory.push({ role:'user', content:text });
+
+  // build session context
+  const lastSession = sessionHistory[0];
+  const sessionCtx = lastSession
+    ? `The student's most recent session: piece "${lastSession.piece}", duration ${lastSession.stats?.duration}s, ${lastSession.stats?.inTunePct}% in tune. Scores: ${JSON.stringify(lastSession.scores||{})}.`
+    : 'No session recorded yet this visit.';
+
+  const instName = INSTRUMENT_CONFIG[currentInstrument].name;
+  const instAdvice = currentInstrument === 'guitar'
+    ? 'chord shapes, strumming patterns, fingerpicking technique, music theory, practice methods, posture, guitar setup, and repertoire'
+    : currentInstrument === 'piano'
+    ? 'piano technique, fingering, hand independence, pedalling, sight-reading, music theory, practice methods, posture, and repertoire'
+    : 'violin technique, music theory, practice methods, posture, bowing, intonation, and repertoire';
+  const systemMsg = `You are an expert, encouraging AI ${instName} teacher on the Inspire platform.
+You give practical, specific, professional advice about ${instAdvice}.
+Keep answers concise (3-5 sentences unless more detail is genuinely needed). Be warm and direct.
+${sessionCtx}`;
+
+  showAskTyping();
+  try {
+    const messages = [
+      { role:'system', content:systemMsg },
+      ...askHistory.slice(-10)
+    ];
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method:'POST',
+      headers:{ 'Authorization':'Bearer '+apiKey, 'Content-Type':'application/json' },
+      body: JSON.stringify({ model:'gpt-4o', messages, temperature:0.7, max_tokens:350 })
+    });
+    if(!res.ok) throw new Error('API error '+res.status);
+    const data = await res.json();
+    const reply = data.choices[0].message.content.trim();
+    hideAskTyping();
+    appendAskMsg('bot', reply);
+    askHistory.push({ role:'assistant', content:reply });
+  } catch(e) {
+    hideAskTyping();
+    appendAskMsg('bot', `Sorry, I couldn't reach the AI right now. Please check your API key and connection. (${e.message})`);
+  }
+  document.getElementById('askSendBtn').disabled = false;
+}
+
+// ══════════════════════════════════════════════
+//  FEATURE 3 — Next-Step Suggestions (called after renderFeedback)
+// ══════════════════════════════════════════════
+async function generateNextSteps(piece, scores){
+  if(!apiKey || !piece) return;
+  const avgScore = scores && Object.values(scores).length
+    ? Math.round(Object.values(scores).reduce((a,b)=>a+b,0) / Object.values(scores).length * 10) / 10
+    : null;
+
+  const prompt = `A violin student just finished practicing: "${piece}". Average AI score: ${avgScore !== null ? avgScore + '/10' : 'unknown'}.
+Suggest exactly 3 short next-step practice items in JSON array format:
+[{"type":"harder","label":"..."},{"type":"easier","label":"..."},{"type":"related","label":"..."}]
+"harder" = a more challenging variant or next piece, "easier" = a simpler consolidation exercise, "related" = a complementary exercise for the same skills.
+Each label max 7 words. Return only valid JSON array, nothing else.`;
+
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method:'POST',
+      headers:{ 'Authorization':'Bearer '+apiKey, 'Content-Type':'application/json' },
+      body: JSON.stringify({ model:'gpt-4o', messages:[{role:'user',content:prompt}], temperature:0.6, max_tokens:150 })
+    });
+    if(!res.ok) return;
+    const data = await res.json();
+    const raw = data.choices[0].message.content.trim();
+    // Strip markdown fences GPT-4o sometimes adds even when not asked
+    const clean = raw.replace(/^```json\s*/i,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
+    // Extract JSON array even if there is surrounding text
+    const match = clean.match(/\[[\s\S]*\]/);
+    if(!match) return;
+    const chips = JSON.parse(match[0]);
+    if(!Array.isArray(chips) || !chips.length) return;
+
+    const icons = { harder:'🔥', easier:'🌱', related:'🎯' };
+    const container = document.getElementById('nextStepChips');
+    if(!container) return;
+    container.innerHTML = chips.map(c =>
+      `<div class="next-chip ${c.type}" onclick="selectNextPiece('${c.label.replace(/'/g,"\\'")}')">
+         ${icons[c.type]||'♪'} ${c.label}
+       </div>`
+    ).join('');
+    document.getElementById('nextStepRow').style.display = 'block';
+  } catch(e){ /* silently skip if JSON parse fails */ }
+}
+
+function selectNextPiece(label){
+  // Pre-fill the piece selector with the suggestion
+  const sel = document.getElementById('pieceSelect');
+  const wrap = document.getElementById('customPieceWrap');
+  const input = document.getElementById('customPiece');
+  // pick best category
+  const lower = label.toLowerCase();
+  const cat = lower.includes('scale')||lower.includes('arpeggio')||lower.includes('open string')
+    ? 'Scales' : lower.includes('exercise')||lower.includes('étude')||lower.includes('etude')
+    ? 'Scales' : 'Repertoire';
+  sel.value = cat; currentCategory = cat;
+  wrap.style.display = 'block';
+  input.value = label;
+  wrap.scrollIntoView({ behavior:'smooth', block:'center' });
+  input.focus();
+}
+
+// ══════════════════════════════════════════════
+//  EmailJS — Send Practice Update to Parent
+// ══════════════════════════════════════════════
+// ─── SETUP INSTRUCTIONS ────────────────────────────────────────────────────
+//  1. Sign up free at https://www.emailjs.com
+//  2. Add an Email Service (Gmail/Outlook/etc.) → copy the Service ID
+//  3. Create an Email Template with these variables:
+//       {{to_email}}  {{student_name}}  {{piece}}  {{session_date}}
+//       {{score_intonation}} {{score_rhythm}} {{score_dynamics}}
+//       {{score_tone}} {{score_musicality}} {{avg_score}}
+//       {{overall_message}}  {{suggestions}}  {{practice_tip}}
+//       {{teacher_note}}
+//  4. Copy the Template ID and your Public Key (Account → API Keys)
+//  5. Paste the three values below:
+// ───────────────────────────────────────────────────────────────────────────
+const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // ← paste here
+const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // ← paste here
+const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // ← paste here
+const PARENT_EMAIL        = '';
+
+// Initialise once
+(function initEmailJS(){
+  if(typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY'){
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  }
+})();
+
+// Holds the latest feedback/stats for the modal
+let _emailFb = null, _emailStats = null;
+
+function openEmailModal(fb, stats){
+  _emailFb = fb; _emailStats = stats;
+  // Pre-fill fields
+  document.getElementById('emailTo').value = PARENT_EMAIL;
+  // Build default note
+  const scores = fb.scores || {};
+  const vals   = Object.values(scores);
+  const avg    = vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) : '—';
+  const piece  = stats.piece || 'General practice';
+  document.getElementById('emailNote').value =
+    `Hi,\n\nHere is the AI Teacher feedback for today's practice session on "${piece}".\n\nAverage score: ${avg}/10\n\n${fb.overall_message || ''}\n\nKind regards,\nInspire`;
+  document.getElementById('emailModal').classList.add('open');
+}
+
+function closeEmailModal(){
+  document.getElementById('emailModal').classList.remove('open');
+}
+
+async function sendParentEmail(){
+  const toEmail     = document.getElementById('emailTo').value.trim();
+  const studentName = 'the student';
+  const note        = document.getElementById('emailNote').value.trim();
+  if(!toEmail){ showEmailToast('Please enter a recipient email address.', true); return; }
+
+  const sendBtn = document.getElementById('emailSendBtn');
+  sendBtn.disabled = true;
+  sendBtn.innerHTML = `<span style="display:flex;gap:4px;align-items:center">
+    <span style="width:5px;height:5px;border-radius:50%;background:#fff;animation:atdot .9s ease-in-out infinite;"></span>
+    <span style="width:5px;height:5px;border-radius:50%;background:#fff;animation:atdot .9s .2s ease-in-out infinite;"></span>
+    <span style="width:5px;height:5px;border-radius:50%;background:#fff;animation:atdot .9s .4s ease-in-out infinite;"></span>
+  </span> Sending…`;
+
+  const fb    = _emailFb    || {};
+  const stats = _emailStats || {};
+  const scores = fb.scores || {};
+  const vals   = Object.values(scores);
+  const avg    = vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) : '—';
+  const sugs   = (fb.suggestions||[]).map((s,i)=>`${i+1}. ${s.text}`).join('\n');
+
+  const templateParams = {
+    to_email:           toEmail,
+    student_name:       studentName,
+    piece:              stats.piece || 'General practice',
+    session_date:       new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'}),
+    score_intonation:   scores.intonation  ?? '—',
+    score_rhythm:       scores.rhythm      ?? '—',
+    score_dynamics:     scores.dynamics    ?? '—',
+    score_tone:         scores.tone        ?? '—',
+    score_musicality:   scores.musicality  ?? '—',
+    avg_score:          avg,
+    overall_message:    fb.overall_message || '',
+    suggestions:        sugs,
+    practice_tip:       fb.practice_tip    || '',
+    teacher_note:       note,
+    in_tune_pct:        stats.inTunePct != null ? stats.inTunePct + '%' : '—',
+    duration:           stats.duration ? stats.duration + 's' : '—',
+  };
+
+  try {
+    if(typeof emailjs === 'undefined' || EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY'){
+      // ── DEMO MODE: show what would be sent ──
+      console.log('📧 [EmailJS not configured — demo mode] Would send:', templateParams);
+      await new Promise(r => setTimeout(r, 1200)); // simulate delay
+      closeEmailModal();
+      showEmailToast('✓ Email sent to ' + toEmail + ' (demo mode — configure EmailJS to send for real)');
+    } else {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+      closeEmailModal();
+      showEmailToast('✓ Practice update sent to ' + toEmail);
+    }
+  } catch(err){
+    showEmailToast('Failed to send: ' + (err?.text || err?.message || String(err)), true);
+  } finally {
+    sendBtn.disabled = false;
+    sendBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Email`;
+  }
+}
+
+function showEmailToast(msg, isError = false){
+  let toast = document.getElementById('emailToast');
+  toast.textContent = msg;
+  toast.classList.toggle('error', isError);
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+</script>
+
+<!-- ── Email to Parent modal ── -->
+<div class="email-modal-overlay" id="emailModal" onclick="if(event.target===this)closeEmailModal()">
+  <div class="email-modal">
+    <button class="email-modal-close" onclick="closeEmailModal()">✕</button>
+    <h3>📧 Send Practice Update</h3>
+    <p class="email-modal-sub">Send the AI feedback from this session directly to a parent or guardian.</p>
+    <div class="email-modal-field">
+      <label>Recipient Email</label>
+      <input type="email" id="emailTo" placeholder="parent@example.com"/>
+    </div>
+    <div class="email-modal-field">
+      <label>Note to Parent</label>
+      <textarea id="emailNote" rows="5"></textarea>
+    </div>
+    <div class="email-modal-actions">
+      <button class="btn-modal-cancel" onclick="closeEmailModal()">Cancel</button>
+      <button class="btn-modal-send" id="emailSendBtn" onclick="sendParentEmail()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Send Email
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast ── -->
+<div class="email-toast" id="emailToast"></div>
+
+</body>
+</html>
