@@ -1666,7 +1666,7 @@ function restoreInstState(inst){
 // ══════════════════════════════════════════════
 function saveApiKey(){
   const val = document.getElementById('apiKeyInput').value.trim();
-  if(!val.startsWith('sk-')){ setApiStatus('Please enter a valid OpenAI API key (starts with sk-…)', 'err'); return; }
+  if(!val.startsWith('sk-')){ setApiStatus('Please enter a valid API key (starts with sk-…)', 'err'); return; }
   apiKey = val;
   sessionStorage.setItem('oai_key', val);
   setApiStatus('✓ Connected — AI engine is ready!', 'ok');
