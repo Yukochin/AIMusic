@@ -1306,7 +1306,7 @@ canvas#snapshotCanvas{display:none;}
   <!-- API Key Setup -->
   <div class="card" id="setupCard" style="margin-top:16px;">
     <div class="card-title">Connect AI Engine</div>
-    <p class="api-note">This tool uses the OpenAI API to analyse recordings and generate feedback. Your API key is stored only in this browser session and sent directly to OpenAI — never to any third-party server.</p>
+    <p class="api-note">This tool uses the Watsonx.ai to analyse recordings and generate feedback.</p>
     <div class="input-row">
       <input class="api-input" id="apiKeyInput" type="password" placeholder="sk-…  paste your OpenAI API key here"/>
       <button class="save-btn" onclick="saveApiKey()">Connect</button>
@@ -1679,7 +1679,7 @@ async function testApiKey(key){
     if(r.status === 401){ setApiStatus('❌ Invalid API key — please check and re-enter it.','err'); apiKey=''; sessionStorage.removeItem('oai_key'); return; }
     if(r.status === 429){ setApiStatus('⚠️ API key valid but rate-limited or has no credits. Add credits at platform.openai.com/billing','err'); return; }
     if(!r.ok){ setApiStatus('⚠️ API key accepted but server returned: '+r.status,'err'); return; }
-    setApiStatus('✓ API key verified — AI Teacher is ready!','ok');
+    setApiStatus('✓ AI Teacher is ready!','ok');
   } catch(e){ setApiStatus('⚠️ Could not reach OpenAI. Check your internet connection.','err'); }
 }
 function setApiStatus(msg, cls){ const el = document.getElementById('apiStatus'); el.textContent = msg; el.className = 'api-status ' + cls; }
