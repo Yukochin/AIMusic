@@ -1371,7 +1371,7 @@ canvas#appSnapCanvas{display:none;}
 
         <!-- API Key -->
         <div class="api-card" id="appApiCard">
-          <div class="api-card-title">OpenAI API Key</div>
+          <div class="api-card-title">Watsonx.ai API Key</div>
           <p class="api-note">Required for AI feedback. Your key stays in this browser session only.</p>
           <div class="api-input-row">
             <input class="api-inp" type="password" id="appApiInput" placeholder="sk-…" autocomplete="off"/>
@@ -2296,7 +2296,7 @@ const APP_INST_CONTEXT = {
 };
 
 async function appGenerateSightReading(){
-  if(!appApiKey){ alert('Please save your OpenAI API key first.'); return; }
+  if(!appApiKey){ alert('Please save your Watsonx.ai API key first.'); return; }
   const grade = document.getElementById('appSrGrade').value;
   const btn   = document.getElementById('appSrGenBtn');
   const out   = document.getElementById('appSrOutput');
@@ -2544,7 +2544,7 @@ function appSetMode(mode){
 
 /* ── AI Warm-Up Generator ── */
 async function appGenerateWarmup(){
-  if(!appApiKey){ alert('Please save your OpenAI API key first.'); return; }
+  if(!appApiKey){ alert('Please save your Watsonx.ai API key first.'); return; }
   const btn = document.getElementById('appWarmupBtn');
   const resultEl = document.getElementById('appWarmupResult');
   const textEl = document.getElementById('appWarmupText');
@@ -3289,7 +3289,7 @@ function appMarkDay(day, status, btn){
 
 /* Report generation (opens alert with summary on mobile — no separate modal) */
 async function appGenerateReport(){
-  if(!appApiKey){ alert('Please save your OpenAI API key in the AI Teacher tab first.'); return; }
+  if(!appApiKey){ alert('Please save your Watsonx.ai API key in the AI Teacher tab first.'); return; }
   const p = appLoadPlanner();
   if(!p.weeklyPlan){ alert('No weekly plan found. Complete a practice session first.'); return; }
   const btn = document.getElementById('appReportBtn');
